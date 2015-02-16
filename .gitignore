@@ -14,3 +14,4 @@
 *.backup
 *.out
 *.user
+*.synctex.gz
