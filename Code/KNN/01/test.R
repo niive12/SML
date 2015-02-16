@@ -282,35 +282,26 @@ getSystematicSplit <- function(data, splitRatio, sets)
 # test vector is a single vector that represents the chracter
 # trainVectors are the vectors [char type (1-10),element (the train chars stored),pixels]
 # k is the number of neighbours taken into account
-KNN <- function(testVector, trainVectors,k) 
-{ 
+KNN <- function(testVector, trainVectors,k){ 
   noOfChars <- dim(trainVectors)[1]
   noOfElements <- dim(trainVectors)[2]
   noOfDimensions <- dim(trainVectors)[3]
   
-  neighbours <- array(Inf,c(k,2)) # used to store: (dist,char) for knn, default = Infinity
-  
   voteing <- array(0,c(noOfChars)) # used for calculating votes using bucket sort
-  
+  neighbours <- array(Inf,c(k,2)) # used to store: (dist,char) for knn, default = Infinity
   testDistance <- array(,c(2,noOfDimensions))
   testDistance[1,] <- testVector[] # laod the testvector into the matrix used to compute distance
   
-  for(char in 1:noOfChars)
-  {
-    for(element in 1:noOfElements)
-    {
+  for(char in 1:noOfChars){
+    for(element in 1:noOfElements){
       # for each element in each char compute the distance
       testDistance[2,] <- trainVectors[char,element,]
       distance <- dist(testDistance,method = "euclidean")
-
       # if the distance is less than those already stored, add it (dist, char)
-      if(neighbours[k,1] > distance)
-      {
+      if(neighbours[k,1] > distance){
         neighbours[k,] <- c(distance,char)
         i <- (k-1)
-        
-        while(neighbours[i,1] > distance && i > 0)
-        {
+        while(neighbours[i,1] > distance && i > 0){
           neighbours[i+1,] <- neighbours[i,]
           neighbours[i,] <- c(distance,char)
           i <- (i-1)
@@ -320,27 +311,21 @@ KNN <- function(testVector, trainVectors,k)
   }
   
   # determine the result (most voted) (bucket sort)
-  for(sort in 1:k)
-  {
+  for(sort in 1:k){
     elementVotedFor <- neighbours[sort,2] # (values from 1 to noOfChars)
-    if(elementVotedFor != Inf)
-    {
+    if(elementVotedFor != Inf){
       voteing[elementVotedFor] <- (voteing[elementVotedFor] + 1)
     }
   }
   
   # find the most voted
   result <- 1
-  for(j in 2:noOfChars)
-  {
-    if(voteing[result] < voteing[j])
-    {
+  for(j in 2:noOfChars){
+    if(voteing[result] < voteing[j]){
       result <-j
     }
-    
   }
   
-  # done...
   return(result)
 }
 
