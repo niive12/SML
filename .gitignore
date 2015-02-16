@@ -1,0 +1,16 @@
+*.RData
+*.Rhistory
+*.Rproj
+
+*.aux
+*.lof
+*.lot
+*.log
+*.synctex
+*.toc
+*.nav
+*.pdf
+*.snm
+*.backup
+*.out
+*.user
