@@ -1,0 +1,28 @@
+\subsection{K-NN Implementation}
+The K-NN algorithm is implemented as in code \ref{code:KNN_implementation}.
+The implementation of how the result of the voting is calculated, is not shown here.
+
+
+\lstinputlisting[language = R,
+firstnumber = 291,
+firstline = 291, 
+lastline = 311, 
+captionpos=b,
+caption = {K-NN implementation.},
+label = {code:KNN_implementation}]{../Code/KNN/01/test.R}
+
+
+The function takes three arguments, \texttt{testVector}, \texttt{trainVectors} and \texttt{k}. 
+\texttt{testVector} is a vector containing the set of pixel values of the character that is wished identified. 
+\texttt{trainVectors} is a three dimensional set of vectors. 
+This makes it possible to distinguish between the character represented by the group and the individual characters and their data.
+
+Line 290 to 293, in code \ref{code:KNN_implementation}, defines the two arrays \texttt{neighbours} and \texttt{testDistance}.
+These are used to store the \texttt{k} nearest neighbours and calculate the distance between two characters respectively.
+
+The code then, in line 295 to 299, loops through all the different character groups and the characters within.
+For each character the distance is then calculated to the \texttt{testVector}.
+If the distance is smaller than that of one of the previously inserted into \texttt{neighbours}, 
+then lines 301 to 309 insert it into the \texttt{neighbours} list in sorted order and the one furthest away is removed.
+
+Once this is done, the \texttt{neighbours} list can then be inspected to guess which character it is.
