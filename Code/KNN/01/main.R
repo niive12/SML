@@ -85,10 +85,10 @@ person_dependent_test <- function() {
 			new_data = append(timing,new_data,after=length(timing))
 			
 			#write down data
-			data_file = read.csv(file=paste(c("result_G",g,"M",m,"_",DPI[d],"_",s,st,".csv"),collapse=""))
+			data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
 			name = paste(c("K",k,"_S",s,"_D",DPI[d]),collapse="")
 			data_file$name = new_data;
-			write.csv(data_g3m2, file=paste(c("result_G",g,"M",m,"_",DPI[d],"_",s,st,".csv"),collapse=""),row.names=FALSE)
+			write.csv(data_file, file=paste(c("result_G",g,"M",m,".csv"),collapse=""),row.names=FALSE)
 			
 		} else {
 			print("bad input")
