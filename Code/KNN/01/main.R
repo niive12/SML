@@ -12,7 +12,7 @@ require(compiler)
 # 1 - compile closures before they are called the first time
 # 2 - same as 1, plus compile closures before duplicating (useful for packages that store closures in lists, like lattice)
 # 3 - same as 2, plus compile all for(), while(), and repeat() loops before executing.
-enableJIT(3)
+enableJIT(3) # does this even work!?!?!...
 
 #-------------------------------------------------------------
 #Functions to be used in evaluation
@@ -80,7 +80,7 @@ getSystematicSplit <- function(data, splitRatio, sets) {
 
 KNN_test_one_person <- function(d, s, g, m, k){
 	DPI = c(100,200,300)
-
+	
 	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
 	RawTrainData1 = loadSinglePersonsData(DPI[[1]],g,m);
 	
@@ -243,7 +243,7 @@ use_input <- function() {
 
 
 #                   dpi split group member k
-KNN_test_one_person(1, 0.5, 3, 2, 1);
+KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
 #use_input();
 
