@@ -32,6 +32,15 @@ smoothImage <- function(grayImg){
 #Should be modified to load group members data.
 #-------------------------------------------------------------
 loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
+#   #load the scaned images
+#   ciffers <- list(readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-0.png"), collapse = "")),
+#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-1.png"), collapse = "")),
+#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-2.png"), collapse = "")),
+#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-3.png"), collapse = "")),
+#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-4.png"), collapse = "")))
+#   #load the corner values
+#   corners <- read.csv("../../group3/ciphers/Corners.txt")
+  
   #load the scaned images
   ciffers <- list(readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
                   readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-1.png"), collapse = "")),
@@ -39,7 +48,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
                   readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-3.png"), collapse = "")),
                   readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-4.png"), collapse = "")))
   #load the corner values
-  corners <-      read.csv(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Corners.txt"), collapse = ""))
+  corners <- read.csv(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Corners.txt"), collapse = ""))
   
   corners <- trunc(corners*DPI/300)
   #print(corners)
@@ -106,44 +115,6 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
       trainingDigit[[(pages-1)*2 + box]] <- tempM
     }
   }
-  
-  #color grid to show whats used for training
-#   for(pages in 1:5)
-#   {
-#     for(box in 1:2)
-#     {
-#       for(cifX in 1:21)
-#       {
-#         aXbase <- corners[(pages-1)*2 + box,1] + xStep*(cifX-1)
-#         xStart <- aXbase-1
-#         xEnd <- aXbase+1
-#         for(px in xStart:xEnd)
-#         {
-#           for(py in corners[(pages-1)*2 + box,2]:corners[(pages-1)*2 + box,8])
-#           {
-#             prepared[[pages]][py,px] <- 0.0
-#           }
-#         }
-#         
-#         aYbase <- corners[(pages-1)*2 + box,2] + yStep*(cifX-1)
-#         yStart <- aYbase-1
-#         yEnd <- aYbase+1
-#         for(py in yStart:yEnd)
-#         {
-#           for(px in corners[(pages-1)*2 + box,1]:corners[(pages-1)*2 + box,7])
-#           {
-#             prepared[[pages]][py,px] <- 0.0
-#           }
-#         }
-#       }
-#     }
-#   }
-#   
-#   for(i in 1:5){
-#     img <- gray[[i]]
-#     img <- prepared[[i]]
-#     display(img)
-#   }
   
   
   return(trainingDigit)

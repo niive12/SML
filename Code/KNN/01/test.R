@@ -7,222 +7,17 @@ library("class")
 library("gmodels")
 
 
+
 #-------------------------------------------------------------
 #Functions to be used in evaluation
 #-------------------------------------------------------------
-
-#inspiration for smoothing
-smoothImage <- function(grayImg){
-  #two ways of specifying kernel:
-  # kernel <- matrix( 
-  #           c(1, 1, 1, 
-  #             1, 1, 1, 
-  #             1, 1, 1), # the data elements 
-  #           3,              # number of rows 
-  #           3)
-  # kernel <- kernel/9
-  # kernel
-  
-  kernel <- matrix( 
-    1, # the data elements 
-    3,# number of rows 
-    3)
-  kernel <- kernel/9
-  #print(kernel)
-  
-  #using r library for smoothing
-  smoothed <- filter2(grayImg, kernel)
-  
-  return(smoothed)
-}
-
-
-#-------------------------------------------------------------
-#This currently loads data according to the paths in the begining.
-#Should be modified to load group members data.
-#-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
-#   #load the scaned images
-#   ciffers <- list(readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers/Ciphers",DPI,"-0.png"), collapse = "")),
-#                   readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers/Ciphers",DPI,"-1.png"), collapse = "")),
-#                   readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers/Ciphers",DPI,"-2.png"), collapse = "")),
-#                   readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers/Ciphers",DPI,"-3.png"), collapse = "")),
-#                   readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers/Ciphers",DPI,"-4.png"), collapse = "")))
-#   #load the corner values
-#   corners <- read.csv("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers/Corners.txt")
-  
-  #load the scaned images
-  ciffers <- list(readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
-                  readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-1.png"), collapse = "")),
-                  readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-2.png"), collapse = "")),
-                  readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-3.png"), collapse = "")),
-                  readPNG(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-4.png"), collapse = "")))
-  #load the corner values
-  corners <- read.csv(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group",groupNr,"/member",groupMemberNr,"/Corners.txt"), collapse = ""))
-  
-  corners <- trunc(corners*DPI/300)
-  #print(corners)
-  
-  #define lists to be used
-  gray <- list(1:5)
-  smoothed <- list(1:5)
-  prepared <- list(1:5)
-  
-  
-  #convert the images to gray scale.
-  for(i in 1:5)
-  {
-    r <-ciffers[[i]][,,1]
-    g <-ciffers[[i]][,,2]
-    b <-ciffers[[i]][,,3]
-    gray[[i]] <- (r+g+b)/3
-  }
-  
-  #smooth images
-  for(i in 1:5)
-  {
-    smoothed[[i]] <- smoothImage(gray[[i]])
-  }
-  
-  #generate image that is prepared for learning and visualization
-  for(i in 1:5)
-  {
-    prepared[[i]] <- smoothed[[i]]
-  }
-  
-  
-  #extract individual ciffers
-  xStep <- (corners[1,7]-corners[1,1])/20;
-  yStep <- (corners[1,8]-corners[1,2])/20;
-  xStepT <- trunc(xStep)
-  yStepT <- trunc(yStep)
-  
-  tempM <- matrix(,20*20,(yStepT-2)*(xStepT-2))
-  trainingDigit <- list(1:10);
-  
-  for(pages in 1:5)
-  {
-    for(box in 1:2)
-    {
-      #     trainingDigit[[(pages-1)*2 + box]] <- matrix(,20*20,(yStepT-2)*(xStepT-2))) 
-      for(cifX in 1:20)
-      {
-        aXbase <- corners[(pages-1)*2 + box,1] + xStep*(cifX-1)
-        for(cifY in 1:20)
-        {
-          aYbase <- corners[(pages-1)*2 + box,2] + yStep*(cifY-1)
-          
-          for(px in 1:xStepT-2)
-          {
-            for(py in 1:yStepT-2)
-            {
-              tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-2) + py] <- prepared[[pages]][aYbase+py+1,aXbase+px+1]
-            }
-          }
-        }
-      }
-      # trainingDigit is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
-      trainingDigit[[(pages-1)*2 + box]] <- tempM
-    }
-  }
-  
-  #color grid to show whats used for training
-#   for(pages in 1:5)
-#   {
-#     for(box in 1:2)
-#     {
-#       for(cifX in 1:21)
-#       {
-#         aXbase <- corners[(pages-1)*2 + box,1] + xStep*(cifX-1)
-#         xStart <- aXbase-1
-#         xEnd <- aXbase+1
-#         for(px in xStart:xEnd)
-#         {
-#           for(py in corners[(pages-1)*2 + box,2]:corners[(pages-1)*2 + box,8])
-#           {
-#             prepared[[pages]][py,px] <- 0.0
-#           }
-#         }
-#         
-#         aYbase <- corners[(pages-1)*2 + box,2] + yStep*(cifX-1)
-#         yStart <- aYbase-1
-#         yEnd <- aYbase+1
-#         for(py in yStart:yEnd)
-#         {
-#           for(px in corners[(pages-1)*2 + box,1]:corners[(pages-1)*2 + box,7])
-#           {
-#             prepared[[pages]][py,px] <- 0.0
-#           }
-#         }
-#       }
-#     }
-#   }
-#   
-#   for(i in 1:5){
-#     img <- gray[[i]]
-#     img <- prepared[[i]]
-#     display(img)
-#   }
-  
-  
-  return(trainingDigit)
-}
-
-
-
-getRandomSplit <- function(trainingData, trainingPc){
-  #randomly split data in a balanced maner:
-  trainL = list(1:length(trainingData))
-  testL = list(1:length(trainingData))
-  for(Nr in 0:(length(trainingData)-1))
-  {
-    amountEachNumber = nrow(trainingData[[Nr+1]]);
-    
-    set.seed(1) ## make randomness reproducible here
-    rand <- sample(amountEachNumber) #generate  a randomly ordered indexing list the size of the datasample
-    
-    vector = c(1:amountEachNumber);
-    for(i in 1:trunc(amountEachNumber*trainingPc))
-    {
-      vector[i] = 1;
-    }
-    for(i in trunc(amountEachNumber*trainingPc)+1:amountEachNumber)
-    {
-      vector[i] = 2;
-    }
-    splittingIndexer = vector[rand]
-    splitData <- split.data.frame(trainingData[[Nr+1]], factor(splittingIndexer))
-    
-    trainL[[Nr+1]] <- splitData[[1]]
-    testL[[Nr+1]]<- splitData[[2]]
-  }  
-  
-  training <- trainL[[1]]
-  testing <- testL[[1]]
-  trainClass <- rep(0,nrow(trainL[[1]]) )
-  testClass <- rep(0,nrow(testL[[1]]) )
-  for(i in 2:10)
-  {
-    training <- rbind(training, trainL[[i]])
-    testing <- rbind(testing, testL[[i]])
-    
-    trainClass <- append(trainClass, rep(i-1,nrow(trainL[[i]]) ) )
-    testClass <- append(testClass, rep(i-1,nrow(testL[[i]]) ) )
-  }
-  trainClassF <- factor(trainClass)
-  testClassF <- factor(testClass)
-  
-  return(list(training, testing, trainClassF, testClassF))
-  
-}
-
+source("given_functions.R")
 
 
 
 # generates a set of dataelements where: [[set]][training/testing (1/2)][number ('0','1',..)][trial, pixel]
 # input data to split in format [[number ('0','1',..)][trial, pixel], split ratio = percentage of set being in training set, sets = number of different sets.
-getSystematicSplit <- function(data, splitRatio, sets) 
-{ 
+getSystematicSplit <- function(data, splitRatio, sets) { 
   noTrials = dim(data[[1]])[1] # number of ciphers in the dataset gathered (400 ciphers)
   sizeOfCipher = dim(data[[1]])[2]
   
@@ -276,7 +71,7 @@ getSystematicSplit <- function(data, splitRatio, sets)
   }
   return(list(t1=result1,t2=result2))
 }
- 
+
 
 # calculates the char it is expected to be using KNN
 # test vector is a single vector that represents the chracter
@@ -329,66 +124,115 @@ KNN <- function(testVector, trainVectors,k){
   return(result)
 }
 
+KNN_test_one_person <- function(d, s, g, m, k){
+	DPI = c(100,200,300)
+
+	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
+	RawTrainData1 = loadSinglePersonsData(DPI[[1]],g,m);
+	
+	# print("data aquired.")
+
+	# split data
+	# print("Spliting dataset...")
+	splitList = getSystematicSplit(RawTrainData1,s,10)
+	trained <- splitList$t1
+	tested <- splitList$t2
+	# print("Dataset split.")
+
+	timing = proc.time()
+	
+	#run program
+	new_data = percentageDetected(tested);
+	
+	timing = proc.time() - timing;
+	timing = timing[["elapsed"]]
+	new_data = append(timing,new_data,after=length(timing))
+	
+	#write down data
+	data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
+	name = paste(c("K",k,"_S",s,"_D",DPI[d]),collapse="")
+	data_file$name = new_data;
+	write.csv(data_file, file=paste(c("result_G",g,"M",m,".csv"),collapse=""),row.names=FALSE)
+}
+
+
+percentageDetected   <- function(testData){
+	testSets = dim(testData)[1];
+	testChars = dim(testData)[2];
+	testElements = dim(testData)[3];
+	
+	percentageVec = array(,testSets);
+
+	for(testSet in 1:testSets){
+		
+		trueDetections = 0;
+
+		# do for each testset
+		for(char in 1:testChars){
+			for(element in 1:testElements){
+				result = KNN(tested[testSet,char,element,],trained[testSet,,,],1) #number of neighbours
+				if(result == char){
+					trueDetections = (trueDetections + 1)
+				}
+			}
+		}
+		percentageVec[[testSet]] = trueDetections/(testChars*testElements)
+	}
+	return(percentageVec);
+}
+
+use_input <- function() {
+	args <- commandArgs(trailingOnly =TRUE)
+	if(length(args) == 5 ){
+		good_input = TRUE;
+		d = as.numeric(args[1]); # DPI
+		s = as.numeric(args[2]); #training part of split
+		g = as.numeric(args[3]); #group number
+		m = as.numeric(args[4]); #group member
+		k = as.numeric(args[5]); #K
+		if(d > 3) {
+			good_input = FALSE; print("bad DPI")
+		}
+		if(s < 1) {
+			st = 1-s;
+		} else {
+			good_input = FALSE; print("bad split")
+		}
+		if( g == 1 || g == 2 || g == 4 || g == 5 || g == 6 || g == 7 || g == 8 ){
+			activeGroupNr = as.numeric(args[2])
+			#group member
+			if(m > 3){
+				good_input = FALSE; print("bad member")
+			}
+		} else if( g == 3 || g == 9 ){
+			if(m > 2){
+				good_input = FALSE; print("bad member")
+			}
+		} else {
+			good_input = FALSE; print("bad group")
+		}
+		
+		if (k <= 1 ) {
+			good_input = FALSE; print("bad K")
+		}
+		
+		if ( good_input == TRUE ) {
+			KNN_test_one_person(d, s, g, m, k);
+		} else {
+			print("bad input")
+		}
+	} else {
+		print("The input format is: 'DPI','Split','Group number','member number','K'")
+	}
+}
+
 #-------------------------------------------------------------
 #This is the "main function" or the code that is actualy run
 #-------------------------------------------------------------
 #get data from png images: 
-#print(paste(c("C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/ciphers",DPI,"-0.png"), collapse = ""))
 
-print("Getting data...")
-
-DPI = c(100,200,300)
-
-
-# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
-RawTrainData1 = loadSinglePersonsData(DPI[[2]],3,2);
-
-print("data aquired.")
-
-# split data
-print("Spliting dataset...")
-splitList = getSystematicSplit(RawTrainData1,0.5,10)
-trained <- splitList$t1
-tested <- splitList$t2
-print("Dataset split.")
-
-#display(trained[1,1,,])
-
-# print(KNN(tested[1,6,1,],trained[1,,,],10))
-# 
-# img <- array(,c(20,19))
-# for(l in 1:20)
-# {
-#   img[l,] <- tested[1,6,1,((l-1)*19+1):(l*19)]
-# }
-# 
-# display(img)
-
-# test dataset using KNN
-testSets <- dim(tested)[1]
-testChars <- dim(tested)[2]
-testElements <- dim(tested)[3]
-
-for(testSet in 1:testSets)
-{
-  trueDetections <- 0
-  
-  # do for each testset
-  for(char in 1:testChars)
-  {
-    for(element in 1:testElements)
-    {
-      result <- KNN(tested[testSet,char,element,],trained[testSet,,,],1) # number of neighbours
-      
-      if(result == char)
-      {
-        trueDetections <- (trueDetections + 1)
-      }
-    }
-  }
-  
-  # output result
-  print(c(testSet, "Correctly detected:",(trueDetections/(testChars*testElements))))
-}
-
+#                   dpi split group member k
+# KNN_test_one_person(1, 0.5, 3, 2, 10);
+# writes to csv
+use_input();
 
