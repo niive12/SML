@@ -19,6 +19,13 @@ enableJIT(3) # does this even work!?!?!...
 #-------------------------------------------------------------
 source("given_functions.R")
 
+write.latex <- function(data, col, row, filename) {
+	colnames(data) = col;
+	colnames(data)[1] = paste(c("&",col[1]),collapse="")
+	rownames(data) = row;
+	rownames(data)[1] = paste(c("\\hline\n",row[1]),collapse="")
+	write.table(data, file=filename, append = FALSE, sep="\t& ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
+}
 
 
 # generates a set of dataelements where: [[set]][training/testing (1/2)][number ('0','1',..)][trial, pixel]
@@ -186,12 +193,8 @@ percentageDetected   <- function(testData, trainData){
 		}
 		percentageVec[[testSet]] = trueDetections/(testChars*testElements)
 	}
-	print(confus)
-	colnames(confus) = 1:10
-	rownames(confus) = 1:10
-	colnames(confus)[1] = "&1" 
-	rownames(confus)[1] = "\hline\n1" 
-	write.table(confus, file="test_file.tex", append = FALSE, sep="\t& ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
+# 	write.latex(confus[1,,], 1:10, 1:10, "newfile.tex")
+	write.latex(confus, 1:10, 1:10, "newfile.tex")
 	return(percentageVec);
 }
 
