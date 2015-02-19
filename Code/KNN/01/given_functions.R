@@ -33,14 +33,7 @@ smoothImage <- function(grayImg){
 #-------------------------------------------------------------
 loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
 #   #load the scaned images
-#   ciffers <- list(readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-0.png"), collapse = "")),
-#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-1.png"), collapse = "")),
-#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-2.png"), collapse = "")),
-#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-3.png"), collapse = "")),
-#                   readPNG(paste(c("../../group3/ciphers/Ciphers",DPI,"-4.png"), collapse = "")))
-#   #load the corner values
-#   corners <- read.csv("../../group3/ciphers/Corners.txt")
-  
+ 
   #load the scaned images
   ciffers <- list(readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
                   readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-1.png"), collapse = "")),

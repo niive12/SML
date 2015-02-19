@@ -225,13 +225,13 @@ use_input <- function() {
 		} else {
 			good_input = FALSE; print("bad split")
 		}
-		if( g == 1 || g == 2 || g == 4 || g == 5 || g == 6 || g == 7 || g == 8 ){
+		if( g == 1 || g == 2 || g == 4 || g == 7 ){
 			activeGroupNr = as.numeric(args[2])
 			#group member
 			if(m > 3){
 				good_input = FALSE; print("bad member")
 			}
-		} else if( g == 3 || g == 9 ){
+		} else if( g == 3 || g == 5 || g == 6 ){
 			if(m > 2){
 				good_input = FALSE; print("bad member")
 			}
@@ -260,7 +260,7 @@ use_input <- function() {
 
 
 #                   dpi split group member k
-KNN_test_one_person(1, 0.5, 3, 2, 1)
+# KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
 #use_input();
 
