@@ -6,7 +6,13 @@ library("EBImage")
 library("class")
 library("gmodels")
 
-
+# jsut in time... speed up
+require(compiler)
+# 0 - turn off JIT
+# 1 - compile closures before they are called the first time
+# 2 - same as 1, plus compile closures before duplicating (useful for packages that store closures in lists, like lattice)
+# 3 - same as 2, plus compile all for(), while(), and repeat() loops before executing.
+enableJIT(3) # does this even work!?!?!...
 
 #-------------------------------------------------------------
 #Functions to be used in evaluation
@@ -21,8 +27,8 @@ getSystematicSplit <- function(data, splitRatio, sets) {
   noTrials = dim(data[[1]])[1] # number of ciphers in the dataset gathered (400 ciphers)
   sizeOfCipher = dim(data[[1]])[2]
   
-  print(c("Trials: ",noTrials))
-  print(c("cipher: ",sizeOfCipher))
+  print(paste(c("Trials: ",noTrials),collapse=""))
+  print(paste(c("Cipher: ",sizeOfCipher),collapse=""))
   
   forDataSet = round(noTrials*splitRatio) # number of ciphers for the training part
   forTestSet = (noTrials - forDataSet)
@@ -30,7 +36,7 @@ getSystematicSplit <- function(data, splitRatio, sets) {
   result1 <- array(,c(sets,10,forDataSet,sizeOfCipher))
   result2 <- array(,c(sets,10,forTestSet,sizeOfCipher))
   
-  print(c("train / test:", forDataSet, "/", forTestSet))
+  print(paste(c("train / test: ", forDataSet, " / ", forTestSet),collapse=""))
   
   setSize = round(noTrials/sets)
   
@@ -74,7 +80,7 @@ getSystematicSplit <- function(data, splitRatio, sets) {
 
 KNN_test_one_person <- function(d, s, g, m, k){
 	DPI = c(100,200,300)
-
+	
 	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
 	RawTrainData1 = loadSinglePersonsData(DPI[[1]],g,m);
 	
@@ -239,8 +245,9 @@ use_input <- function() {
 #-------------------------------------------------------------
 #get data from png images: 
 
+
 #                   dpi split group member k
-# KNN_test_one_person(1, 0.5, 3, 2, 10);
+KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
-use_input();
+#use_input();
 
