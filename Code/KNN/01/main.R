@@ -97,10 +97,12 @@ KNN_test_one_person <- function(d, s, g, m, k){
 	new_data = append(timing,new_data,after=length(timing))
 	
 	#write down data
-	data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
+# 	data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
 	name = paste(c("K",k,"_S",s,"_D",DPI[d]),collapse="")
-	data_file$name = new_data;
-	write.csv(data_file, file=paste(c("result_G",g,"M",m,".csv"),collapse=""),row.names=FALSE)
+# 	data_file$name = new_data;
+
+	print(new_data)
+# 	write.csv(data_file, file=paste(c("result_G",g,"M",m,".csv"),collapse=""),row.names=FALSE)
 }
 
 # calculates the char it is expected to be using KNN
@@ -161,6 +163,7 @@ percentageDetected   <- function(testData, trainData){
 	
 	percentageVec = array(,testSets);
 
+	confus = array(0,c(10,10))
 	for(testSet in 1:testSets){
 		
 		trueDetections = 0;
@@ -172,10 +175,17 @@ percentageDetected   <- function(testData, trainData){
 				if(result == char){
 					trueDetections = (trueDetections + 1)
 				}
+				confus[result,char] = confus[result,char]+1
 			}
 		}
 		percentageVec[[testSet]] = trueDetections/(testChars*testElements)
 	}
+	print(confus)
+	colnames(confus) = 1:10
+	rownames(confus) = 1:10
+	colnames(confus)[1] = "&1" 
+	rownames(confus)[1] = "\hline\n1" 
+	write.table(confus, file="test_file.tex", append = FALSE, sep="\t& ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
 	return(percentageVec);
 }
 
