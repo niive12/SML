@@ -103,7 +103,7 @@ KNN_test_one_person <- function(d, s, g, m, k){
 	timing = proc.time()
 	
 	#run program
-	new_data = percentageDetected(tested,trained);
+	new_data = percentageDetected(tested,trained,k);
 	
 	timing = proc.time() - timing;
 	timing = timing[["elapsed"]]
@@ -121,14 +121,17 @@ KNN_test_one_person <- function(d, s, g, m, k){
 # calculates the char it is expected to be using KNN
 # test vector is a single vector that represents the chracter
 # trainVectors are the vectors [char type (1-10),element (the train chars stored),pixels]
-# k is the number of neighbours taken into account
+# k is the number of neighbours taken into account, is a vector
 KNN <- function(testVector, trainVectors,k){ 
   noOfChars <- dim(trainVectors)[1]
   noOfElements <- dim(trainVectors)[2]
   noOfDimensions <- dim(trainVectors)[3]
+  noK = size(k)
+  maxK = max(k)
+  print(paste(c("size of k: ",noK, " max k: ",maxK),collapse=""))
   
   voteing <- array(0,c(noOfChars)) # used for calculating votes using bucket sort
-  neighbours <- array(Inf,c(k,2)) # used to store: (dist,char) for knn, default = Infinity
+  neighbours <- array(Inf,c(maxK,2)) # used to store: (dist,char) for knn, default = Infinity
   testDistance <- array(,c(2,noOfDimensions))
   testDistance[1,] <- testVector[] # laod the testvector into the matrix used to compute distance
   
@@ -138,9 +141,9 @@ KNN <- function(testVector, trainVectors,k){
       testDistance[2,] <- trainVectors[char,element,]
       distance <- dist(testDistance,method = "euclidean")
       # if the distance is less than those already stored, add it (dist, char)
-      if(neighbours[k,1] > distance){
-        neighbours[k,] <- c(distance,char)
-        i <- (k-1)
+      if(neighbours[maxK,1] > distance){
+        neighbours[maxK,] <- c(distance,char)
+        i <- (maxK-1)
         while(neighbours[i,1] > distance && i > 0){
           neighbours[i+1,] <- neighbours[i,]
           neighbours[i,] <- c(distance,char)
@@ -151,25 +154,31 @@ KNN <- function(testVector, trainVectors,k){
   }
   
   # determine the result (most voted) (bucket sort)
-  for(sort in 1:k){
-    elementVotedFor <- neighbours[sort,2] # (values from 1 to noOfChars)
-    if(elementVotedFor != Inf){
-      voteing[elementVotedFor] <- (voteing[elementVotedFor] + 1)
-    }
+  kreturne <- 1:noK
+  for(kval in 1:noK){
+  	voteing() = 0 # clear bucket sort array
+  	for(sort in 1:k(kval)){
+  		elementVotedFor <- neighbours[sort,2] # (values from 1 to noOfChars)
+  		if(elementVotedFor != Inf){
+  			voteing[elementVotedFor] <- (voteing[elementVotedFor] + 1)
+  		}
+  	}
+  	
+  	# find the most voted
+  	result <- 1
+  	for(j in 2:noOfChars){
+  		if(voteing[result] < voteing[j]){
+  			result <-j
+  		}
+  	}
+  	
+  	kreturne(kval) <- result
   }
   
-  # find the most voted
-  result <- 1
-  for(j in 2:noOfChars){
-    if(voteing[result] < voteing[j]){
-      result <-j
-    }
-  }
-  
-  return(result)
+  return(kreturn)
 }
 
-percentageDetected   <- function(testData, trainData){
+percentageDetected   <- function(testData, trainData,k){
 	testSets = dim(testData)[1];
 	testChars = dim(testData)[2];
 	testElements = dim(testData)[3];
@@ -179,12 +188,13 @@ percentageDetected   <- function(testData, trainData){
 	confus = array(0,c(10,10))
 	for(testSet in 1:testSets){
 		
-		trueDetections = 0;
+		trueDetections = array(0,c())
 
 		# do for each testset
 		for(char in 1:testChars){
 			for(element in 1:testElements){
-				result = KNN(testData[testSet,char,element,],trainData[testSet,,,],1) #number of neighbours
+				result = KNN(testData[testSet,char,element,],trainData[testSet,,,],k) #number of neighbours
+				# a vector is returned...
 				if(result == char){
 					trueDetections = (trueDetections + 1)
 				}
