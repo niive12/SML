@@ -116,7 +116,6 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
     }
   }
   
-  
   return(trainingDigit)
 }
 
