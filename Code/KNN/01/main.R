@@ -212,13 +212,13 @@ percentageDetected   <- function(testData, trainData,k){
 		}
 		percentageVec[perK] = (trueDetections/(testChars*testElements*testSets))
 	}
-# 	print("confus 1: ")
-# 	print(confus[1,,])
-# 	print("vector print:")
-# 	print(percentageVec)
-
+	# 	print("confus 1: ")
+	# 	print(confus[1,,])
+	# 	print("vector print:")
+	# 	print(percentageVec)
+	
 	write.latex(confus[1,,], 0:9, 0:9, "newfile.tex")
-# 	write.latex(confus, 1:10, 1:10, "newfile.tex")
+	# 	write.latex(confus, 1:10, 1:10, "newfile.tex")
 	return(percentageVec);
 }
 
@@ -269,48 +269,72 @@ use_input <- function() {
 
 # generates data for a contour plot
 # k and train are vectors with the vlaues wanted to test
-getContours <- function(data, kVlues, trainValues){ 
-	sizeK = length(k)
-	sizeT = length(train)
+getContours <- function(kVlues, trainValues,testTrials,g,m){ 
+	sizeK = length(kVlues)
+	sizeT = length(trainValues)
+	
+	testSize = 40 # no of elements in the test array
+	
+	DPI = c(100,200,300)
+	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
+	RawTrainData = loadSinglePersonsData(DPI[[1]],g,m);
+	
 	
 	resultContour <- array(0,c(sizeT,sizeK))
 	
 	for(runs in 1:sizeT){
 		
+		# make sure that the two arrays will have the right size
+		wantedDataPoints <- trainValues[runs] + testSize
+		percentage <- trainValues[runs]/wantedDataPoints
 		
+		if(wantedDataPoints <= dim(RawTrainData[[1]])[1]){
+			# 			print(c("testing",trainValues[runs],"/",wantedDataPoints))
+			
+			# the new data
+			# 			print("spliting data..")
+			tempM <- matrix(,wantedDataPoints,dim(RawTrainData[[1]])[1])
+			newData <- list(1:10);
+			for(i in 1:10){
+				tempM <- RawTrainData[[i]][1:wantedDataPoints,]
+				newData[[i]] <-tempM
+			}
+			# 			print("data split.")
+			
+			# split data
+			splitList = getSystematicSplit(newData,percentage,testTrials)
+			trained <- splitList$t1
+			tested <- splitList$t2
+			
+			
+			new_data = percentageDetected(tested,trained,kVlues);
+			
+			resultContour[runs,] <- new_data
+		}
+		else{
+			print("ERROR: wantedDataPoints too greate.")
+		}
 	}
 	
-	DPI = c(100,200,300)
+	setEPS()
+	postscript(paste(c("graph_G",g,"M",m,".eps"),collapse=""),height = 6, width = 8)
+	filled.contour(y = kVlues, x = trainValues, resultContour, color.palette = heat.colors)
+	title(main = NULL, xlab = "Training Array Size", ylab = "K")
+	dev.off()
+	filled.contour(y = kVlues, x = trainValues, resultContour, color.palette = heat.colors)
+	title(main = NULL, xlab = "Training Array Size", ylab = "K")
 	
-	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
-	RawTrainData1 = loadSinglePersonsData(DPI[[d]],g,m);
+	# 	write.latex(resultContour, kVlues, trainValues, "newfile.tex")
 	
-	# print("data aquired.")
 	
-	# split data
-	# print("Spliting dataset...")
-	splitList = getSystematicSplit(RawTrainData1,s,2)
-	trained <- splitList$t1
-	tested <- splitList$t2
-	# print("Dataset split.")
+	# 	timing = proc.time()
+	# 	
+	# 	#run program
+	# 	
+	# 	timing = proc.time() - timing;
+	# 	timing = timing[["elapsed"]]
+	# 	print(paste(c("Time: ",timing),collapse=""))
 	
-	timing = proc.time()
-	
-	#run program
-	new_data = percentageDetected(tested,trained,k);
-	
-	timing = proc.time() - timing;
-	timing = timing[["elapsed"]]
-	print(paste(c("Time: ",timing),collapse=""))
-	# 	new_data = append(timing,new_data,after=length(timing))
-	
-	#write down data
-	# 	data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
-	# 	name = paste(c("K",k,"_S",s,"_D",DPI[d]),collapse="")
-	# 	data_file$name = new_data;
-	
-	# 	print(new_data)
-	# 	write.csv(data_file, file=paste(c("result_G",g,"M",m,".csv"),collapse=""),row.names=FALSE)
 	
 }
 
@@ -321,9 +345,14 @@ getContours <- function(data, kVlues, trainValues){
 
 
 #                   dpi split group member k
-ktest = c(1,5,10)
+ktest = 1:40
+traintest = c(seq(100,360,20))
+# 
+# KNN_test_one_person(1, 0.9, 3, 2, ktest)
 
-KNN_test_one_person(1, 0.9, 3, 2, ktest)
+
+getContours(ktest,traintest,1,3,2)
+
 # KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
 #use_input();
