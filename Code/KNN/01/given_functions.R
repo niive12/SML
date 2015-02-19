@@ -39,7 +39,7 @@ gaussianSmoothImage <- function(grayImg, sigma){
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth, sigma){
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigma=1){
 #   #load the scaned images
  
   #load the scaned images
