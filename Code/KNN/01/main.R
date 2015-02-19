@@ -85,11 +85,11 @@ getSystematicSplit <- function(data, splitRatio, sets) {
 	return(list(t1=result1,t2=result2))
 }
 
-KNN_test_one_person <- function(d, s, g, m, k){
+KNN_test_one_person <- function(d, s, g, m, k, filename, smooth="none", sigma=1){
 	DPI = c(100,200,300)
 	
 	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
-	RawTrainData1 = loadSinglePersonsData(DPI[[d]],g,m);
+	RawTrainData1 = loadSinglePersonsData(DPI[[d]],g,m,smooth,sigma);
 	
 	# print("data aquired.")
 	
@@ -103,7 +103,7 @@ KNN_test_one_person <- function(d, s, g, m, k){
 	timing = proc.time()
 	
 	#run program
-	new_data = percentageDetected(tested,trained,k);
+	new_data = percentageDetected(tested, trained, k, filename);
 	
 	timing = proc.time() - timing;
 	timing = timing[["elapsed"]]
@@ -178,7 +178,7 @@ KNN <- function(testVector, trainVectors, k){
 	return(kreturne)
 }
 
-percentageDetected   <- function(testData, trainData,k){
+percentageDetected   <- function(testData, trainData,k, filename){
 	testSets = dim(testData)[1];
 	testChars = dim(testData)[2];
 	testElements = dim(testData)[3];
@@ -212,12 +212,8 @@ percentageDetected   <- function(testData, trainData,k){
 		}
 		percentageVec[perK] = (trueDetections/(testChars*testElements*testSets))
 	}
-# 	print("confus 1: ")
-# 	print(confus[1,,])
-# 	print("vector print:")
-# 	print(percentageVec)
 
-	write.latex(confus[1,,], 0:9, 0:9, "newfile.tex")
+	write.latex(confus[1,,], 0:9, 0:9, filename)
 # 	write.latex(confus, 1:10, 1:10, "newfile.tex")
 	return(percentageVec);
 }
@@ -283,7 +279,7 @@ getContours <- function(data, kVlues, trainValues){
 	DPI = c(100,200,300)
 	
 	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
-	RawTrainData1 = loadSinglePersonsData(DPI[[d]],g,m);
+	RawTrainData1 = loadSinglePersonsData(DPI[[d]],g,m,smooth=FALSE);
 	
 	# print("data aquired.")
 	
@@ -323,7 +319,14 @@ getContours <- function(data, kVlues, trainValues){
 #                   dpi split group member k
 ktest = c(1,5,10)
 
-KNN_test_one_person(1, 0.9, 3, 2, ktest)
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"raw.tex")
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"smooth.tex", smooth="avarage")
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss1.tex", smooth="gaussian",sigma=1)
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss2.tex", smooth="gaussian",sigma=2)
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss3.tex", smooth="gaussian",sigma=3)
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss4.tex", smooth="gaussian",sigma=4)
+KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss5.tex", smooth="gaussian",sigma=5)
+
 # KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
 #use_input();

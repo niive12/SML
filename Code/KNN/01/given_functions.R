@@ -3,27 +3,35 @@
 
 #inspiration for smoothing
 smoothImage <- function(grayImg){
-  #two ways of specifying kernel:
-  # kernel <- matrix( 
-  #           c(1, 1, 1, 
-  #             1, 1, 1, 
-  #             1, 1, 1), # the data elements 
-  #           3,              # number of rows 
-  #           3)
-  # kernel <- kernel/9
-  # kernel
+	#manual kernel:
+	kernel <- matrix(c(0, 1, 0, 
+	                   1, 1, 1, 
+	                   0, 1, 0), # the data elements 
+	                   3,              # number of rows 
+	                   3)
+	kernel <- kernel/5
+	
+	#using r library for smoothing
+	smoothed <- filter(grayImg, kernel, method="convolution", sides=2)
+	
+	return(smoothed)
+}
+gaussianSmoothImage <- function(grayImg, sigma){
+	size = 5
+	kernel <- matrix(1,     # the data elements 
+	                 size,  # number of rows 
+	                 size)  # number of columns
+	os = (size-1)/2
+	for(x in (-os):os ){
+		for(y in (-os):os ){
+			res = 340*(1/(2*pi*sigma^2)) * exp(-1 * (x^2+y^2)/(2*sigma^2))
+			kernel[[x+os+1,y+os+1]] = (1/(2*pi*sigma^2))*exp(-1*(x^2+y^2)/(2*sigma^2))
+		}
+	}
+	kernel = kernel * 1/sum(kernel)
   
-  kernel <- matrix( 
-    1, # the data elements 
-    3,# number of rows 
-    3)
-  kernel <- kernel/9
-  #print(kernel)
-  
-  #using r library for smoothing
-  smoothed <- filter2(grayImg, kernel)
-  
-  return(smoothed)
+	smoothed <- filter(grayImg, kernel, method="convolution", sides=2)
+	return(smoothed)
 }
 
 
@@ -31,7 +39,7 @@ smoothImage <- function(grayImg){
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth, sigma){
 #   #load the scaned images
  
   #load the scaned images
@@ -61,12 +69,19 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
     gray[[i]] <- (r+g+b)/3
   }
   
-  #smooth images
-  for(i in 1:5)
-  {
-    smoothed[[i]] <- smoothImage(gray[[i]])
-  }
-  
+#   #smooth images
+	if(smooth == "average" ){
+		for(i in 1:5) {
+			smoothed[[i]] <- smoothImage(gray[[i]])
+		}
+	} else if(smooth == "gaussian" ) {
+		for(i in 1:5) {
+			smoothed[[i]] <- gaussianSmoothImage(gray[[i]],sigma)
+		}
+	} else {
+		smoothed = gray;
+	}
+#   
   #generate image that is prepared for learning and visualization
   for(i in 1:5)
   {
