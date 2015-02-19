@@ -5,6 +5,7 @@ library("png")
 library("EBImage")
 library("class")
 library("gmodels")
+library("gplots") # needs to be installe
 
 # jsut in time... speed up
 # require(compiler)
@@ -318,24 +319,12 @@ getContours <- function(kVlues, trainValues,testTrials,g,m){
 	
 	setEPS()
 	postscript(paste(c("graph_G",g,"M",m,".eps"),collapse=""),height = 6, width = 8)
-	filled.contour(y = kVlues, x = trainValues, resultContour, color.palette = heat.colors)
+	filled.contour(y = kVlues, x = trainValues, resultContour, col=colorpanel(20, "grey10", "white"), nlevels=20)
 	title(main = NULL, xlab = "Training Array Size", ylab = "K")
 	dev.off()
-	filled.contour(y = kVlues, x = trainValues, resultContour, color.palette = heat.colors)
+	filled.contour(y = kVlues, x = trainValues, resultContour, col=colorpanel(20, "grey10", "white"), nlevels=20)
 	title(main = NULL, xlab = "Training Array Size", ylab = "K")
-	
-	# 	write.latex(resultContour, kVlues, trainValues, "newfile.tex")
-	
-	
-	# 	timing = proc.time()
-	# 	
-	# 	#run program
-	# 	
-	# 	timing = proc.time() - timing;
-	# 	timing = timing[["elapsed"]]
-	# 	print(paste(c("Time: ",timing),collapse=""))
-	
-	
+		
 }
 
 #-------------------------------------------------------------
@@ -346,12 +335,13 @@ getContours <- function(kVlues, trainValues,testTrials,g,m){
 
 #                   dpi split group member k
 ktest = 1:40
-traintest = c(seq(100,360,20))
+traintest = c(seq(100,360,10))
 # 
 # KNN_test_one_person(1, 0.9, 3, 2, ktest)
 
 
-getContours(ktest,traintest,1,3,2)
+getContours(ktest,traintest,10,3,2)
+getContours(ktest,traintest,10,3,1)
 
 # KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
