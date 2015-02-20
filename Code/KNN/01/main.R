@@ -5,7 +5,7 @@ library("png")
 library("EBImage")
 library("class")
 library("gmodels")
-library("gplots") # needs to be installe
+# library("gplots") # needs to be installed
 
 # jsut in time... speed up
 # require(compiler)
@@ -86,7 +86,7 @@ getSystematicSplit <- function(data, splitRatio, sets) {
 	return(list(t1=result1,t2=result2))
 }
 
-KNN_test_one_person <- function(d, s, g, m, k, filename, smooth="none", sigma=1){
+KNN_test_one_person <- function(d, s, g, m, k, noRuns=1, filename="default.tex", smooth="none", sigma=1){
 	DPI = c(100,200,300)
 	
 	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
@@ -96,7 +96,7 @@ KNN_test_one_person <- function(d, s, g, m, k, filename, smooth="none", sigma=1)
 	
 	# split data
 	# print("Spliting dataset...")
-	splitList = getSystematicSplit(RawTrainData1,s,2)
+	splitList = getSystematicSplit(RawTrainData1,s,noRuns)
 	trained <- splitList$t1
 	tested <- splitList$t2
 	# print("Dataset split.")
@@ -105,12 +105,14 @@ KNN_test_one_person <- function(d, s, g, m, k, filename, smooth="none", sigma=1)
 	
 	#run program
 	new_data = percentageDetected(tested, trained, k, filename);
+	mean_data = mean(new_data)
 	
+	print(mean_data)
 	timing = proc.time() - timing;
 	timing = timing[["elapsed"]]
 	print(paste(c("Time: ",timing),collapse=""))
 	# 	new_data = append(timing,new_data,after=length(timing))
-	
+	return(list(time=timing,mean=mean_data))
 	#write down data
 	# 	data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
 	# 	name = paste(c("K",k,"_S",s,"_D",DPI[d]),collapse="")
@@ -340,14 +342,6 @@ traintest = c(seq(100,360,10))
 # getContours(ktest,traintest,10,3,2)
 # getContours(ktest,traintest,10,3,1)
 
-
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"raw.tex")
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"smooth.tex", smooth="avarage")
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss1.tex", smooth="gaussian",sigma=1)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss2.tex", smooth="gaussian",sigma=2)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss3.tex", smooth="gaussian",sigma=3)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss4.tex", smooth="gaussian",sigma=4)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss5.tex", smooth="gaussian",sigma=5)
 
 # KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
