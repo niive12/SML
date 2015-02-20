@@ -30,12 +30,59 @@ To test the algorithm the data from the three different DPI's where split 50/50\
 
 As seen on figure \ref{fig:PersonDependent_5050} then \textbf{...}.
 
-Running the three test sets resulted in the following confusion matrices seen in table ....
+Running the three test sets resulted in the following confusion matrices seen in table \ref{tb:confus}.
+In these it is seen which numbers do well and which numbers are hard to detect and which number they are detected as.
+While the chance of matching a 1 with a 1 is really high there seem to be a high chance of getting a false positive as only 200 out of the 440 detected ones actually were correct.
+And while the overall detection is good, the 8 is hard to detect with only 57\% success rate on 300 dpi.
 
-\textbf{CONFUSION MATIX * 3}
+\begin{table}
+    \centering
+    \begin{subtable}{0.5\textwidth}
+        \flushright
+        \begin{tikzpicture}
+            \node at (0,0) {};
+            \node at (1,0) {\huge Correct number}; 
+        \end{tikzpicture}
+    \end{subtable}
 
-
-
+    \begin{subtable}{0.1\textwidth}
+        \flushright
+        \begin{tikzpicture}
+            \node[rotate=90] {\huge Guessed number};
+        \end{tikzpicture}
+    \end{subtable}
+    \begin{subtable}{0.6\textwidth}
+        \begin{subtable}{\textwidth}
+            \centering
+            {\tiny
+                \begin{tabular}{l|*{10}{c}}
+                    \input{graphics/confusion_100_1}
+                \end{tabular}
+            }
+            \caption{Results for 100 DPI}
+        \end{subtable}
+        \begin{subtable}{\textwidth}
+            \centering
+            {\tiny
+                \begin{tabular}{l|*{10}{c}}
+                    \input{graphics/confusion_200_1}
+                \end{tabular}
+            }
+            \caption{Results for 200 DPI}
+        \end{subtable}
+        \begin{subtable}{\textwidth}
+            \centering
+            {\tiny
+                \begin{tabular}{l|*{10}{c}}
+                    \input{graphics/confusion_300_1}
+                \end{tabular}
+            }
+            \caption{Results for 300 DPI}
+        \end{subtable}
+    \end{subtable}
+    \caption{Confusion matrices with different scaling}
+    \label{tb:confus}
+\end{table}
 
 \subsubsection{Changing K and Training Set Size}
 Furthermore a test was performed to see how both the value of K and size of the training set affects the accuracy of the K-NN algorithm. The result is given in figure \ref{fig:personDependent_contour}.

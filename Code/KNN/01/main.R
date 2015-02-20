@@ -86,7 +86,7 @@ getSystematicSplit <- function(data, splitRatio, sets) {
 	return(list(t1=result1,t2=result2))
 }
 
-KNN_test_one_person <- function(d, s, g, m, k, noRuns=1, filename="default.tex", smooth="none", sigma=1){
+KNN_test_one_person <- function(d, s, g, m, k, noRuns=1, filename="none", smooth="none", sigma=1){
 	DPI = c(100,200,300)
 	
 	# trainingDigit (RawTrainData) is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
@@ -105,14 +105,15 @@ KNN_test_one_person <- function(d, s, g, m, k, noRuns=1, filename="default.tex",
 	
 	#run program
 	new_data = percentageDetected(tested, trained, k, filename);
-	mean_data = mean(new_data)
+	mean_data = new_data$mean
+	var_data  = new_data$var
 	
 	print(mean_data)
 	timing = proc.time() - timing;
 	timing = timing[["elapsed"]]
 	print(paste(c("Time: ",timing),collapse=""))
 	# 	new_data = append(timing,new_data,after=length(timing))
-	return(list(time=timing,mean=mean_data))
+	return(list(time=timing,mean=mean_data,var=var_data))
 	#write down data
 	# 	data_file = read.csv(file=paste(c("result_G",g,"M",m,".csv"),collapse=""))
 	# 	name = paste(c("K",k,"_S",s,"_D",DPI[d]),collapse="")
@@ -189,6 +190,7 @@ percentageDetected   <- function(testData, trainData,k, filename){
 	# 	print(c("size of k: ",noK))
 	
 	percentageVec = array(,c(noK));
+	varianceVec   = array(,c(noK));
 	
 	confus = array(0,c(noK,testChars,testChars)) # k, char, cunfused.
 	for(testSet in 1:testSets){
@@ -208,17 +210,28 @@ percentageDetected   <- function(testData, trainData,k, filename){
 		}
 	}
 	
+# 	for(perK in 1:noK){ # count true detections (the diagonal) and find percentage
+# 		trueDetections = 0
+# 		for(i in 1:testChars){
+# 			trueDetections <- (trueDetections + confus[perK,i,i])
+# 		}
+# 		percentageVec[perK] = (trueDetections/(testChars*testElements*testSets))
+# 	}
 	for(perK in 1:noK){ # count true detections (the diagonal) and find percentage
-		trueDetections = 0
+		trueDetections = array(,testChars)
 		for(i in 1:testChars){
-			trueDetections <- (trueDetections + confus[perK,i,i])
+			trueDetections[i] <- (confus[perK,i,i]/(testElements*testSets))
 		}
-		percentageVec[perK] = (trueDetections/(testChars*testElements*testSets))
+		percentageVec[perK] = mean(trueDetections)
+		varianceVec[perK]   =  var(trueDetections)
 	}
-
-	write.latex(confus[1,,], 0:9, 0:9, filename)
-
-	return(percentageVec);
+	if(filename != "none"){
+		for(i in 1:noK){
+			name = paste(c(filename,"_",i,".tex"),collapse="");
+			write.latex(confus[i,,], 0:9, 0:9, name);
+		}
+	}
+	return(list(mean=percentageVec,var=varianceVec));
 }
 
 use_input <- function() {

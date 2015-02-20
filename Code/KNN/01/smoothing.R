@@ -1,58 +1,43 @@
 source("main.R") 
 ktest = 10;
 dpi = c(100,200,300)
-
+g = 3
+m = 2
+split = 0.9
 #each test is the same so variance will always be 0
-no_of_tests = 1;
+no_of_tests = 10;
 
 mean = data.frame(raw=c(0,0,0)); 
 var = data.frame(raw=c(0,0,0));
-dpi_runs = 1
+dpi_runs = 3
 if( dpi_runs > 0) {
 	for(i in 1:dpi_runs){
-		res = array(,no_of_tests)
-		for(n in 1:no_of_tests){
-			data = KNN_test_one_person(i, 0.9, 3, 2, ktest, 1)
-			res[n] = data$mean;
-		}
-		mean$raw[i] = mean(res);
-		var$raw[i] = var(res);
+		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests)
+		mean$raw[i] = data$mean;
+		var$raw[i] = data$var;
 	}
 	for(i in 1:dpi_runs){
-		res = array(,no_of_tests)
-		for(n in 1:no_of_tests){
-			data = KNN_test_one_person(i, 0.9, 3, 2, ktest, 1, smooth="avarage")
-			res[n] = data$mean;
-		}
-		mean$avg[i] = mean(res);
-		var$avg[i] = var(res);
+		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, smooth="avarage")
+		mean$avg[i] = data$mean
+		var$avg[i] = data$var;
 	}                           
 	for(i in 1:dpi_runs){
-		res = array(,no_of_tests)
-		for(n in 1:no_of_tests){
-			data = KNN_test_one_person(i, 0.9, 3, 2, ktest, 1, smooth="gaussian",sigma=0.5)
-			res[n] = data$mean;
-		}
-		mean$gap5[i] = mean(res);
-		var$gap5[i] = var(res);
+		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, smooth="gaussian",sigma=0.5)
+		mean$gap5[i] = data$mean
+		var$gap5[i] = data$var;
 	}
 	for(i in 1:dpi_runs){
-		res = array(,no_of_tests)
-		for(n in 1:no_of_tests){
-			data = KNN_test_one_person(i, 0.9, 3, 2, ktest, 1, smooth="gaussian",sigma=1)
-			res[n] = data$mean;
-		}
-		mean$ga1[i] = mean(res);
-		var$ga1[i] = var(res);
+		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, smooth="gaussian",sigma=1)
+		res[n] = data$mean;
+		mean$ga1[i] = data$mean
+		var$ga1[i] = data$var;
 	}                         
 	for(i in 1:dpi_runs){
 		res = array(,no_of_tests)
-		for(n in 1:no_of_tests){
-			data = KNN_test_one_person(i, 0.9, 3, 2, ktest, 1, smooth="gaussian",sigma=2)
-			res[n] = data$mean;
-		}
-		mean$ga2[i] = mean(res);
-		var$ga2[i] = var(res);
+		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, smooth="gaussian",sigma=2)
+		res[n] = data$mean;
+		mean$ga2[i] = data$mean
+		var$ga2[i] = data$var;
 	}
 } else {
 	mean$raw =  c(0.82975,0.86350,0.89250)
