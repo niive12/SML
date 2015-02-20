@@ -179,7 +179,7 @@ KNN <- function(testVector, trainVectors, k){
 	return(kreturne)
 }
 
-percentageDetected   <- function(testData, trainData,k, filename){
+percentageDetected   <- function(testData, trainData,k, filename="none"){
 	testSets = dim(testData)[1];
 	testChars = dim(testData)[2];
 	testElements = dim(testData)[3];
@@ -214,7 +214,9 @@ percentageDetected   <- function(testData, trainData,k, filename){
 		percentageVec[perK] = (trueDetections/(testChars*testElements*testSets))
 	}
 
-	write.latex(confus[1,,], 0:9, 0:9, filename)
+	if(filename != "none"){
+		write.latex(confus[1,,], 0:9, 0:9, filename)
+	}
 
 	return(percentageVec);
 }
@@ -327,27 +329,15 @@ getContours <- function(kVlues, trainValues,testTrials,g,m){
 #-------------------------------------------------------------
 #This is the "main function" or the code that is actualy run
 #-------------------------------------------------------------
-#get data from png images: 
 
 
-#                   dpi split group member k
-ktest = 1:40
-traintest = c(seq(100,360,10))
-# 
-# KNN_test_one_person(1, 0.9, 3, 2, ktest)
-
-
-# getContours(ktest,traintest,10,3,2)
-# getContours(ktest,traintest,10,3,1)
-
-
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"raw.tex")
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"smooth.tex", smooth="avarage")
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss1.tex", smooth="gaussian",sigma=1)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss2.tex", smooth="gaussian",sigma=2)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss3.tex", smooth="gaussian",sigma=3)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss4.tex", smooth="gaussian",sigma=4)
-KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss5.tex", smooth="gaussian",sigma=5)
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"raw.tex")
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"smooth.tex", smooth="avarage")
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss1.tex", smooth="gaussian",sigma=1)
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss2.tex", smooth="gaussian",sigma=2)
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss3.tex", smooth="gaussian",sigma=3)
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss4.tex", smooth="gaussian",sigma=4)
+# KNN_test_one_person(1, 0.9, 3, 2, ktest,"gauss5.tex", smooth="gaussian",sigma=5)
 
 # KNN_test_one_person(1, 0.5, 3, 2, 1)
 # writes to csv
