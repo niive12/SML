@@ -3,7 +3,7 @@ ktest = 10;
 dpi = c(100,200,300)
 g = 3
 m = 2
-split = 0.9
+split = 0.5
 #each test is the same so variance will always be 0
 no_of_tests = 1;
 
@@ -15,7 +15,8 @@ if( dpi_runs > 0) {
 		time[i] = data$time
 	}
 } else {
-	time =  c(87.484,230.587,509.792)
+# 	time =  c(87.484,230.587,509.792) #90/10 split
+	time =  c(267.165,729.731,1500) #50/50 split
 }
 setEPS()
 postscript("../../../Report/graphics/time_vs_dpi.eps",height = 4, width = 8)

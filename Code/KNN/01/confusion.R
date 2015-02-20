@@ -4,7 +4,6 @@ dpi = c(100,200,300)
 g = 3
 m = 2
 split = 0.5
-#each test is the same so variance will always be 0
 no_of_tests = 1;
 
 time = array(,3);

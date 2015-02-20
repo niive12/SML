@@ -1,7 +1,13 @@
-\subsection{K-NN Theory}
-The K-Nearest Neighbour (K-NN) method is in this report used to classify a specific unknown character to a set of characters ranging from 0 to 9.
-The method utilizes the euclidean distance to the nearest characters in the training set.
+% \subsection{K-NN Theory}
+% The K-Nearest Neighbour (K-NN) method is in this report used to classify a specific unknown character to a set of characters ranging from 0 to 9.
+% The method utilizes the euclidean distance to the nearest characters in the training set.
 
-Knowing the K nearest neighbours to a unknown character, then the character can be classified depending on the surrounding pixels.
-This is done by taking the most often occurring character within the K-NN and assuming this is also the same character.
+% Knowing the K nearest neighbours to a unknown character, then the character can be classified depending on the surrounding pixels.
+% This is done by taking the most often occurring character within the K-NN and assuming this is also the same character.
 
+The K-Nearest Neighbour (K-NN) method is in this report used to classify a unknown digit to a set of digits ranging from 0 to 9.
+The data is split into two groups: One is for training and one is for testing. 
+The nearest neighbour is found using euclidean distance to the pixel values in a training set with known values.
+The result is a vote between the K closest neighbours.
+
+To see how this performs a multitude of tests are performed to see how this behaves and what can be done to improve the results and the speed.
