@@ -1,3 +1,4 @@
+# 765m25.808s run time
 source("main.R") 
 ktest = 10;
 dpi = c(100,200,300)
@@ -28,23 +29,27 @@ if( dpi_runs > 0) {
 	}
 	for(i in 1:dpi_runs){
 		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, smooth="gaussian",sigma=1)
-		res[n] = data$mean;
 		mean$ga1[i] = data$mean
 		var$ga1[i] = data$var;
 	}                         
 	for(i in 1:dpi_runs){
-		res = array(,no_of_tests)
 		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, smooth="gaussian",sigma=2)
-		res[n] = data$mean;
 		mean$ga2[i] = data$mean
 		var$ga2[i] = data$var;
 	}
 } else {
 	mean$raw =  c(0.82975,0.86350,0.89250)
 	mean$avg =  c(0.82975,0.86350,0.89250)
-	mean$gap5 = c(0.86000,0.89500,0.92000)     #only 1 test...
+	mean$gap5 = c(0.87875,0.91800,0.93725)     
 	mean$ga1 =  c(0.85450,0.89975,0.91900)
 	mean$ga2 =  c(0.77500,0.86025,0.88425)
+	
+	#haven't meassured yet
+	var$raw =  c(0.82975,0.86350,0.89250)
+	var$avg =  c(0.82975,0.86350,0.89250)
+	var$gap5 = c(0.86000,0.89500,0.92000)     #only 1 test...
+	var$ga1 =  c(0.85450,0.89975,0.91900)
+	var$ga2 =  c(0.77500,0.86025,0.88425)
 }
 print(mean) 
 print(var)

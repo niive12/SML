@@ -108,10 +108,11 @@ KNN_test_one_person <- function(d, s, g, m, k, noRuns=1, filename="none", smooth
 	mean_data = new_data$mean
 	var_data  = new_data$var
 	
-	print(mean_data)
 	timing = proc.time() - timing;
 	timing = timing[["elapsed"]]
-	print(paste(c("Time: ",timing),collapse=""))
+	print(paste(c("mean: ",mean_data),collapse=""))
+	print(paste(c("var: ",var_data),collapse=""))
+	print(paste(c("\tTime: ",timing),collapse=""))
 	# 	new_data = append(timing,new_data,after=length(timing))
 	return(list(time=timing,mean=mean_data,var=var_data))
 	#write down data
