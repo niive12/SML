@@ -13,8 +13,13 @@ if( FALSE ) {
 	for(i in 3:dpi_runs){
 		data = KNN_test_one_person(i, split, g, m, ktest, no_of_tests, filename=paste(c("../../../Report/graphics/confusion_",dpi[i]),collapse=""))
 		time[i] = data$time
+		print(time)
 	}
 } else {
+	# IMPORTANT: 
+	# on a 50/50 split you have 200 comparisons 200 times = 40000 comparisons
+	# on a 90/10 split you have 360 comparisons 040 times = 14400 comparisons
+	# that is 2.77 times more comparisons, which explains the extra time!
 # 	time =  c(87.484,230.587,509.792) #90/10 split
 	time =  c(270.217,756.684,1514.412) #50/50 split ... that can't be right...
 }
