@@ -1,6 +1,8 @@
-simplifyData(data, minVar) # simplifies the data to achieve min x variance
+simplifyData(data, minVar) #Nikolaj # simplifies the data to achieve min x variance
 binaryizeData(data) # makes data binary
-loadAllData()
+loadAllData() #Lukas
+
+#to be made till: monday 2/3
 
 tests:
 (2.1.2)
