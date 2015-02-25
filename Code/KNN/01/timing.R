@@ -1,5 +1,5 @@
 # 87m18.371s runtime
-source("main.R") 
+source("part01.R") 
 ktest = 10;
 dpi = c(100,200,300)
 g = 3
