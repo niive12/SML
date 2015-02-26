@@ -1,6 +1,11 @@
 #Functions to be used in evaluation
 #-------------------------------------------------------------
 
+library("png")
+library("EBImage")
+library("class")
+library("gmodels")
+
 #inspiration for smoothing
 smoothImage <- function(grayImg){
 	#manual kernel:
@@ -41,7 +46,6 @@ gaussianSmoothImage <- function(grayImg, sigma){
 #-------------------------------------------------------------
 loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigma=1){
 #   #load the scaned images
- 
   #load the scaned images
   ciffers <- list(readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
                   readPNG(paste(c("../../group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-1.png"), collapse = "")),
