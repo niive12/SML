@@ -46,12 +46,12 @@ getPeople <- function(){
 	# all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)
 	# test_people  = c(p6, p7)
 	# train_people = p7
-# 	test = list(p7)
+	test = list(p7)
 # 	test = list(p6,p7)
 # 	test = list(p5,p6,p7)
 # 	test = list(p4,p5,p6,p7)
 # 	test = list(p2,p4,p5,p6,p7)
-	test = list(p6,p7,p8)
+# 	test = list(p6,p7,p8)
 	
 	return(test)
 }
@@ -326,30 +326,30 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 }
 
 # -- test run knn --
-# currentTime <- proc.time()
-# haha <- prepareAllMixed(200,200) # default: 100 dpi and no filter
-# print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
+currentTime <- proc.time()
+haha <- prepareAllMixed(360,40) # default: 100 dpi and no filter
+print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
 
 # currentTime <- proc.time()
 # haha <- prepareOneAlone(3,2) # default: 100 dpi and no filter
 # print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
 
-currentTime <- proc.time()
-haha <- prepareAllMixedCrossVal() # default: 100 dpi and no filter
-print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
-
-
-# calc KNN
-currentTime <- proc.time()
-r = knn(haha$trainSet,haha$testSet,haha$trainVali,10)
-print(paste(c("Time taken to run KNN: ", (proc.time() - currentTime)[1]),collapse=""))
-
-# count right detections
-per <- 0
-for(i in 1:length(haha$testVali)){
-	if(r[i] == (haha$testVali)[i]){
-		per <- per + 1
-	}
-}
-
-print(per/length(haha$testVali))
+# currentTime <- proc.time()
+# haha <- prepareAllMixedCrossVal() # default: 100 dpi and no filter
+# print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
+# 
+# 
+# # calc KNN
+# currentTime <- proc.time()
+# r = knn(haha$trainSet,haha$testSet,haha$trainVali,10)
+# print(paste(c("Time taken to run KNN: ", (proc.time() - currentTime)[1]),collapse=""))
+# 
+# # count right detections
+# per <- 0
+# for(i in 1:length(haha$testVali)){
+# 	if(r[i] == (haha$testVali)[i]){
+# 		per <- per + 1
+# 	}
+# }
+# 
+# print(per/length(haha$testVali))
