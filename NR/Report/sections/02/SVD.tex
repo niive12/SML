@@ -55,4 +55,11 @@ W_{diag_{d2}} =
 
 Where $W_{diag}$ in equation \ref{eq:W_and_V_computed} are the values present in the diagonal of the $4 \times 4$ matrix $W$ from the SVD.
 
-Given that the $W_{diag}$ has four entries, then the rank of $A$ is four. Thus, given $W$ is a $4 \times 4$ matrix of rank four, there are no linear dependencies between $x_0$, $y_0$, $a$ and $b$.
+Given that the $W_{diag_{d1}}$ has four entries, then the rank of $A$ is four. 
+Thus, given $W_{diag_{d1}}$ is a $4 \times 4$ matrix of rank four, there are no linear dependencies between $x_0$, $y_0$, $a$ and $b$ for the first dataset (d1).
+
+The second dataset (d2), however, generates a $W_{diag_{d2}}$, where the fourth value for $W$ is considerably smaller than that of the others.
+The rank of the matrix $A_{d2}$ can hence be considered to be three.
+There are hence linear dependencies between two of the parameters in the second dataset.
+
+
