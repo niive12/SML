@@ -2,13 +2,13 @@
 %Estimate the parameters q = (x0; y0; a; b) and state your results. State
 %also the residual error kAq 􀀀 zk.
 
-Using the data from the first dataset (d1) and the code \ref{code:computing_q}.
+Using the data from the first dataset (d1) and code \ref{code:computing_q}, $q$ can be found to be as in equation \ref{eq:q_result}.
 
 
 \lstinputlisting[firstnumber=56,
         firstline=56, 
         lastline=58,
-        caption={Computing $A$ and $z$.},
+        caption={Computing $q$.},
         label={code:computing_q}
         ]{../nr_robot/main.cpp}
         
@@ -25,4 +25,26 @@ q =
 40.089564
 \end{array}
 \right]
+= 
+\left[
+\begin{array}{c}
+x_0 \\
+y_0 \\
+a \\
+b
+\end{array}
+\right]
+\label{eq:q_result}
 \end{equation}
+
+The residual error can then be found using $|| Aq - z ||$.
+This is calculated as in code \ref{code:computing_residualError}.
+
+\lstinputlisting[firstnumber=61,
+        firstline=61, 
+        lastline=63,
+        caption={Computing the residual error, $|| Aq - z ||$.},
+        label={code:computing_residualError}
+        ]{../nr_robot/main.cpp}
+
+The residual error is then found to be $ Residual\ Error = 8.968031$.
