@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
 	//read data
-	ifstream data("../d1");
+	ifstream data("../d2");
 	int N;
 	N = count(istreambuf_iterator<char>(data), istreambuf_iterator<char>(), '\n');
 	VecDoub theta_1(N), theta_2(N), x_data(N), y_data(N);
