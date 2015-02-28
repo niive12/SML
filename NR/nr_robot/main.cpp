@@ -50,13 +50,13 @@ int main()
 	SVD result1(A);
 	SVD result2(A);
 
-//	result1.u.print();
-//	result1.w.print();
-//	result1.v.print();
-//	cout << "\n\n\n";
-//	result2.u.print();
-//	result2.w.print();
-//	result2.v.print();
+	result1.u.print();
+	result1.w.print();
+	result1.v.print();
+	cout << "\n\n\n";
+	result2.u.print();
+	result2.w.print();
+	result2.v.print();
 
 	cout << "Estimate resulting errors\n";
 
