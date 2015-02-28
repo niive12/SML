@@ -5,6 +5,10 @@
 #include "../NR_LIB/code/svd.h"
 #include <fstream>
 
+#define OUR 0
+#define THEIR 1
+#define METHOD THEIR
+
 using namespace std;
 
 int main()
@@ -32,7 +36,7 @@ int main()
 		cout << "File doesn't exist\n";
 	}
 
-
+#if METHOD == OUR
 	cout << "Estimate parameters\n";
 	// calculate the stuff
     MatDoub A1(N,3),A2(N,3);
@@ -41,13 +45,13 @@ int main()
 
     // computing a, [[1 cos(theta1) cos(theta1 + theta2)],...]
     for(int i = 0; i < N; i++){
-        A1[0][i] = 1;
-        A1[1][i] = cos(theta_1[i]);
-        A1[2][i] = cos(theta_1[i] + theta_2[i]);
+        A1[i][0] = 1;
+        A1[i][1] = cos(theta_1[i]);
+        A1[i][2] = cos(theta_1[i] + theta_2[i]);
 
-        A2[0][i] = 1;
-        A2[1][i] = sin(theta_1[i]);
-        A2[2][i] = sin(theta_1[i] + theta_2[i]);
+        A2[i][0] = 1;
+        A2[i][1] = sin(theta_1[i]);
+        A2[i][2] = sin(theta_1[i] + theta_2[i]);
     }
 
     cout << "A made." << endl;
@@ -58,37 +62,62 @@ int main()
 
     cout << "SVD's' made." << endl;
 
-    cout << "U1" << endl;
-    //result1.u.print();
-    cout << "W1" << endl;
-    result1.w.print();
-    cout << "V1" << endl;
-    result1.v.print();
+//    cout << "U1" << endl;
+//    //result1.u.print();
+//    cout << "W1" << endl;
+//    result1.w.print();
+//    cout << "V1" << endl;
+//    result1.v.print();
 
-    cout << "U2" << endl;
-    //result2.u.print();
-    cout << "W2" << endl;
-    result2.w.print();
-    cout << "V2" << endl;
-    result2.v.print();
+//    cout << "U2" << endl;
+//    //result2.u.print();
+//    cout << "W2" << endl;
+//    result2.w.print();
+//    cout << "V2" << endl;
+//    result2.v.print();
 
 
     cout << "result:" << endl;
 
-    VecDoub r1(3),r2(3);
+    VecDoub q1(3),q2(3);
 
     //result1.solve(x_data,r1);
-    result1.solve(x_data,r1);
-    result2.solve(y_data,r2);
+    result1.solve(x_data,q1);
+    result2.solve(y_data,q2);
 
-    r1.print();
-    r2.print();
+    q1.print();
+    q2.print();
 
 
-    cout << "version 2, one matrix, one equation" << endl;
+    cout << "Estimate resulting errors\n";
+
+
+    // std. deviation
+    MatDoub stdDeviation(2, result1.n);
+    for(int j = 0; j < result1.n; j++)
+    {
+        stdDeviation[0][j] = 0;
+        stdDeviation[1][j] = 0;
+
+        for(int i = 0; i < result1.n; i++)
+        {
+            stdDeviation[0][j] += pow(((result1.v[j][i])/(result1.w[i])),2);
+            stdDeviation[1][j] += pow(((result2.v[j][i])/(result2.w[i])),2);
+        }
+        stdDeviation[0][j] = sqrt(stdDeviation[0][j]);
+        stdDeviation[1][j] = sqrt(stdDeviation[1][j]);
+    }
+
+    cout << "\nprinting std. var." << endl;
+    stdDeviation.print();
+
+#endif
+
+#if METHOD == THEIR
+//    cout << "version 2, one matrix, one equation" << endl;
 
     MatDoub A(2*N,4);
-    VecDoub data_test(2*N);
+    VecDoub z(2*N);
 
     cout << "Number of measurements: " << N << endl;
 
@@ -96,20 +125,20 @@ int main()
     for(int i = 0; i < 2*N; i++){
         // x first, then y
         if(i % 2){
-            // y
-            A[0][i] = 0;
-            A[1][i] = 1;
-            A[2][i] = sin(theta_1[i]);
-            A[3][i] = sin(theta_1[i] + theta_2[i]);
-            data_test[i] = y_data[(i - (i % 2))/2];
+            // y, i = odd
+            A[i][0] = 0;
+            A[i][1] = 1;
+            A[i][2] = sin(theta_1[((i - (i % 2))/2)]);
+            A[i][3] = sin((theta_1[((i - (i % 2))/2)] + theta_2[((i - (i % 2))/2)]));
+            z[i] = y_data[((i - (i % 2))/2)];
         }
         else{
-            // x
-            A[0][i] = 1;
-            A[1][i] = 0;
-            A[2][i] = cos(theta_1[i]);
-            A[3][i] = cos(theta_1[i] + theta_2[i]);
-            data_test[i] = x_data[(i - (i % 2))/2];
+            // x, i = even + {0}
+            A[i][0] = 1;
+            A[i][1] = 0;
+            A[i][2] = cos(theta_1[((i - (i % 2))/2)]);
+            A[i][3] = cos((theta_1[((i - (i % 2))/2)] + theta_2[((i - (i % 2))/2)]));
+            z[i] = x_data[((i - (i % 2))/2)];
         }
     }
 
@@ -120,7 +149,7 @@ int main()
     cout << "SVD's' made." << endl;
 
     cout << "U" << endl;
-    //result.u.print();
+    result.u.print();
     cout << "W" << endl;
     result.w.print();
     cout << "V" << endl;
@@ -129,19 +158,42 @@ int main()
 
     cout << "result:" << endl;
 
-    VecDoub r(4);
+    VecDoub q(4);
 
-    //result1.solve(x_data,r1);
-    result.solve(data_test,r);
+    //result1.solve(x_data,q);
+    result.solve(z,q);
 
-    r.print();
+    q.print();
+
+    double residualError;
+
+    residualError = (A*q-z).length();
+    cout << residualError << endl;
 
 
 	cout << "Estimate resulting errors\n";
 
+
+    // std. deviation
+    VecDoub stdDeviation(result.n);
+    for(int j = 0; j < result.n; j++)
+    {
+        stdDeviation[j] = 0;
+        for(int i = 0; i < result.n; i++)
+        {
+            stdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
+        }
+        stdDeviation[j] = sqrt(stdDeviation[j]);
+    }
+
+    cout << "\nprinting std. var." << endl;
+    stdDeviation.print();
+
+#endif
 
 	return 0;
 }
 
 
 // 4, 6, 50, 40
+// 2, 5, 52, 40
