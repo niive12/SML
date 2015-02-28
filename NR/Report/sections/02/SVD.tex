@@ -4,7 +4,14 @@
 %SVD matrices) if there are linear dependencies between the parameters
 %x0; y0; a; b.
 
-$A$ and $z$ is constructed using code \textbf{code ref!}, this results in the format for $A$ and $z$ as seen in equation \ref{eq:mathematicalModel}.
+$A$ and $z$ is constructed using code \ref{code:computing_A_z}, this results in the format for $A$ and $z$ as seen in equation \ref{eq:mathematicalModel}.
+
+\lstinputlisting[firstnumber=14,
+        firstline=26, 
+        lastline=44,
+        caption={Computing $A$ and $z$.},
+        label={code:computing_A_z}
+        ]{../nr_robot/main.cpp}
 
 \begin{equation}
 %W

@@ -31,15 +31,15 @@ int main() {
 		if(i % 2) { // y, i = odd
 			A[i][0] = 0;
 			A[i][1] = 1;
-			A[i][2] = sin(theta_1[((i - (i % 2))/2)]);
-			A[i][3] = sin((theta_1[((i - (i % 2))/2)] + theta_2[((i - (i % 2))/2)]));
-			z[i] = y_data[((i - (i % 2))/2)];
+			A[i][2] = sin(theta_1[((i-1)/2)]);
+			A[i][3] = sin((theta_1[((i-1)/2)] + theta_2[((i-1)/2)]));
+			z[i] = y_data[((i-1)/2)];
 		} else { // x, i = even + {0}
 			A[i][0] = 1;
 			A[i][1] = 0;
-			A[i][2] = cos(theta_1[((i - (i % 2))/2)]);
-			A[i][3] = cos((theta_1[((i - (i % 2))/2)] + theta_2[((i - (i % 2))/2)]));
-			z[i] = x_data[((i - (i % 2))/2)];
+			A[i][2] = cos(theta_1[(i/2)]);
+			A[i][3] = cos((theta_1[(i/2)] + theta_2[(i/2)]));
+			z[i] = x_data[(i/2)];
 		}
 	}
 	//Parameters
@@ -55,7 +55,7 @@ int main() {
 	cout << "Parameters: ";
 	VecDoub q(4);
 	result.solve(z,q);
-	q.print();
+	cout << "Parameters: "; q.print();
 
 	//Residual error
 	double residualError;

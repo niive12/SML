@@ -8,10 +8,14 @@
 
 \renewcommand\arraystretch{2}
 
+\usepackage[svgnames]{xcolor} 
+\usepackage{listings}
+
+\renewcommand\lstlistingname{Code}
+
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.9,0.9,0.9}
 \definecolor{mauve}{rgb}{1,0.4,0}
-
 
 \lstset{frame=none,
   backgroundcolor=\color{gray},
@@ -31,7 +35,10 @@
   breakatwhitespace=true,
   tabsize=3,
   captionpos=b,
+  xleftmargin=.25in,
+  xrightmargin=.25in
 }
+
 
 \begin{document}
 
@@ -42,7 +49,6 @@
 
 
 \newpage
-
 
 \input{sections/01/expr}
 
