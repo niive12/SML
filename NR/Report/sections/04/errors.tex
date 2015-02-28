@@ -3,17 +3,20 @@
 %measurement uncertainty that is estimated to 1mm on each coordinate.
 %Estimate the resulting errors on the found parameters using NR, Eq.
 %(15.4.19).
-The deviation can be found using:
+The deviation can be found using equation \ref{eq:stdDeviation}.
 \[
 \sigma\left(a_j\right) = \sqrt{ \sum_{i=0}^{N-1} \left( \left( \frac{V_{ji}}{w_i}\right)^2\right) }
+\label{eq:stdDeviation}
 \]
 This is implemented in Code \ref{code:deviation}.
 \lstinputlisting[firstnumber=63,
         firstline=63, 
         lastline=70,
-        caption={Computing the deviation.},
+        caption={Computing the standard deviation.},
         label={code:deviation}
         ]{../nr_robot/main.cpp}
+
+This results in the standard deviation seen in equation \ref{eq:stdDeviation} for the first dataset (d1).
 
 \begin{equation}
 \sigma\left(a_j\right) = 
@@ -25,4 +28,5 @@ This is implemented in Code \ref{code:deviation}.
  0.044833
 \end{array}
 \right]
+\label{eq:stdDeviation}
 \end{equation}
