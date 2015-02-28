@@ -1,3 +1,28 @@
 \section{Result and Error Residuals}
-Estimate the parameters q = (x0; y0; a; b) and state your results. State
-also the residual error Aq - z.
+%Estimate the parameters q = (x0; y0; a; b) and state your results. State
+%also the residual error kAq 􀀀 zk.
+
+Using the data from the first dataset (d1) and the code \ref{code:computing_q}.
+
+
+\lstinputlisting[firstnumber=56,
+        firstline=56, 
+        lastline=58,
+        caption={Computing $A$ and $z$.},
+        label={code:computing_q}
+        ]{../nr_robot/main.cpp}
+        
+        
+ 
+
+\begin{equation}
+q = 
+\left[
+\begin{array}{c}
+4.098263 \\
+6.099639 \\
+50.093261 \\
+40.089564
+\end{array}
+\right]
+\end{equation}

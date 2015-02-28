@@ -13,7 +13,9 @@ $A$ and $z$ is constructed using code \ref{code:computing_A_z}, this results in 
         label={code:computing_A_z}
         ]{../nr_robot/main.cpp}
 
-When computing the SVD using the library supplied by Numerical Recipes using the data from data set (d1), the matrices in equation \ref{eq:W_and_V_computed} for $W$ and $V$ are gained
+When computing the SVD using the library supplied by Numerical Recipes, using the data from data set (d1), the matrix in equation \ref{eq:W_and_V_computed} for $W$
+% and $V$ are 
+is gained.
 
 \begin{equation}
 %W
@@ -26,17 +28,19 @@ W_{diag} =
 21.5074
 \end{array}
 \right]
-\qquad
-V = 
-\left[
-\begin{array}{c c c c}
-0.589669 & -0.354287 & -0.351603 & 0.634938 \\
-0.311263 & 0.703527 & 0.509408 & 0.385577 \\
-0.493938 & -0.470162 & 0.629460 & -0.372496 \\
-0.558060 & 0.398095 & -0.469743 & -0.556265
-\end{array}
-\right]
+%\qquad
+%V = 
+%\left[
+%\begin{array}{c c c c}
+%0.589669 & -0.354287 & -0.351603 & 0.634938 \\
+%0.311263 & 0.703527 & 0.509408 & 0.385577 \\
+%0.493938 & -0.470162 & 0.629460 & -0.372496 \\
+%0.558060 & 0.398095 & -0.469743 & -0.556265
+%\end{array}
+%\right]
 \label{eq:W_and_V_computed}
 \end{equation}
 
-Where $W_{diag}$ in code \ref{eq:W_and_V_computed} are the values present in the diagonal of the $4 \times 4$ matrix $W$ from the SVD.
+Where $W_{diag}$ in equation \ref{eq:W_and_V_computed} are the values present in the diagonal of the $4 \times 4$ matrix $W$ from the SVD.
+
+Given that the $W_{diag}$ has four entries, then the rank of $A$ is four. Thus, given $W$ is a $4 \times 4$ matrix of rank four, there are no linear dependencies between $x_0$, $y_0$, $a$ and $b$.
