@@ -13,9 +13,11 @@ $A$ and $z$ is constructed using code \ref{code:computing_A_z}, this results in 
         label={code:computing_A_z}
         ]{../nr_robot/main.cpp}
 
+When computing the SVD using the library supplied by Numerical Recipes using the data from data set (d1), the matrices in equation \ref{eq:W_and_V_computed} for $W$ and $V$ are gained
+
 \begin{equation}
 %W
-W = 
+W_{diag} = 
 \left[
 \begin{array}{c}
 23.3788 \\
@@ -36,3 +38,5 @@ V =
 \right]
 \label{eq:W_and_V_computed}
 \end{equation}
+
+Where $W_{diag}$ in code \ref{eq:W_and_V_computed} are the values present in the diagonal of the $4 \times 4$ matrix $W$ from the SVD.
