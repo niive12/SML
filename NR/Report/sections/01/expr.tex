@@ -1,10 +1,12 @@
 \section{Mathematical Model}
-Find expressions for the elements in the matrix A and the right-hand
-side, say z, for the associated systems of linear equations for the parameters q = (x0; y0; a; b).
+%Find expressions for the elements in the matrix A and the right-hand
+%side, say z, for the associated systems of linear equations for the parameters q = (x0; y0; a; b).
 
+The equation for the robot system can be expressed in the form of equation \ref{eq:equationFormat}, where $q = (x0, y0, a, b)^T$, as shown in equation \ref{eq:mathematicalModel}.
 
 \begin{equation}
 A \cdot q = z
+\label{eq:equationFormat}
 \end{equation}
 
 \begin{equation}
@@ -14,8 +16,8 @@ A \cdot q = z
 1 & 0 & \cos\left( \theta_1^{(1)}\right)  & \cos\left(\theta_1^{(1)} + \theta_2^{(1)} \right) \\
 0 & 1 & \sin\left(\theta_1^{(2)}\right)  & \sin\left(\theta_1^{(2)} + \theta_2^{(2)}\right)  \\
 \vdots & \vdots & \vdots & \vdots \\
-1 & 0 & \cos\left(\theta_1^{(N)}\right)  & \cos\left(\theta_1^{(N)} + \theta_2^{(1)}\right)  \\
-0 & 1 & \sin\left(\theta_1^{(N)}\right)  & \sin\left(\theta_1^{(N)} + \theta_2^{(2)}\right)  \\
+1 & 0 & \cos\left(\theta_1^{(N)}\right)  & \cos\left(\theta_1^{(N)} + \theta_2^{(N)}\right)  \\
+0 & 1 & \sin\left(\theta_1^{(N)}\right)  & \sin\left(\theta_1^{(N)} + \theta_2^{(N)}\right)  \\
 \end{array}
 \right]
 \cdot
@@ -40,4 +42,7 @@ x^{(N)} \\
 y^{(N)} \\
 \end{array}
 \right]
+\label{eq:mathematicalModel}
 \end{equation}
+
+Where $A$ is a $2 N \times 4$ matrix, $q$ a $4 \times 1$ matrix and $z$ a $2 N \times 1$ matrix.

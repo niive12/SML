@@ -44,6 +44,14 @@ int main() {
 	}
 	//Parameters
 	SVD result(A);
+
+    // SVD decomposition
+    cout << "Printing W" << endl;
+    result.w.print();
+    cout << "Printing V" << endl;
+    result.v.print();
+
+
 	cout << "Parameters: ";
 	VecDoub q(4);
 	result.solve(z,q);
