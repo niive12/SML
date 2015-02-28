@@ -5,10 +5,12 @@
 \usepackage{amssymb}
 
 \usepackage{fullpage}
+\usepackage{tikz}
+
 
 \renewcommand\arraystretch{2}
 
-\usepackage[svgnames]{xcolor} 
+% \usepackage[svgnames]{xcolor} 
 \usepackage{listings}
 
 \renewcommand\lstlistingname{Code}
@@ -26,8 +28,8 @@
   showstringspaces=false,
   columns=flexible,
   basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numberstyle=\tiny\color{black},
   keywordstyle=\color{blue},
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
@@ -39,7 +41,6 @@
   xrightmargin=.25in
 }
 
-
 %NR specific keywords
 \lstset{emph={
     VecDoub,
@@ -48,6 +49,9 @@
     },
     emphstyle={ \color{blue} }   
 }
+
+\newcommand{\codeOutput}[1]{\begin{tikzpicture} \node[fill=gray,minimum width=0.921\textwidth,text align=left, text width=0.85\textwidth,text color=black]  at (0,0) {#1}; \end{tikzpicture} }
+
 
 \begin{document}
 
