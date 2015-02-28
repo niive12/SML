@@ -1,3 +1,43 @@
 \section{Mathematical Model}
 Find expressions for the elements in the matrix A and the right-hand
 side, say z, for the associated systems of linear equations for the parameters q = (x0; y0; a; b).
+
+
+\begin{equation}
+A \cdot q = z
+\end{equation}
+
+\begin{equation}
+% -- A --
+\left[
+\begin{array}{c c c c}
+1 & 0 & \cos\left( \theta_1^{(1)}\right)  & \cos\left(\theta_1^{(1)} + \theta_2^{(1)} \right) \\
+0 & 1 & \sin\left(\theta_1^{(2)}\right)  & \sin\left(\theta_1^{(2)} + \theta_2^{(2)}\right)  \\
+\vdots & \vdots & \vdots & \vdots \\
+1 & 0 & \cos\left(\theta_1^{(N)}\right)  & \cos\left(\theta_1^{(N)} + \theta_2^{(1)}\right)  \\
+0 & 1 & \sin\left(\theta_1^{(N)}\right)  & \sin\left(\theta_1^{(N)} + \theta_2^{(2)}\right)  \\
+\end{array}
+\right]
+\cdot
+% -- q --
+\left[
+\begin{array}{c}
+x_0 \\
+y_0 \\
+a \\
+b \\
+\end{array}
+\right]
+% -- --
+=
+% -- z --
+\left[
+\begin{array}{c}
+x^{(1)} \\
+y^{(1)} \\
+\vdots \\
+x^{(N)} \\
+y^{(N)} \\
+\end{array}
+\right]
+\end{equation}
