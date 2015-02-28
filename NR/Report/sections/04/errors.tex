@@ -3,6 +3,17 @@
 %measurement uncertainty that is estimated to 1mm on each coordinate.
 %Estimate the resulting errors on the found parameters using NR, Eq.
 %(15.4.19).
+The deviation can be found using:
+\[
+\sigma\left(a_j\right) = \sqrt{ \sum_{i=0}^{N-1} \left( \left( \frac{V_{ji}}{w_i}\right)^2\right) }
+\]
+This is implemented in Code \ref{code:deviation}.
+\lstinputlisting[firstnumber=63,
+        firstline=63, 
+        lastline=70,
+        caption={Computing the deviation.},
+        label={code:deviation}
+        ]{../nr_robot/main.cpp}
 
 \begin{equation}
 \sigma\left(a_j\right) = 
