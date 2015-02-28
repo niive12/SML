@@ -8,6 +8,29 @@
 
 \renewcommand\arraystretch{2}
 
+
+
+\usepackage[svgnames]{xcolor} 
+\usepackage{listings}
+\lstset{language=c++,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{purple}\bfseries,
+stringstyle=\color{red},
+commentstyle=\color{green},
+morecomment=[s][\color{blue}]{/**}{*/},
+numbers=left,
+numberstyle=\tiny\color{black},
+stepnumber=1,
+numbersep=5pt,
+tabsize=2,
+showspaces=false,
+showstringspaces=false
+                xleftmargin=.25in,
+                xrightmargin=.25in
+}
+%Figurtekst under kode udsnit
+\renewcommand\lstlistingname{Code snippet}
+
 \begin{document}
 
 \title{Calibration of a Planar 2-axis Robot using SVD\\{\large\emph{Numerical Methods}}}
@@ -18,6 +41,15 @@
 
 \newpage
 
+
+
+\lstinputlisting[language=c++, 
+        firstnumber=14,
+        firstline=26, 
+        lastline=49,
+        captionpos=b,
+        caption={Finding parameters.}
+        ]{../nr_robot/main.cpp}
 
 \input{sections/01/expr}
 
