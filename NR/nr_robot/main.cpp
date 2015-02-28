@@ -44,13 +44,12 @@ int main() {
 	}
 	//Parameters
 	SVD result(A);
-
-    // SVD decomposition
-    cout << "Printing W" << endl;
-    result.w.print();
-    cout << "Printing V" << endl;
-    result.v.print();
-
+	MatDoub qweqweqweqweqweqwe(10,1);
+	// SVD decomposition
+	cout << "Printing W" << endl;
+	result.w.print();
+	cout << "Printing V" << endl;
+	result.v.print();
 
 	cout << "Parameters: ";
 	VecDoub q(4);
@@ -63,14 +62,14 @@ int main() {
 	cout << "Residual error: " << residualError << endl;
 
 	//std. deviation
-	VecDoub theirStdDeviation(result.n);
+	VecDoub StdDeviation(result.n);
 	for(int j = 0; j < result.n; j++) {
-		theirStdDeviation[j] = 0;
+		StdDeviation[j] = 0;
 		for(int i = 0; i < result.n; i++) {
-			theirStdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
+			StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
 		}
-		theirStdDeviation[j] = sqrt(theirStdDeviation[j]);
+		StdDeviation[j] = sqrt(StdDeviation[j]);
 	}
-	cout << "std. deviations: "; theirStdDeviation.print();
+	cout << "standard deviations: "; StdDeviation.print();
 	return 0;
 }
