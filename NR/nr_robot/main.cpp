@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <math.h>
 #include "../NR_LIB/code/nr3.h"
@@ -10,16 +11,18 @@ int main()
 {
 	cout << "Find expressions for elements\n";
 	cout << "Read files D1, D2, insert in A\n";
-	int N = 500;
+	ifstream data("../d1");
+	int N;
+	N = std::count(std::istreambuf_iterator<char>(data), std::istreambuf_iterator<char>(), '\n');
 
 	VecDoub theta_1(N);
 	VecDoub theta_2(N);
 	VecDoub x_data(N);
 	VecDoub y_data(N);
-	//layout: theta_1^{(1)}    theta_2^{(1)}   x^{(1)}    y^{(1)}
-	ifstream data("../d1");
+
 	if(data.is_open()){
-        for(int i = 0; i < N; i++) {
+		data.seekg(0,data.beg);
+		for(int i = 0; i < N; i++) {
 			data >> theta_1[i];
 			data >> theta_2[i];
 			data >> x_data[i];
@@ -31,8 +34,7 @@ int main()
 
 
 	cout << "Estimate parameters\n";
-
-    // calculate the stuff
+	// calculate the stuff
     MatDoub A1(N,3),A2(N,3);
 
     cout << "Number of measurements: " << N << endl;
@@ -42,8 +44,7 @@ int main()
         A1[1][i] = 1;
         A1[2][i] = cos(theta_1[i]);
         A1[3][i] = cos(theta_1[i] + theta_2[i]);
-    }
-    for(int i = 0; i < N; i++){
+
         A2[1][i] = 1;
         A2[2][i] = sin(theta_1[i]);
         A2[3][i] = sin(theta_1[i] + theta_2[i]);
@@ -70,6 +71,7 @@ int main()
     result2.w.print();
     cout << "V2" << endl;
     result2.v.print();
+
 
     cout << "result:" << endl;
 
