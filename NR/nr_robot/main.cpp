@@ -19,7 +19,7 @@ int main()
 	//layout: theta_1^{(1)}    theta_2^{(1)}   x^{(1)}    y^{(1)}
 	ifstream data("../d1");
 	if(data.is_open()){
-		for(int i = 0; i < 500; i++) {
+        for(int i = 0; i < N; i++) {
 			data >> theta_1[i];
 			data >> theta_2[i];
 			data >> x_data[i];
@@ -28,41 +28,62 @@ int main()
 	} else {
 		cout << "File doesn't exist\n";
 	}
+
+
 	cout << "Estimate parameters\n";
 
     // calculate the stuff
-    int N = theta_1.length();
-    MatDoub A(N,3);
+    MatDoub A1(N,3),A2(N,3);
 
     cout << "Number of measurements: " << N << endl;
 
     // computing a, [[1 cos(theta1) cos(theta1 + theta2)],...]
     for(int i = 0; i < N; i++){
-        A[i][1] = 1;
-        A[i][2] = cos(theta_1[i]);
-        A[i][3] = cos(theta_1[i] + theta_2[i]);
+        A1[1][i] = 1;
+        A1[2][i] = cos(theta_1[i]);
+        A1[3][i] = cos(theta_1[i] + theta_2[i]);
+    }
+    for(int i = 0; i < N; i++){
+        A2[1][i] = 1;
+        A2[2][i] = sin(theta_1[i]);
+        A2[3][i] = sin(theta_1[i] + theta_2[i]);
     }
 
+    cout << "A made." << endl;
     // creating two sets of equations, A x_1 = b_1 and A x_2 = b_2
     // where A:[N 3], x_1 and x_2:[3 1] and b_1 and b_2:[N 1]
-    SVD result1(A);
-    SVD result2(A);
+    SVD result1(A1);
+    SVD result2(A2);
 
-    result1.u.print();
+    cout << "SVD's' made." << endl;
+
+    cout << "U1" << endl;
+    //result1.u.print();
+    cout << "W1" << endl;
     result1.w.print();
+    cout << "V1" << endl;
     result1.v.print();
 
-    result2.u.print();
+    cout << "U2" << endl;
+    //result2.u.print();
+    cout << "W2" << endl;
     result2.w.print();
+    cout << "V2" << endl;
     result2.v.print();
 
+    cout << "result:" << endl;
+
+    VecDoub r1(3),r2(3);
+
+    //result1.solve(x_data,r1);
+    result1.solve(x_data,r1);
+    result2.solve(y_data,r2);
+
+    r1.print();
+    r2.print();
+
+
 	cout << "Estimate resulting errors\n";
-
-
-
-
-
-
 
 
 	return 0;
