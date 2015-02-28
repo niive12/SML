@@ -41,13 +41,13 @@ int main()
 
     // computing a, [[1 cos(theta1) cos(theta1 + theta2)],...]
     for(int i = 0; i < N; i++){
-        A1[1][i] = 1;
-        A1[2][i] = cos(theta_1[i]);
-        A1[3][i] = cos(theta_1[i] + theta_2[i]);
+        A1[0][i] = 1;
+        A1[1][i] = cos(theta_1[i]);
+        A1[2][i] = cos(theta_1[i] + theta_2[i]);
 
-        A2[1][i] = 1;
-        A2[2][i] = sin(theta_1[i]);
-        A2[3][i] = sin(theta_1[i] + theta_2[i]);
+        A2[0][i] = 1;
+        A2[1][i] = sin(theta_1[i]);
+        A2[2][i] = sin(theta_1[i] + theta_2[i]);
     }
 
     cout << "A made." << endl;
@@ -85,9 +85,63 @@ int main()
     r2.print();
 
 
+    cout << "version 2, one matrix, one equation" << endl;
+
+    MatDoub A(2*N,4);
+    VecDoub data_test(2*N);
+
+    cout << "Number of measurements: " << N << endl;
+
+    // computing a, [[1 cos(theta1) cos(theta1 + theta2)],...]
+    for(int i = 0; i < 2*N; i++){
+        // x first, then y
+        if(i % 2){
+            // y
+            A[0][i] = 0;
+            A[1][i] = 1;
+            A[2][i] = sin(theta_1[i]);
+            A[3][i] = sin(theta_1[i] + theta_2[i]);
+            data_test[i] = y_data[(i - (i % 2))/2];
+        }
+        else{
+            // x
+            A[0][i] = 1;
+            A[1][i] = 0;
+            A[2][i] = cos(theta_1[i]);
+            A[3][i] = cos(theta_1[i] + theta_2[i]);
+            data_test[i] = x_data[(i - (i % 2))/2];
+        }
+    }
+
+    cout << "A made." << endl;
+    //
+    SVD result(A);
+
+    cout << "SVD's' made." << endl;
+
+    cout << "U" << endl;
+    //result.u.print();
+    cout << "W" << endl;
+    result.w.print();
+    cout << "V" << endl;
+    result.v.print();
+
+
+    cout << "result:" << endl;
+
+    VecDoub r(4);
+
+    //result1.solve(x_data,r1);
+    result.solve(data_test,r);
+
+    r.print();
+
+
 	cout << "Estimate resulting errors\n";
 
 
 	return 0;
 }
 
+
+// 4, 6, 50, 40
