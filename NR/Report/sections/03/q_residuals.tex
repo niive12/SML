@@ -1,11 +1,53 @@
 \section{Result and Error Residuals}
 The residual error describes the estimated distance to the predicted parameters.
 
-\lstinputlisting[firstnumber=60,
-        firstline=60, 
-        lastline=61,
-        caption={Computing the residual error},
-        label={code:residual}
+
+%Estimate the parameters q = (x0; y0; a; b) and state your results. State
+%also the residual error kAq 􀀀 zk.
+
+Using the data from the first dataset (d1) and code \ref{code:computing_q}, $q$ can be found to be as in equation \ref{eq:q_result}.
+
+
+\lstinputlisting[firstnumber=53,
+        firstline=53, 
+        lastline=54,
+        caption={Computing $q$.},
+        label={code:computing_q}
         ]{../nr_robot/main.cpp}
         
-\codeOutput{Residual error: 8.968031}
+        
+ 
+
+\begin{equation}
+q = 
+\left[
+\begin{array}{c}
+4.098263 \\
+6.099639 \\
+50.093261 \\
+40.089564
+\end{array}
+\right]
+= 
+\left[
+\begin{array}{c}
+x_0 \\
+y_0 \\
+a \\
+b
+\end{array}
+\right]
+\label{eq:q_result}
+\end{equation}
+
+The residual error can then be found using $|| Aq - z ||$.
+This is calculated as in code \ref{code:computing_residualError}.
+
+\lstinputlisting[firstnumber=58,
+        firstline=58, 
+        lastline=59,
+        caption={Computing the residual error, $|| Aq - z ||$.},
+        label={code:computing_residualError}
+        ]{../nr_robot/main.cpp}
+
+The residual error is then found to be $Residual\ Error = 8.968031$.

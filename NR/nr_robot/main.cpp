@@ -44,14 +44,12 @@ int main() {
 	}
 	//Parameters
 	SVD result(A);
-	MatDoub qweqweqweqweqweqwe(10,1);
 	// SVD decomposition
 	cout << "Printing W" << endl;
 	result.w.print();
 	cout << "Printing V" << endl;
 	result.v.print();
 
-	cout << "Parameters: ";
 	VecDoub q(4);
 	result.solve(z,q);
 	cout << "Parameters: "; q.print();
