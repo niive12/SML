@@ -13,7 +13,7 @@ int main()
 	cout << "Read files D1, D2, insert in A\n";
 	ifstream data("../d1");
 	int N;
-	N = std::count(std::istreambuf_iterator<char>(data), std::istreambuf_iterator<char>(), '\n');
+	N = count(istreambuf_iterator<char>(data), istreambuf_iterator<char>(), '\n');
 
 	VecDoub theta_1(N);
 	VecDoub theta_2(N);
