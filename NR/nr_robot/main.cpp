@@ -45,13 +45,14 @@ int main() {
 	//Parameters
 	SVD result(A);
 	// SVD decomposition
-	cout << "Printing W" << endl;
-	result.w.print();
-	cout << "Printing V" << endl;
-	result.v.print();
+//	result = result.range(0.5);
 
 	VecDoub q(4);
+
 	result.solve(z,q);
+
+	cout << "Printing W" << endl; result.w.print();
+	cout << "Printing V" << endl; result.v.print();
 	cout << "Parameters: "; q.print();
 
 	//Residual error
@@ -69,5 +70,28 @@ int main() {
 		StdDeviation[j] = sqrt(StdDeviation[j]);
 	}
 	cout << "standard deviations: "; StdDeviation.print();
+
+	cout << "new stuff\n";
+	MatDoub Wi(4,4);
+	for (int i = 0; i < 4; i++ ){
+		for( int j = 0; j < 4; j++ ){
+			if ( i == j){
+				Wi[i][j]= result.w[j] < 0.5 ? 0 : 1/result.w[j] ;
+			} else {
+				Wi[i][j] = 0;
+			}
+		}
+	}
+	Wi.print();
+	MatDoub newMQ(4,4);
+	VecDoub newQ(4);
+	VecDoub uz(result.u.nrows());
+	uz = result.u.transpose() * z;
+	newMQ = (result.v * Wi);
+	newQ = newMQ * uz;
+
+	newQ.print();
+
+
 	return 0;
 }
