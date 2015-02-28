@@ -31,6 +31,15 @@ showstringspaces=false
 %Figurtekst under kode udsnit
 \renewcommand\lstlistingname{Code snippet}
 
+%NR specific keywords
+\lstset{emph={
+    VecDoub,
+    MatDoub,
+    SVD
+    },
+    emphstyle={ \color{purple} }   
+}
+
 \begin{document}
 
 \title{Calibration of a Planar 2-axis Robot using SVD\\{\large\emph{Numerical Methods}}}
