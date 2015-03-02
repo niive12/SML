@@ -1,18 +1,20 @@
-simplifyData(data, minVar) #Nikolaj # simplifies the data to achieve min x variance
-binaryizeData(data) # makes data binary
-loadAllData() #Lukas
-
-#to be made till: monday 2/3
-
 tests:
-(2.1.2)
-Shows variances 
+(2.1.1/2) # nikolaj
+PCA on 1 person only, all-one-vs-all and all-mixed (100 DPI)
+variance + accumulated var for 20 first PC
 
-(2.1.3)
-Success vs K for 80%, 90%, 95%, 99% var 
-Time vs K for 80%, 90%, 95%, 99% var
+(2.1.3) # Lukas
+PCA on 1 person only, all-one-vs-all and all-mixed (100 DPI)
+Contour K vs Acc. PC var.
+K: 1:1:20
+PCA: 50:5:100%
 
-(2.2)
+(2.1.4) # Nikolaj
+time vs PC (optional: time & success vs PC)
+PCA: 10:10:380 dimensions
+
+(2.2) # Lukas
+1 person only 100 DPI
 Use normalization on best parameter from (2.1.3) and 
  apply KNN with 
  - cross validation, 
@@ -20,11 +22,14 @@ Use normalization on best parameter from (2.1.3) and
  - 90/10 split
  - apply normalization before and after (to binarize the data)
 
-find success and time for one K and one Var.
+find success and Var. for one K etc.
 
-(2.3)
-Split data set to both
- - data from all in train
- - data from all, but the one from test, in the train set
 
+(2.3.1) # Nikolaj
+all-one-vs-all and all-mixed (100 DPI)
+Success rate + var of confusion
+
+(2.3.2) # Lukas
+all-mixed (100 DPI)
+time vs no. ppl. (90/10 split, fixed K = 10)
 
