@@ -9,8 +9,8 @@ library("base") # for timing
 
 # working director with the data
 # must be two folders into the folder with the data (in a member folder) because the loadSinglePersonsData function from given_functions currently defines it..
-dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/member1" # lukas
-# dataDepository = "" # nikolaj
+# dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/member1" # lukas
+dataDepository = "/home/niko/dokumenter/machine_learning/trunk/group3/member1" # nikolaj
 
 
 # -- misc --

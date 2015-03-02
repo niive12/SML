@@ -47,14 +47,13 @@ int main() {
 	// SVD decomposition
 //	result = result.range(0.5);
 
-	VecDoub q(4);
-
-	result.solve(z,q);
-
 	cout << "Printing W" << endl; result.w.print();
 	cout << "Printing V" << endl; result.v.print();
-	cout << "Parameters: "; q.print();
 
+	VecDoub q(4);
+	result.solve(z,q);
+
+	cout << "Parameters: "; q.print();
 	//Residual error
 	double residualError;
 	residualError = (A*q-z).length();
@@ -123,6 +122,8 @@ int main() {
     cout << "standard deviations: "; newStdDeviation.print();
 
 
+	double newResidual = (A*newQ-z).length();
+	cout << newResidual;
 
 	return 0;
 }
