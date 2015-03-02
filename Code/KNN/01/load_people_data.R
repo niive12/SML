@@ -16,11 +16,6 @@ if ( file.exists("personalpath.RData") ) {
 	dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/member1" # lukas	
 }
 
-
-dpi = 1    # dpi
-split = 0.5 # split tEst
-
-
 # list of people to access data from
 getPeople <- function(){
 	# people and their group
