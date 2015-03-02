@@ -9,13 +9,13 @@ library("base") # for timing
 
 # working director with the data
 # must be two folders into the folder with the data (in a member folder) because the loadSinglePersonsData function from given_functions currently defines it..
-# dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/member1" # lukas
-dataDepository = "/home/niko/dokumenter/machine_learning/trunk/group3/member1" # nikolaj
 
+if ( file.exists("personalpath.RData") ) {
+	dataDepository = "/home/niko/dokumenter/machine_learning/trunk/group3/member1" # nikolaj
+} else {
+	dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/member1" # lukas	
+}
 
-# -- misc --
-# getwd()y 
-# setwd()
 
 dpi = 1    # dpi
 split = 0.5 # split tEst
@@ -106,58 +106,63 @@ loadAllPeople <- function(DPI, filter = "none"){
 
 prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none"){ # the number of elements (ciphers) taken from each group
 	
-	if(trainPart+testPart > 400){
-		e <- simpleError(paste(c("Bad input. Too high train + test part: ",trainPart+testPart, " > 400."),collapse=""))
-		stop(e)
-	}
-	
-	# load the data
-	print("Loading data...")
-	dataResult = loadAllPeople(DPI, filter)
-	print("Data loaded.")
-	data <- dataResult$data
-	maxCipher <- dataResult$cipherSize
-	noPeople <- length(data)
-	
-	# define different parameters
-	ciphersPerChar <- 400
-	
-	# number of elements taken from one person for the train and test sets
-	noPersonTrain <- trainPart * 10
-	noPersonTest <- testPart * 10
-	
-	# number of elements in total
-	noTotalTrain <- noPersonTrain * noPeople
-	noTotalTest <- noPersonTest * noPeople
-	
-	train <- matrix( 0 , nrow=noTotalTrain , ncol=maxCipher) 
-	test <- matrix( 0 , nrow=noTotalTest , ncol=maxCipher) 
-	train_actual <- 1:noTotalTrain
-	test_actual <- 1:noTotalTest
-		
-		
-	# prepare the test and training set
-	print("Preparing training and test set...")
-	for(person in 1:noPeople){
-		for(cipher in 1:10){
-			sizeOfCipher <- dim(data[[person]][[cipher]])[2]
-			# train
-			train[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPart,]
-			train_actual[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart)] <- rep.int(cipher,trainPart)
-			#test
-			test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:testPart,]
-			test_actual[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart)] <- rep.int(cipher,testPart)
-		}
-	}
-	print("Preparation of training and test set done.Saving data...")
-
-	# save the data
-	finalData <- list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual)
-	
 	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,".RData"),collapse="")
 	
-	save(finalData, file = fileName)
+	if ( file.exists(fileName) ) {
+		print("File exist")
+		load(fileName)
+	} else {
+		if(trainPart+testPart > 400){
+			e <- simpleError(paste(c("Bad input. Too high train + test part: ",trainPart+testPart, " > 400."),collapse=""))
+			stop(e)
+		}
+		
+		# load the data
+		print("Loading data...")
+		dataResult = loadAllPeople(DPI, filter)
+		print("Data loaded.")
+		data <- dataResult$data
+		maxCipher <- dataResult$cipherSize
+		noPeople <- length(data)
+		
+		# define different parameters
+		ciphersPerChar <- 400
+		
+		# number of elements taken from one person for the train and test sets
+		noPersonTrain <- trainPart * 10
+		noPersonTest <- testPart * 10
+		
+		# number of elements in total
+		noTotalTrain <- noPersonTrain * noPeople
+		noTotalTest <- noPersonTest * noPeople
+		
+		train <- matrix( 0 , nrow=noTotalTrain , ncol=maxCipher) 
+		test <- matrix( 0 , nrow=noTotalTest , ncol=maxCipher) 
+		train_actual <- 1:noTotalTrain
+		test_actual <- 1:noTotalTest
+			
+			
+		# prepare the test and training set
+		print("Preparing training and test set...")
+		for(person in 1:noPeople){
+			for(cipher in 1:10){
+				sizeOfCipher <- dim(data[[person]][[cipher]])[2]
+				# train
+				train[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPart,]
+				train_actual[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart)] <- rep.int(cipher,trainPart)
+				#test
+				test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:testPart,]
+				test_actual[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart)] <- rep.int(cipher,testPart)
+			}
+		}
+		print("Preparation of training and test set done.Saving data...")
 
+		# save the data
+		finalData <- list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual)
+		
+		
+		save(finalData, file = fileName)
+	}
 	return(finalData) # return to test on it
 }
 
@@ -165,81 +170,87 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none"){ # 
 # trainPartSize and testSize is the number of elements of one class taken from that class into on of the two sets
 prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none"){
 	
-	# test for good input and find the person index
-	testPerson <- 0
-	people <- getPeople()
-	noPeople <- length(people)
-	
-	for(person in 1:noPeople){
-		if(people[[person]][1] == group && people[[person]][2] == member ){
-			testPerson <- person
-		}
-	}
-	
-	if(testPerson == 0){
-		e <- simpleError(paste(c("Bad input. G",group, "M", member, " does not exist."),collapse=""))
-		stop(e)
-	}
-	else{
-		print("Good group and member input given.")
-	}
-	if(trainPartSize > 400 || testSize > 400){
-		f <- simpleError(paste(c("Bad input. ",trainPartSize, " or ", testSize, " > 400."),collapse=""))
-		stop(f)
-	}
-	
-	# load one into the test set and all the others into the training set
-	# load the data
-	print("Loading data...")
-	dataResult = loadAllPeople(DPI, filter)
-	print("Data loaded.")
-	data <- dataResult$data
-	maxCipher <- dataResult$cipherSize
-	
-	# define different parameters
-	ciphersPerChar <- 400
-	
-	# number of elements in total
-	noTotalTrain <- trainPartSize * 10 * (noPeople - 1) # 10 different chars
-	noTotalTest <- testSize * 10 
-		
-	train <- matrix( 0 , nrow=noTotalTrain , ncol=maxCipher) 
-	test <- matrix( 0 , nrow=noTotalTest , ncol=maxCipher) 
-	train_actual <- 1:noTotalTrain
-	test_actual <- 1:noTotalTest
-	
-	
-	# prepare the test and training set
-	print("Preparing training and test set...")
-	for(person in 1:noPeople){
-		for(cipher in 1:10){
-			sizeOfCipher <- dim(data[[person]][[cipher]])[2]
-			if(testPerson == person){ # if it is the test guy, put in test set
-				#test
-				test[(((cipher - 1) * testSize) + 1):(cipher * testSize),1:sizeOfCipher] <- data[[person]][[cipher]][1:testSize,]
-				test_actual[(((cipher - 1) * testSize) + 1):(cipher * testSize)] <- rep.int(cipher,testSize)
-			}
-			else if(testPerson > person){
-				# train
-				train[(((person - 1) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 1) * trainPartSize * 10 + cipher * trainPartSize),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPartSize,]
-				train_actual[(((person - 1) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 1) * trainPartSize * 10 + cipher * trainPartSize)] <- rep.int(cipher,trainPartSize)
-			}
-			else{
-				# train
-				train[(((person - 2) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 2) * trainPartSize * 10 + cipher * trainPartSize),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPartSize,]
-				train_actual[(((person - 2) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 2) * trainPartSize * 10 + cipher * trainPartSize)] <- rep.int(cipher,trainPartSize)
-			}
-		}
-	}
-	print("Preparation of training and test set done.Saving data...")
-	
-	# save the data
-	finalData <- list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual)
-	
 	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_FILTER",filter,".RData"),collapse="")
 	
-	save(finalData, file = fileName)
+	if ( file.exists(fileName) ) {
+		print("File exist")
+		load(fileName)
+	} else {
+		# test for good input and find the person index
+		testPerson <- 0
+		people <- getPeople()
+		noPeople <- length(people)
+		
+		for(person in 1:noPeople){
+			if(people[[person]][1] == group && people[[person]][2] == member ){
+				testPerson <- person
+			}
+		}
+		
+		if(testPerson == 0){
+			e <- simpleError(paste(c("Bad input. G",group, "M", member, " does not exist."),collapse=""))
+			stop(e)
+		}
+		else{
+			print("Good group and member input given.")
+		}
+		if(trainPartSize > 400 || testSize > 400){
+			f <- simpleError(paste(c("Bad input. ",trainPartSize, " or ", testSize, " > 400."),collapse=""))
+			stop(f)
+		}
+		
+		# load one into the test set and all the others into the training set
+		# load the data
+		print("Loading data...")
+		dataResult = loadAllPeople(DPI, filter)
+		print("Data loaded.")
+		data <- dataResult$data
+		maxCipher <- dataResult$cipherSize
+		
+		# define different parameters
+		ciphersPerChar <- 400
+		
+		# number of elements in total
+		noTotalTrain <- trainPartSize * 10 * (noPeople - 1) # 10 different chars
+		noTotalTest <- testSize * 10 
+			
+		train <- matrix( 0 , nrow=noTotalTrain , ncol=maxCipher) 
+		test <- matrix( 0 , nrow=noTotalTest , ncol=maxCipher) 
+		train_actual <- 1:noTotalTrain
+		test_actual <- 1:noTotalTest
+		
+		
+		# prepare the test and training set
+		print("Preparing training and test set...")
+		for(person in 1:noPeople){
+			for(cipher in 1:10){
+				sizeOfCipher <- dim(data[[person]][[cipher]])[2]
+				if(testPerson == person){ # if it is the test guy, put in test set
+					#test
+					test[(((cipher - 1) * testSize) + 1):(cipher * testSize),1:sizeOfCipher] <- data[[person]][[cipher]][1:testSize,]
+					test_actual[(((cipher - 1) * testSize) + 1):(cipher * testSize)] <- rep.int(cipher,testSize)
+				}
+				else if(testPerson > person){
+					# train
+					train[(((person - 1) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 1) * trainPartSize * 10 + cipher * trainPartSize),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPartSize,]
+					train_actual[(((person - 1) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 1) * trainPartSize * 10 + cipher * trainPartSize)] <- rep.int(cipher,trainPartSize)
+				}
+				else{
+					# train
+					train[(((person - 2) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 2) * trainPartSize * 10 + cipher * trainPartSize),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPartSize,]
+					train_actual[(((person - 2) * trainPartSize * 10) + ((cipher - 1) * trainPartSize) + 1):((person - 2) * trainPartSize * 10 + cipher * trainPartSize)] <- rep.int(cipher,trainPartSize)
+				}
+			}
+		}
+		print("Preparation of training and test set done.Saving data...")
+		
+		# save the data
+		finalData <- list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual)
+		
+		
+		save(finalData, file = fileName)
 	
+	}
 	return(finalData) # return to test on it
 }
 
@@ -326,9 +337,9 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 }
 
 # -- test run knn --
-currentTime <- proc.time()
-haha <- prepareAllMixed(360,40) # default: 100 dpi and no filter
-print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
+# currentTime <- proc.time()
+# haha <- prepareAllMixed(360,40) # default: 100 dpi and no filter
+# print(paste(c("Time taken to load: ",(proc.time() - currentTime)[1]),collapse=""))
 
 # currentTime <- proc.time()
 # haha <- prepareOneAlone(3,2) # default: 100 dpi and no filter
