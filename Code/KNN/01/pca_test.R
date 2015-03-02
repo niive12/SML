@@ -1,7 +1,7 @@
 source("load_people_data.R")
 
 
-pca_func_dims <- function(data, breakpoint, k) {
+pca_simplification <- function(data, breakpoint) {
 	data.pca = prcomp(data$trainSet, center=TRUE, scale=FALSE)
 
 	sdev_sum_sum = cumsum(data.pca$sdev^2 / sum(data.pca$sdev^2))
@@ -18,11 +18,13 @@ pca_func_dims <- function(data, breakpoint, k) {
 	}
 
 	train_data = data.pca$x[,1:NPC]
-	
-
 	test_data = ((data$testSet - data.pca$center) %*% data.pca$rotation)[,1:NPC]
 
-	res = knn(train_data, test_data, data$trainVali, k = k)
+	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali))
+}
+
+run_knn <- function(data,K) {
+	res = knn(data$trainSet, data$testSet, data$trainVali, k = K)
 
 	# count right detections
 
@@ -41,4 +43,5 @@ pca_func_dims <- function(data, breakpoint, k) {
 }
 
 data = prepareAllMixed(360,40)
-print(pca_func_dims(data,0.8,10))
+data = pca_simplification(data,breakpoint=.8)
+print(run_knn(data,10))
