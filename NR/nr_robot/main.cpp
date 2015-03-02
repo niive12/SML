@@ -72,25 +72,56 @@ int main() {
 	cout << "standard deviations: "; StdDeviation.print();
 
 	cout << "new stuff\n";
-	MatDoub Wi(4,4);
-	for (int i = 0; i < 4; i++ ){
-		for( int j = 0; j < 4; j++ ){
-			if ( i == j){
-				Wi[i][j]= result.w[j] < 0.5 ? 0 : 1/result.w[j] ;
-			} else {
-				Wi[i][j] = 0;
-			}
-		}
-	}
-	Wi.print();
-	MatDoub newMQ(4,4);
-	VecDoub newQ(4);
-	VecDoub uz(result.u.nrows());
-	uz = result.u.transpose() * z;
-	newMQ = (result.v * Wi);
-	newQ = newMQ * uz;
+//	MatDoub Wi(4,4);
+//	for (int i = 0; i < 4; i++ ){
+//		for( int j = 0; j < 4; j++ ){
+//			if ( i == j){
+//				Wi[i][j]= result.w[j] < 0.5 ? 0 : 1/result.w[j] ;
+//			} else {
+//				Wi[i][j] = 0;
+//			}
+//		}
+//	}
+//	Wi.print();
+//	MatDoub newMQ(4,4);
+//	VecDoub newQ(4);
+//	VecDoub uz(result.u.nrows());
+//	uz = result.u.transpose() * z;
+//	newMQ = (result.v * Wi);
+//	newQ = newMQ * uz;
 
-	newQ.print();
+//	newQ.print();
+
+    //Parameters
+    SVD newResult(A);
+    // SVD decomposition
+//	result = result.range(0.5);
+
+    VecDoub newQ(4);
+    newResult.w[3] = 0;
+
+    newResult.solve(z,newQ,1.0);
+
+    cout << "Printing W" << endl; newResult.w.print();
+    cout << "Printing V" << endl; newResult.v.print();
+    cout << "Parameters: "; newQ.print();
+
+    //Residual error
+    double newResidualError;
+    newResidualError = (A*newQ-z).length();
+    cout << "Residual error: " << newResidualError << endl;
+
+    //std. deviation
+    VecDoub newStdDeviation(newResult.n);
+    for(int j = 0; j < newResult.n; j++) {
+        newStdDeviation[j] = 0;
+        for(int i = 0; i < result.n; i++) {
+            newStdDeviation[j] += pow(((newResult.v[j][i])/(newResult.w[i])),2);
+        }
+        newStdDeviation[j] = sqrt(newStdDeviation[j]);
+    }
+    cout << "standard deviations: "; newStdDeviation.print();
+
 
 
 	return 0;
