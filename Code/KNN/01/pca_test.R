@@ -1,4 +1,5 @@
 source("load_people_data.R")
+source("normalize.R")
 
 
 pca_simplification <- function(data, breakpoint) {
@@ -16,7 +17,7 @@ pca_simplification <- function(data, breakpoint) {
 	if(NPC == 1){ #this is weird... I will fix later
 		NPC = 2
 	}
-
+	
 	train_data = data.pca$x[,1:NPC]
 	test_data = ((data$testSet - data.pca$center) %*% data.pca$rotation)[,1:NPC]
 
@@ -44,4 +45,6 @@ run_knn <- function(data,K) {
 
 data = prepareAllMixed(360,40)
 data = pca_simplification(data,breakpoint=.8)
+# data = normalizeData(data, "z-score")
+data = normalizeData(data, "min-max")
 print(run_knn(data,10))
