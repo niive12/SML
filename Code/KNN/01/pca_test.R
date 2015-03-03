@@ -1,7 +1,3 @@
-source("load_people_data.R")
-source("normalize.R")
-
-
 pca_simplification <- function(data, breakpoint) {
 	data.pca = prcomp(data$trainSet, center=TRUE, scale=FALSE)
 
@@ -43,9 +39,13 @@ run_knn <- function(data,K) {
 	return(list(confusion_matrix = confus, success = per))
 }
 
-data = prepareAllMixed(360,40)
-data = pca_simplification(data,breakpoint=.8)
+# # example run
+# source("load_people_data.R")
+# source("normalize.R")
+# 
+# data = prepareAllMixed(360,40)
+# data = pca_simplification(data,breakpoint=.8)
 # data = normalizeData(data, "z-score")
-# data = normalizeData(data, "min-max")
-print(run_knn(data,10))
+# # data = normalizeData(data, "min-max")
+# print(run_knn(data,10))
 
