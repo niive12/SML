@@ -1,42 +1,48 @@
-pca_simplification <- function(data, breakpoint) {
+pca_simplification <- function(data, breakpoint=1, noPC=0) {
 	data.pca = prcomp(data$trainSet, center=TRUE, scale=FALSE)
 
 	sdev_sum_sum = cumsum(data.pca$sdev^2 / sum(data.pca$sdev^2))
-	
-	NPC = length(sdev_sum_sum);
-	for(i in 1:length(sdev_sum_sum) ){
-		if ( sdev_sum_sum[i] >= breakpoint ) {
-			NPC <- i
-			break
+	NPC = noPC;
+	if (noPC < 2 ) {
+		NPC = length(sdev_sum_sum);
+		for(i in 1:length(sdev_sum_sum) ){
+			if ( sdev_sum_sum[i] >= breakpoint ) {
+				NPC <- i
+				break
+			}
+		}
+		if(NPC == 1){ #this is weird... I will fix later
+			NPC = 2
 		}
 	}
-	if(NPC == 1){ #this is weird... I will fix later
-		NPC = 2
-	}
-	
 	train_data = data.pca$x[,1:NPC]
 	test_data = ((data$testSet - data.pca$center) %*% data.pca$rotation)[,1:NPC]
 
-	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali))
+	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali,variance=data.pca$sdev^2))
 }
 
 run_knn <- function(data,K) {
 	res = knn(data$trainSet, data$testSet, data$trainVali, k = K)
 
-	# count right detections
-
 	confus = array(0,c(10,10))
 
 	per <- 0
 	for(i in 1:length(data$testVali)){
-		confus[[data$testVali[i],res[i]]] = confus[data$testVali[i],res[i]] + 1;
+		confus[[res[i],data$testVali[i]]] = confus[res[i],data$testVali[i]] + 1;
 		if(res[i] == (data$testVali)[i]){
 			per <- per + 1
 		} 
 	}
 	per = per/length(data$testVali)
+	
+	trueDetections = array(,length(data$testVali))
+	noChars = 10
+	for(i in 1:noChars){
+		trueDetections[i] <- (confus[i,i]/(length(data$testVali)/noChars))
+	}
+	variance   =  var(trueDetections)
 
-	return(list(confusion_matrix = confus, success = per))
+	return(list(confusion_matrix = confus, success = per, var=variance))
 }
 
 # # example run

@@ -48,7 +48,7 @@ getPeople <- function(){
 # 	test = list(p2,p4,p5,p6,p7)
 # 	test = list(p6,p7,p8)
 	
-	return(test)
+	return(all)
 }
 
 
@@ -98,6 +98,76 @@ loadAllPeople <- function(DPI, filter = "none"){
 	return(list(cipherSize=maxCipherSize, data=peopleData))
 }
 
+
+prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "none"){ # the number of elements (ciphers) taken from each group
+	
+	fileName <- paste(c("person_G",group,"M",member,"_",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,".RData"),collapse="")
+	
+	if ( file.exists(fileName) ) {
+		print("File exist")
+		load(fileName)
+	} else {
+		if(trainPart+testPart > 400){
+			e <- simpleError(paste(c("Bad input. Too high train + test part: ",trainPart+testPart, " > 400."),collapse=""))
+			stop(e)
+		}
+		
+		# load the data
+		print("Loading data...")
+		personData <- list(1);
+		currentWD <- getwd()
+		setwd(dataDepository)
+		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter)
+		maxCipherSize = dim(personData[[1]][[1]])[2]
+		setwd(currentWD)
+		dataResult = list(cipherSize=maxCipherSize, data=personData)
+		
+		
+		print("Data loaded.")
+		data <- dataResult$data
+		maxCipher <- dataResult$cipherSize
+		noPeople <- length(data)
+		
+		# define different parameters
+		ciphersPerChar <- 400
+		
+		# number of elements taken from one person for the train and test sets
+		noPersonTrain <- trainPart * 10
+		noPersonTest <- testPart * 10
+		
+		# number of elements in total
+		noTotalTrain <- noPersonTrain * noPeople
+		noTotalTest <- noPersonTest * noPeople
+		
+		train <- matrix( 0 , nrow=noTotalTrain , ncol=maxCipher) 
+		test <- matrix( 0 , nrow=noTotalTest , ncol=maxCipher) 
+		train_actual <- 1:noTotalTrain
+		test_actual <- 1:noTotalTest
+			
+			
+		# prepare the test and training set
+		print("Preparing training and test set...")
+		for(person in 1:noPeople){
+			for(cipher in 1:10){
+				sizeOfCipher <- dim(data[[person]][[cipher]])[2]
+				# train
+				train[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPart,]
+				train_actual[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart)] <- rep.int(cipher,trainPart)
+				#test
+				test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:testPart,]
+				test_actual[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart)] <- rep.int(cipher,testPart)
+			}
+		}
+		print("Preparation of training and test set done.Saving data...")
+
+		# save the data
+		finalData <- list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual)
+		
+		
+		save(finalData, file = fileName)
+	}
+	return(finalData) # return to test on it
+}
 
 prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none"){ # the number of elements (ciphers) taken from each group
 	
