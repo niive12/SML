@@ -46,5 +46,6 @@ run_knn <- function(data,K) {
 data = prepareAllMixed(360,40)
 data = pca_simplification(data,breakpoint=.8)
 # data = normalizeData(data, "z-score")
-data = normalizeData(data, "min-max")
+# data = normalizeData(data, "min-max")
 print(run_knn(data,10))
+
