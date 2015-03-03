@@ -11,25 +11,25 @@ using namespace std;
 
 template <class T>
 Doub rtbis_table(T &func, const Doub x1, const Doub x2, const Doub xacc) {
-    cout << setw(4) << "k" << "; " << setw(10) << "x^k" << "; " << setw(15) << "d^k" << "; " << setw(15) << "d^k / d^(k-1)" << endl;
-    const Int JMAX=50;
-    Doub dx,xmid,rtb,prevR = 0,sprevR = 0;
-    Doub f=func(x1);
-    Doub fmid=func(x2);
-    if (f*fmid >= 0.0) throw("Root must be bracketed for bisection in rtbis");
-    rtb = f < 0.0 ? (dx=x2-x1,x1) : (dx=x1-x2,x2);
-    for (Int j=0;j<JMAX;j++) {
-        fmid=func(xmid=rtb+(dx *= 0.5));
-        if (fmid <= 0.0) rtb=xmid;
-        cout << setw(4) << j
-             << "; " << setw(10) << rtb
-             << "; " << setw(15) << (rtb-prevR)
-             << "; " << setw(15) << fabs(rtb-prevR)/fabs(prevR-sprevR) << endl;
-        sprevR = prevR;
-        prevR = rtb;
-        if (abs(dx) < xacc || fmid == 0.0) return rtb;
-    }
-    throw("Too many bisections in rtbis");
+	cout << setw(4) << "k" << "; " << setw(10) << "x^k" << "; " << setw(15) << "d^k" << "; " << setw(15) << "d^k / d^(k-1)" << endl;
+	const Int JMAX=50;
+	Doub dx,xmid,rtb,prevR = 0,sprevR = 0;
+	Doub f=func(x1);
+	Doub fmid=func(x2);
+	if (f*fmid >= 0.0) throw("Root must be bracketed for bisection in rtbis");
+	rtb = f < 0.0 ? (dx=x2-x1,x1) : (dx=x1-x2,x2);
+	for (Int j=0;j<JMAX;j++) {
+		fmid=func(xmid=rtb+(dx *= 0.5));
+		if (fmid <= 0.0) rtb=xmid;
+		cout << setw(4) << j
+			 << "; " << setw(10) << rtb
+			 << "; " << setw(15) << (rtb-prevR)
+			 << "; " << setw(15) << fabs(rtb-prevR)/fabs(prevR-sprevR) << endl;
+		sprevR = prevR;
+		prevR = rtb;
+		if (abs(dx) < xacc || fmid == 0.0) return rtb;
+	}
+	throw("Too many bisections in rtbis");
 }
 
 
@@ -40,6 +40,7 @@ double function(double x){
 
 template <class T>
 double rtsec_table(T &func, const Doub x1, const Doub x2, const Doub xacc, Doub order = 1.62) {
+	double sprevR = 0, prevR =0;
 	const Int MAXIT=30;
 	Doub xl,rts;
 	Doub fl=func(x1);
@@ -56,15 +57,15 @@ double rtsec_table(T &func, const Doub x1, const Doub x2, const Doub xacc, Doub 
 		Doub dx=(xl-rts)*f/(f-fl);
 		xl=rts;
 		fl=f;
-		double pdk = (rts-(rts-dx));
 		rts += dx;
 		f=func(rts);
-		double dk = (rts-(rts-dx));
-        cout << "K: " << setw(4) << j
-             << "\tx^k: " << setw(10)<< rts
-             << "\td^k: " << setw(15)<< dk
-             << "  diff: " << setw(15) << fabs(dk)/pow(fabs(pdk),order) << endl;
+		cout << "K: "      << setw(4)  << j
+			 << "\tx^k: "  << setw(10) << rts
+			 << "\td^k: "  << setw(15) << (rts-prevR)
+			 << "  diff: " << setw(15) << fabs(rts-prevR)/pow(fabs(prevR-sprevR),order) << endl;
 		if (abs(dx) < xacc || f == 0.0) return rts;
+		sprevR = prevR;
+		prevR = rts;
 	}
 	throw("Maximum number of iterations exceeded in rtsec");
 }
@@ -82,13 +83,13 @@ int main() {
 		cout << "Result within: " << b1[i] << " : " << b2[i] << endl;
 	}
 
-    // bisektion
-    Doub root = rtbis_table(function, x1, x2, accuracy);
+	// bisektion
+	Doub root = rtbis_table(function, x1, x2, accuracy);
 
 	cout << root << endl;
 
 	// sekant
-    root = rtsec_table(function, x1, x2, accuracy);
+	root = rtsec_table(function, x1, x2, accuracy);
 
 	cout << root << endl;
 
