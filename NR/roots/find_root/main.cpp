@@ -22,9 +22,9 @@ Doub rtbis_table(T &func, const Doub x1, const Doub x2, const Doub xacc) {
 		fmid=func(xmid=rtb+(dx *= 0.5));
 		if (fmid <= 0.0) rtb=xmid;
 		cout << setw(4) << j
-			 << "; " << setw(10) << rtb
-			 << "; " << setw(15) << (rtb-prevR)
-			 << "; " << setw(15) << fabs(rtb-prevR)/fabs(prevR-sprevR) << endl;
+             << "; " << setw(10) << rtb
+             << "; " << setw(25) << (rtb-prevR)
+             << "; " << setw(25) << fabs(rtb-prevR)/fabs(prevR-sprevR) << endl;
 		sprevR = prevR;
 		prevR = rtb;
 		if (abs(dx) < xacc || fmid == 0.0) return rtb;
@@ -73,6 +73,9 @@ double rtsec_table(T &func, const Doub x1, const Doub x2, const Doub xacc, Doub 
 int main() {
 
 	double x1 = 0.0, x2 = PI/2, accuracy = 0.00000001;
+
+    cout << setprecision(20);
+
 
 	// bracketing
 	VecDoub b1(0), b2(0);
