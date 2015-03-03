@@ -1,4 +1,4 @@
-source("load_people_data.R")
+# source("load_people_data.R")
 
 
 pca_simplification <- function(data, breakpoint) {
@@ -42,6 +42,6 @@ run_knn <- function(data,K) {
 	return(list(confusion_matrix = confus, success = per))
 }
 
-data = prepareAllMixed(360,40)
-data = pca_simplification(data,breakpoint=.8)
-print(run_knn(data,10))
+# data = prepareAllMixed(360,40)
+# data = pca_simplification(data,breakpoint=.8)
+# print(run_knn(data,10))
