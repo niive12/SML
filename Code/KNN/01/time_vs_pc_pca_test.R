@@ -11,7 +11,7 @@ PC = seq(10, 380, 10)
 
 fileName <- "time_vs_PC.RData"
 
-if ( file.exists(fileName) && 1 ) {
+if ( file.exists(fileName) && 0 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {

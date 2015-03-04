@@ -232,7 +232,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 
 
 # trainPartSize and testSize is the number of elements of one class taken from that class into on of the two sets
-prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad){
+prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad = getPeople() ){
 	
 	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_FILTER",filter,"_N",length(peopleToLoad),".RData"),collapse="")
 	
@@ -319,7 +319,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 }
 
 
-prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none", peopleToLoad){
+prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none", peopleToLoad = getPeople() ){
 	
 	if(split > 1){
 		e <- simpleError("Bad input. Too high split (> 1).")
