@@ -1,4 +1,10 @@
 pca_simplification <- function(data, breakpoint) {
+	
+	if(breakpoint > 1){
+		e <- simpleError(paste(c("Bad input. Too high breakpoint: ",breakpoint, " > 1."),collapse=""))
+		stop(e)
+	}
+	
 	data.pca = prcomp(data$trainSet, center=TRUE, scale=FALSE)
 
 	sdev_sum_sum = cumsum(data.pca$sdev^2 / sum(data.pca$sdev^2))

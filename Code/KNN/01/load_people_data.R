@@ -41,23 +41,23 @@ getPeople <- function(){
 	# all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)
 	# test_people  = c(p6, p7)
 	# train_people = p7
-	test = list(p7)
+# 	test = list(p7)
 # 	test = list(p6,p7)
 # 	test = list(p5,p6,p7)
 # 	test = list(p4,p5,p6,p7)
 # 	test = list(p2,p4,p5,p6,p7)
 # 	test = list(p6,p7,p8)
 	
-	return(test)
+	return(all)
 }
 
 
 # load all group members data
-loadAllPeople <- function(DPI, filter = "none"){
+loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
 	# returns list( the greatest number of pixels for a cipher , a matrix with the data of all people )
 	
 	# get the people to load data for
-	people <- getPeople()
+	people <- peopleToLoad
 
 	# number of people
 	noPeople <- length(people)
@@ -99,9 +99,9 @@ loadAllPeople <- function(DPI, filter = "none"){
 }
 
 
-prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none"){ # the number of elements (ciphers) taken from each group
+prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad){ # the number of elements (ciphers) taken from each group
 	
-	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,".RData"),collapse="")
+	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,"_N",length(peopleToLoad),".RData"),collapse="")
 	
 	if ( file.exists(fileName) ) {
 		print("File exist")
@@ -114,7 +114,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none"){ # 
 		
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter)
+		dataResult = loadAllPeople(DPI, filter, peopleToLoad)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
@@ -163,9 +163,9 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none"){ # 
 
 
 # trainPartSize and testSize is the number of elements of one class taken from that class into on of the two sets
-prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none"){
+prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad){
 	
-	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_FILTER",filter,".RData"),collapse="")
+	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_FILTER",filter,"_N",length(peopleToLoad),".RData"),collapse="")
 	
 	if ( file.exists(fileName) ) {
 		print("File exist")
@@ -173,7 +173,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 	} else {
 		# test for good input and find the person index
 		testPerson <- 0
-		people <- getPeople()
+		people <- peopleToLoad
 		noPeople <- length(people)
 		
 		for(person in 1:noPeople){
@@ -197,7 +197,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 		# load one into the test set and all the others into the training set
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter)
+		dataResult = loadAllPeople(DPI, filter,peopleToLoad)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
@@ -250,7 +250,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 }
 
 
-prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none"){
+prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none", peopleToLoad){
 	
 	if(split > 1){
 		e <- simpleError("Bad input. Too high split (> 1).")
@@ -259,7 +259,7 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 	
 	# load the data
 	print("Loading data...")
-	dataResult = loadAllPeople(DPI, filter)
+	dataResult = loadAllPeople(DPI, filter, peopleToLoad)
 	print("Data loaded.")
 	data <- dataResult$data
 	maxCipher <- dataResult$cipherSize
