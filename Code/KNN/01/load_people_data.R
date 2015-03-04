@@ -155,7 +155,7 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 				train[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPart,]
 				train_actual[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart)] <- rep.int(cipher,trainPart)
 				#test
-				test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][trainPart:(trainPart+testPart),]
+				test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][(trainPart+1):(trainPart+testPart),]
 				test_actual[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart)] <- rep.int(cipher,testPart)
 			}
 		}
@@ -216,7 +216,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 				train[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart),1:sizeOfCipher] <- data[[person]][[cipher]][1:trainPart,]
 				train_actual[(((person - 1) * noPersonTrain) + ((cipher - 1) * trainPart) + 1):((person - 1) * noPersonTrain + cipher * trainPart)] <- rep.int(cipher,trainPart)
 				#test
-				test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][trainPart:(trainPart+testPart),]
+				test[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart),1:sizeOfCipher] <- data[[person]][[cipher]][(trainPart+1):(trainPart+testPart),]
 				test_actual[(((person - 1) * noPersonTest) + ((cipher - 1) * testPart) + 1):((person - 1) * noPersonTest + cipher * testPart)] <- rep.int(cipher,testPart)
 			}
 		}
