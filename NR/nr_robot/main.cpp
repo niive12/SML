@@ -21,7 +21,7 @@ int main() {
 			data >> x_data[i];
 			data >> y_data[i];
 		}
-	} else throw "File doesn't exist\n";
+	} else throw("File doesn't exist\n");
 
 	MatDoub A(2*N,4);
 	VecDoub z(2*N);
@@ -91,35 +91,35 @@ int main() {
 
 //	newQ.print();
 
-    //Parameters
-    SVD newResult(A);
-    // SVD decomposition
+	//Parameters
+	SVD newResult(A);
+	// SVD decomposition
 //	result = result.range(0.5);
 
-    VecDoub newQ(4);
-    newResult.w[3] = 0;
+	VecDoub newQ(4);
+	newResult.w[3] = 0;
 
-    newResult.solve(z,newQ,1.0);
+	newResult.solve(z,newQ,1.0);
 
-    cout << "Printing W" << endl; newResult.w.print();
-    cout << "Printing V" << endl; newResult.v.print();
-    cout << "Parameters: "; newQ.print();
+	cout << "Printing W" << endl; newResult.w.print();
+	cout << "Printing V" << endl; newResult.v.print();
+	cout << "Parameters: "; newQ.print();
 
-    //Residual error
-    double newResidualError;
-    newResidualError = (A*newQ-z).length();
-    cout << "Residual error: " << newResidualError << endl;
+	//Residual error
+	double newResidualError;
+	newResidualError = (A*newQ-z).length();
+	cout << "Residual error: " << newResidualError << endl;
 
-    //std. deviation
-    VecDoub newStdDeviation(newResult.n);
-    for(int j = 0; j < newResult.n; j++) {
-        newStdDeviation[j] = 0;
-        for(int i = 0; i < result.n; i++) {
-            newStdDeviation[j] += pow(((newResult.v[j][i])/(newResult.w[i])),2);
-        }
-        newStdDeviation[j] = sqrt(newStdDeviation[j]);
-    }
-    cout << "standard deviations: "; newStdDeviation.print();
+	//std. deviation
+	VecDoub newStdDeviation(newResult.n);
+	for(int j = 0; j < newResult.n; j++) {
+		newStdDeviation[j] = 0;
+		for(int i = 0; i < result.n; i++) {
+			newStdDeviation[j] += pow(((newResult.v[j][i])/(newResult.w[i])),2);
+		}
+		newStdDeviation[j] = sqrt(newStdDeviation[j]);
+	}
+	cout << "standard deviations: "; newStdDeviation.print();
 
 
 	double newResidual = (A*newQ-z).length();
