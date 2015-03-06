@@ -73,9 +73,9 @@ void analyze(char* datafile, double threshold = -1){
 		StdDeviation[j] = 0;
 		for(int i = 0; i < result.n; i++) {
 			if(result.w[i] <= threshold) {
-				result.v[j][i] = 0;
-			}
-			StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
+                result.v[j][i] = 0;
+            }
+            StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
 		}
 		StdDeviation[j] = sqrt(StdDeviation[j]);
 	}

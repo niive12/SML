@@ -6,9 +6,9 @@
 
 $A$ and $z$ is constructed using code \ref{code:computing_A_z}, this results in the format for $A$ and $z$ as seen in equation \ref{eq:mathematicalModel}.
 
-\lstinputlisting[firstnumber=26,
-        firstline=26, 
-        lastline=44,
+\lstinputlisting[firstnumber=32,
+        firstline=32, 
+        lastline=50,
         caption={Computing $A$ and $z$.},
         label={code:computing_A_z}
         ]{../nr_robot/main.cpp}
@@ -61,5 +61,7 @@ Thus, given $W_{diag_{d1}}$ is a $4 \times 4$ matrix of rank four, there are no 
 The second dataset (d2), however, generates a $W_{diag_{d2}}$, where the fourth value for $W$ is considerably smaller than that of the others.
 The rank of the matrix $A_{d2}$ can hence be considered to be three.
 There are therefore linear dependency between two of the parameters in the second dataset.
+Because of this, it was chosen to run the second dataset, and give the results from it, with a threshold of 1 to exclude the dependent item.
+
 
 
