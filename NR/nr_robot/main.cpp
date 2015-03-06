@@ -4,6 +4,7 @@
 #include "../NR_LIB/code/nr3.h"
 #include "../NR_LIB/code/svd.h"
 #include <fstream>
+#include "trivial_functions.h"
 
 using namespace std;
 
@@ -62,7 +63,8 @@ void analyze(char* datafile, double threshold = -1){
 	cout << "Parameters: "; q.print();
 //	Residual error
 	double residualError;
-	residualError = (A*q-z).length();
+//	residualError = (A*q-z).length();
+	residualError = my_length((A*q-z));
 	cout << "Residual error: " << residualError << endl;
 
 //	std. deviation
