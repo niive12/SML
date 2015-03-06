@@ -20,33 +20,28 @@ if ( file.exists("personalpath.RData") ) {
 getPeople <- function(){
 	# people and their group
 	p0 = c(1, 1)
-# 	p1 = c(1, 2)
+	p1 = c(1, 2)
 	p2 = c(1, 3)
 # 	p3 = c(2, 1)
 	p4 = c(2, 2)
 	p5 = c(2, 3)
 	p6 = c(3, 1)
 	p7 = c(3, 2)
-	p8 = c(4, 1)
-# 	p9 = c(4, 2)
+# 	p8 = c(4, 1)
+	p9 = c(4, 2)
 # 	p10 = c(4, 3)
 	p11 = c(5, 1)
 	p12 = c(5, 2)
 	p13 = c(6, 1)
 # 	p14 = c(6, 2)
-# 	p15 = c(7, 1)
+	p15 = c(7, 1)
 # 	p16 = c(7, 2)
-# 	p17 = c(7, 3)
-	all = list(p0, p2, p4, p5, p6, p7, p8, p11, p12, p13)
-	# all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)
+	p17 = c(7, 3)
+	all = list(p0, p1, p2, p4, p5, p6, p7, p11, p12, p13, p15, p17)
+# 	all = list(p17, p6)
+# all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)
 	# test_people  = c(p6, p7)
 	# train_people = p7
-# 	test = list(p7)
-# 	test = list(p6,p7)
-# 	test = list(p5,p6,p7)
-# 	test = list(p4,p5,p6,p7)
-# 	test = list(p2,p4,p5,p6,p7)
-# 	test = list(p6,p7,p8)
 	
 	return(all)
 }
@@ -79,6 +74,8 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
 	for(person in 1:noPeople){
 # 		print(paste(c(" - Loading G", people[[person]][1], "M", people[[person]][2],"..."),collapse=""))
 		peopleData[[person]] <- loadSinglePersonsData(DPI,people[[person]][1],people[[person]][2], filter)
+		
+# 		peopleData[[person]] [is.na(peopleData[[person]])] <- 0 # set NA's from dataset to zero...
 		
 		# find the biggest size of a cipher
 		sizeOfCipher <- dim(peopleData[[person]][[1]])[2]
@@ -234,7 +231,13 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 # trainPartSize and testSize is the number of elements of one class taken from that class into on of the two sets
 prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad = getPeople() ){
 	
-	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_FILTER",filter,"_N",length(peopleToLoad),".RData"),collapse="")
+	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_SIZE",trainPartSize,"-",testSize,"_FILTER",filter),collapse="")
+	
+	for(i in 1:length(peopleToLoad)){
+		fileName <- paste(c(fileName,"_G",peopleToLoad[[i]][1],"M",peopleToLoad[[i]][2]),collapse="")
+	}
+	fileName <- paste(c(fileName,".RData"),collapse="")
+	
 	
 	if ( file.exists(fileName) ) {
 		print("File exist")

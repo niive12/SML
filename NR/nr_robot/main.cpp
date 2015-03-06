@@ -8,8 +8,8 @@
 using namespace std;
 
 int main() {
-	//read data
-	ifstream data("../d2");
+    //read data
+    ifstream data("../d2");
 	int N;
 	N = count(istreambuf_iterator<char>(data), istreambuf_iterator<char>(), '\n');
 	VecDoub theta_1(N), theta_2(N), x_data(N), y_data(N);
@@ -50,8 +50,8 @@ int main() {
 	cout << "Printing W" << endl; result.w.print();
 	cout << "Printing V" << endl; result.v.print();
 
-	VecDoub q(4);
-	result.solve(z,q);
+    VecDoub q(4);
+    result.solve(z,q);
 
 	cout << "Parameters: "; q.print();
 	//Residual error
@@ -63,14 +63,14 @@ int main() {
 	VecDoub StdDeviation(result.n);
 	for(int j = 0; j < result.n; j++) {
 		StdDeviation[j] = 0;
-		for(int i = 0; i < result.n; i++) {
+        for(int i = 0; i < result.n; i++) {
 			StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
 		}
 		StdDeviation[j] = sqrt(StdDeviation[j]);
 	}
 	cout << "standard deviations: "; StdDeviation.print();
 
-	cout << "new stuff\n";
+    cout << "new stuff\n";
 //	MatDoub Wi(4,4);
 //	for (int i = 0; i < 4; i++ ){
 //		for( int j = 0; j < 4; j++ ){
@@ -91,39 +91,39 @@ int main() {
 
 //	newQ.print();
 
-	//Parameters
-	SVD newResult(A);
-	// SVD decomposition
+    //Parameters
+    SVD newResult(A);
+    // SVD decomposition
 //	result = result.range(0.5);
 
-	VecDoub newQ(4);
-	newResult.w[3] = 0;
+    VecDoub newQ(4);
+    newResult.w[3] = 0;
 
-	newResult.solve(z,newQ,1.0);
+    newResult.solve(z,newQ,1.0);
 
-	cout << "Printing W" << endl; newResult.w.print();
-	cout << "Printing V" << endl; newResult.v.print();
-	cout << "Parameters: "; newQ.print();
+    cout << "Printing W" << endl; newResult.w.print();
+    cout << "Printing V" << endl; newResult.v.print();
+    cout << "Parameters: "; newQ.print();
 
-	//Residual error
-	double newResidualError;
-	newResidualError = (A*newQ-z).length();
-	cout << "Residual error: " << newResidualError << endl;
+    //Residual error
+    double newResidualError;
+    newResidualError = (A*newQ-z).length();
+    cout << "Residual error: " << newResidualError << endl;
 
-	//std. deviation
-	VecDoub newStdDeviation(newResult.n);
-	for(int j = 0; j < newResult.n; j++) {
-		newStdDeviation[j] = 0;
-		for(int i = 0; i < result.n; i++) {
-			newStdDeviation[j] += pow(((newResult.v[j][i])/(newResult.w[i])),2);
-		}
-		newStdDeviation[j] = sqrt(newStdDeviation[j]);
-	}
-	cout << "standard deviations: "; newStdDeviation.print();
+    //std. deviation
+    VecDoub newStdDeviation(newResult.n);
+    for(int j = 0; j < newResult.n; j++) {
+        newStdDeviation[j] = 0;
+        for(int i = 0; i < result.n; i++) {
+            newStdDeviation[j] += pow(((newResult.v[j][i])/(newResult.w[i])),2);
+        }
+        newStdDeviation[j] = sqrt(newStdDeviation[j]);
+    }
+    cout << "standard deviations: "; newStdDeviation.print();
 
 
-	double newResidual = (A*newQ-z).length();
-	cout << newResidual;
+    double newResidual = (A*newQ-z).length();
+    cout << newResidual;
 
 	return 0;
 }
