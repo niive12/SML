@@ -53,6 +53,7 @@ data <- prepareAllMixed(360,40,peopleToLoad = list(testPerson))
 makeContours(PCA,k,data,"contour_k_PCA_oneOnly.eps")
 
 
+# best plot: k = 19, PCA = 0.8
 print("One vs Rest")
 data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 100, testSize = 40, peopleToLoad = getPeople())
 makeContours(PCA,k,data,"contour_k_PCA_oneVsRest.eps")

@@ -7,10 +7,12 @@
 
 using namespace std;
 
-
-
 void analyze(char* datafile, double threshold = -1){
-	cout << datafile << endl;
+	cout << datafile;
+	if(threshold > 0 ){
+		cout << " With threshold: " << setprecision(2) << threshold;
+	}
+	cout << endl;
 //	Load file
 	ifstream data(datafile);
 	int N;

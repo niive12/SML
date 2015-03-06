@@ -5,8 +5,8 @@ pca_simplification <- function(data, breakpoint=1, noPC=0) {
 		stop(e)
 	}
 	
-	data.pca = prcomp(data$trainSet, center=TRUE, scale=FALSE)
-
+	data.pca = prcomp(na.pass(data$trainSet), center=TRUE, scale=FALSE)
+	
 	sdev_sum_sum = cumsum(data.pca$sdev^2 / sum(data.pca$sdev^2))
 	NPC = noPC;
 	if (noPC < 2 ) {
@@ -23,7 +23,6 @@ pca_simplification <- function(data, breakpoint=1, noPC=0) {
 	}
 	train_data = data.pca$x[,1:NPC]
 	test_data = ((data$testSet - data.pca$center) %*% data.pca$rotation)[,1:NPC]
-
 	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali,variance=data.pca$sdev^2))
 }
 
