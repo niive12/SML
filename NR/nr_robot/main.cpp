@@ -7,9 +7,12 @@
 
 using namespace std;
 
-int main() {
-	//read data
-	ifstream data("../d2");
+
+
+void analyze(char* datafile, double threshold = -1){
+	cout << datafile << endl;
+//	Load file
+	ifstream data(datafile);
 	int N;
 	N = count(istreambuf_iterator<char>(data), istreambuf_iterator<char>(), '\n');
 	VecDoub theta_1(N), theta_2(N), x_data(N), y_data(N);
@@ -23,6 +26,7 @@ int main() {
 		}
 	} else throw("File doesn't exist\n");
 
+//	Load into matrix
 	MatDoub A(2*N,4);
 	VecDoub z(2*N);
 	// computing a, [[1 cos(theta1) cos(theta1 + theta2)],...]
@@ -42,88 +46,43 @@ int main() {
 			z[i] = x_data[(i/2)];
 		}
 	}
-	//Parameters
+
+
+//	SVD decomposition
 	SVD result(A);
-	// SVD decomposition
-//	result = result.range(0.5);
 
 	cout << "Printing W" << endl; result.w.print();
 	cout << "Printing V" << endl; result.v.print();
 
 	VecDoub q(4);
-	result.solve(z,q);
+	result.solve(z,q,threshold);
 
 	cout << "Parameters: "; q.print();
-	//Residual error
+//	Residual error
 	double residualError;
 	residualError = (A*q-z).length();
 	cout << "Residual error: " << residualError << endl;
 
-	//std. deviation
+//	std. deviation
 	VecDoub StdDeviation(result.n);
 	for(int j = 0; j < result.n; j++) {
 		StdDeviation[j] = 0;
 		for(int i = 0; i < result.n; i++) {
+			if(result.w[i] <= threshold) {
+				result.v[j][i] = 0;
+			}
 			StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
 		}
 		StdDeviation[j] = sqrt(StdDeviation[j]);
 	}
 	cout << "standard deviations: "; StdDeviation.print();
+}
 
-	cout << "new stuff\n";
-//	MatDoub Wi(4,4);
-//	for (int i = 0; i < 4; i++ ){
-//		for( int j = 0; j < 4; j++ ){
-//			if ( i == j){
-//				Wi[i][j]= result.w[j] < 0.5 ? 0 : 1/result.w[j] ;
-//			} else {
-//				Wi[i][j] = 0;
-//			}
-//		}
-//	}
-//	Wi.print();
-//	MatDoub newMQ(4,4);
-//	VecDoub newQ(4);
-//	VecDoub uz(result.u.nrows());
-//	uz = result.u.transpose() * z;
-//	newMQ = (result.v * Wi);
-//	newQ = newMQ * uz;
+int main() {
 
-//	newQ.print();
-
-	//Parameters
-	SVD newResult(A);
-	// SVD decomposition
-//	result = result.range(0.5);
-
-	VecDoub newQ(4);
-	newResult.w[3] = 0;
-
-	newResult.solve(z,newQ,1.0);
-
-	cout << "Printing W" << endl; newResult.w.print();
-	cout << "Printing V" << endl; newResult.v.print();
-	cout << "Parameters: "; newQ.print();
-
-	//Residual error
-	double newResidualError;
-	newResidualError = (A*newQ-z).length();
-	cout << "Residual error: " << newResidualError << endl;
-
-	//std. deviation
-	VecDoub newStdDeviation(newResult.n);
-	for(int j = 0; j < newResult.n; j++) {
-		newStdDeviation[j] = 0;
-		for(int i = 0; i < result.n; i++) {
-			newStdDeviation[j] += pow(((newResult.v[j][i])/(newResult.w[i])),2);
-		}
-		newStdDeviation[j] = sqrt(newStdDeviation[j]);
-	}
-	cout << "standard deviations: "; newStdDeviation.print();
-
-
-	double newResidual = (A*newQ-z).length();
-	cout << newResidual;
+	analyze("../d1");
+	analyze("../d2");
+	analyze("../d2",1.0);
 
 	return 0;
 }
