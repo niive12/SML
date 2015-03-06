@@ -27,40 +27,56 @@ people <- getPeople()
 noPeople <-length(people)
 result <- matrix(0,5,noPeople)
 
-startTime <- proc.time() # used for timing
-# make loop to save data
-for(person in 1:noPeople){
-	data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people)
-	
-	# min max
-# 	print("min max")
-	preNormalized <- normalizeData(data, "min-max")
-	preNormalized <- pca_simplification(preNormalized, breakpoint = PCA)
-	
-	postNormalized <- pca_simplification(data, breakpoint = PCA)
-	postNormalized <- normalizeData(postNormalized, "min-max")
-	
-	result[1,person] <- run_knn(preNormalized,k)$success # minmax pre
-	result[2,person] <- run_knn(postNormalized,k)$success # minmax post
-	
-	# z-score
-# 	print("z score")
-	preNormalized <- normalizeData(data, "z-score")
-	preNormalized <- pca_simplification(preNormalized, breakpoint = PCA)
-	
-	postNormalized <- pca_simplification(data, breakpoint = PCA)
-	postNormalized <- normalizeData(postNormalized, "z-score")
-	
-	result[3,person] <- run_knn(preNormalized,k)$success # zscore pre
-	result[4,person] <- run_knn(postNormalized,k)$success # zscore post
-	
-# 	print("no normalization")
-	result[5,person] <- run_knn(data,k)$success # none
-	
-	timer <- (((proc.time() - startTime)[3])*(noPeople-person)/person)
-	print(paste(c(person, "/", noPeople, " datasets loaded. Estimated finish time: ",timer, " seconds."),collapse = ""))
+fileName <- "norm-test_"
+
+for(i in 1:length(peopleToLoad)){
+	fileName <- paste(c(fileName,"_G",peopleToLoad[[i]][1],"M",peopleToLoad[[i]][2]),collapse="")
 }
 
+fileName <- paste(c(fileName,".RData"),collapse="")
+
+
+if(file.exists(fileName) && 0){
+	load(fileName)
+}
+else{
+	startTime <- proc.time() # used for timing
+	# make loop to save data
+	for(person in 1:noPeople){
+		data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people)
+		
+		# min max
+		# 	print("min max")
+		preNormalized <- normalizeData(data, "min-max")
+		preNormalized <- pca_simplification(preNormalized, breakpoint = PCA)
+		
+		postNormalized <- pca_simplification(data, breakpoint = PCA)
+		postNormalized <- normalizeData(postNormalized, "min-max")
+		
+		result[1,person] <- run_knn(preNormalized,k)$success # minmax pre
+		result[2,person] <- run_knn(postNormalized,k)$success # minmax post
+		
+		# z-score
+		# 	print("z score")
+		preNormalized <- normalizeData(data, "z-score")
+		preNormalized <- pca_simplification(preNormalized, breakpoint = PCA)
+		
+		postNormalized <- pca_simplification(data, breakpoint = PCA)
+		postNormalized <- normalizeData(postNormalized, "z-score")
+		
+		result[3,person] <- run_knn(preNormalized,k)$success # zscore pre
+		result[4,person] <- run_knn(postNormalized,k)$success # zscore post
+		
+		# 	print("no normalization")
+		result[5,person] <- run_knn(data,k)$success # none
+		
+		timer <- (((proc.time() - startTime)[3])*(noPeople-person)/person)
+		print(paste(c(person, "/", noPeople, " datasets loaded. Estimated finish time: ",timer, " seconds."),collapse = ""))
+		
+		# save the data
+		save(result, file = fileName)
+	}
+}
 
 
 # print(result)
