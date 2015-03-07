@@ -30,7 +30,7 @@ run_knn <- function(data,K) {
 	res = knn(data$trainSet, data$testSet, data$trainVali, k = K)
 
 	confus = array(0,c(10,10))
-
+	
 	per <- 0
 	for(i in 1:length(data$testVali)){
 		confus[[res[i],data$testVali[i]]] = confus[res[i],data$testVali[i]] + 1;

@@ -151,7 +151,12 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 }
 
 prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad = getPeople()){ # the number of elements (ciphers) taken from each group	
-	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,"_N",length(peopleToLoad),".RData"),collapse="")
+	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter),collapse="")
+	
+	for(i in 1:length(peopleToLoad)){
+		fileName <- paste(c(fileName,"_G",peopleToLoad[[i]][1],"M",peopleToLoad[[i]][2]),collapse="")
+	}
+	fileName <- paste(c(fileName,".RData"),collapse="")
 	
 	if ( file.exists(fileName) ) {
 		print("File exist")
@@ -207,6 +212,8 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 		
 		
 		save(finalData, file = fileName)
+		
+		print("Data saved.")
 	}
 	return(finalData) # return to test on it
 }
@@ -300,6 +307,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 		
 		
 		save(finalData, file = fileName)
+		print("Data saved.")
 	
 	}
 	return(finalData) # return to test on it
