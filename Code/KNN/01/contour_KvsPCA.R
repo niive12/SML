@@ -47,21 +47,21 @@ PCA = c(0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1)
 k = 1:20
 # k = c(seq(1,40,4))
 
-
-print("One only")
-data <- prepareAllMixed(360,40,peopleToLoad = list(testPerson))
-makeContours(PCA,k,data,"contour_k_PCA_oneOnly.eps")
+# 
+# print("One only")
+# data <- prepareAllMixed(360,40,peopleToLoad = list(testPerson))
+# makeContours(PCA,k,data,"contour_k_PCA_oneOnly.eps")
 
 
 # best plot: k = 19, PCA = 0.8
 print("One vs Rest")
-data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 100, testSize = 40, peopleToLoad = getPeople())
+data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 400, testSize = 400, peopleToLoad = getPeople())
 makeContours(PCA,k,data,"contour_k_PCA_oneVsRest.eps")
 
-
-print("All mixed")
-data <- prepareAllMixed(100,40,peopleToLoad = getPeople())
-makeContours(PCA,k,data,"contour_k_PCA_allMixed.eps")
+# 
+# print("All mixed")
+# data <- prepareAllMixed(100,40,peopleToLoad = getPeople())
+# makeContours(PCA,k,data,"contour_k_PCA_allMixed.eps")
 
 
 
