@@ -81,11 +81,11 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad, sigma=0.5, size = 
 }
 
 
-prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "none", sigma =0.5, size =5){ # the number of elements (ciphers) taken from each group
+prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "none", make_new=0, sigma =0.5, size =5){ # the number of elements (ciphers) taken from each group
 	
 	fileName <- paste(c("person_G",group,"M",member,"_",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,".RData"),collapse="")
 	
-	if ( file.exists(fileName) ) {
+	if ( file.exists(fileName) && !make_new) {
 		print("File exist")
 		load(fileName)
 	} else {
@@ -150,7 +150,7 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 	return(finalData) # return to test on it
 }
 
-prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad = getPeople(),sigma =0.5, size =5){ # the number of elements (ciphers) taken from each group	
+prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad = getPeople(), make_new=0, sigma =0.5, size =5){ # the number of elements (ciphers) taken from each group	
 	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter),collapse="")
 	
 	for(i in 1:length(peopleToLoad)){
@@ -158,7 +158,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 	}
 	fileName <- paste(c(fileName,".RData"),collapse="")
 	
-	if ( file.exists(fileName) ) {
+	if ( file.exists(fileName) && !make_new ) {
 		print("File exist")
 		load(fileName)
 	} else {
@@ -220,7 +220,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 
 
 # trainPartSize and testSize is the number of elements of one class taken from that class into on of the two sets
-prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad = getPeople(), sigma =0.5, size =5 ){
+prepareOneAlone <- function(group, member, trainPartSize=400, testSize=200, DPI=100 , filter="none", peopleToLoad = getPeople(), make_new=0, sigma =0.5, size =5 ){
 	
 	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_SIZE",trainPartSize,"-",testSize,"_FILTER",filter),collapse="")
 	
@@ -230,7 +230,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 	fileName <- paste(c(fileName,".RData"),collapse="")
 	
 	
-	if ( file.exists(fileName) ) {
+	if ( file.exists(fileName) && !make_new ) {
 		print("File exist")
 		load(fileName)
 	} else {
