@@ -13,7 +13,25 @@ Thewas tested with 16 people.}
 \label{fig:contour_KvsPCA_G3M2vsRest}
 \end{figure}
 
+
 As seen on figure \ref{fig:contour_KvsPCA_G3M2vsRest}, then the optimum K and represented PCA variance is at $K = 19$ and $PCA = 0.8$. 
 This is because an as high successful prediction rate is wanted, but also an as small dataset as possible. 
 This point will further be used in section \ref{sec:DataNormalization}.
+
+\begin{figure}
+\centering
+\includegraphics[width =0.8 \textwidth]{graphics/pca_timing}
+\caption{Timing of running the PCA with different principle components. 
+The data was run on Group 3 member 1's data on 100 DPI. 
+The percentage of successful predictions is also measured with the same data.}
+\label{fig:pca_timing}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width =0.8 \textwidth]{graphics/pca_success}
+\caption{Percentage of successful predictions with increasing percentage of principle components used.
+The data was run on Group 3 member 1's data on 100 DPI. }
+\label{fig:pca_success}
+\end{figure}
 
