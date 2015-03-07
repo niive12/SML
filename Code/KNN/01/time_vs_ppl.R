@@ -43,8 +43,8 @@ if(file.exists(fileName) && 0){
 		
 		# 	save the data
 		result[1,ppl-1] <- time # time (sec)
-		result[2,ppl-1] <- 100 # test size
-		result[3,ppl-1] <- (400)*(ppl-1) # train size
+		result[2,ppl-1] <- 100*10 # test size
+		result[3,ppl-1] <- (400)*(ppl-1)*10 # train size
 		result[4,ppl-1] <- result[1,(ppl-1)]/result[2,(ppl-1)] # time/test
 		
 		save(result, file = fileName)
