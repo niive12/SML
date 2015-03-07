@@ -1,4 +1,5 @@
-#  takes about 5h51 in full resolution (400 400) for 12 ppl
+#  takes about 6h in full resolution (400 400) for 12 ppl
+#  takes about 10h30 in full resolution (400 400) for 16 ppl
 
 library("graphics")
 
@@ -29,8 +30,8 @@ result <- matrix(0,5,noPeople)
 
 fileName <- "norm-test_"
 
-for(i in 1:length(peopleToLoad)){
-	fileName <- paste(c(fileName,"_G",peopleToLoad[[i]][1],"M",peopleToLoad[[i]][2]),collapse="")
+for(i in 1:length(people)){
+	fileName <- paste(c(fileName,"_G",people[[i]][1],"M",people[[i]][2]),collapse="")
 }
 
 fileName <- paste(c(fileName,".RData"),collapse="")
@@ -38,8 +39,7 @@ fileName <- paste(c(fileName,".RData"),collapse="")
 
 if(file.exists(fileName) && 0){
 	load(fileName)
-}
-else{
+} else{
 	startTime <- proc.time() # used for timing
 	# make loop to save data
 	for(person in 1:noPeople){
@@ -90,9 +90,9 @@ for(i in 1:5){
 
 print("mean")
 print(mean)
-#  0.43975 0.34050 0.46850 0.40775 # 100 40 test
 # 0.44050 0.33925 0.47000 0.40975 0.38300 # 100 40 test
-
+# 0.5032083 0.4072083 0.5439375 0.4913542 0.4149167 # 400 400 test
+# 0.5532031 0.4493750 0.5874687 0.5339844 0.4791094 # 400 400 test 16 ppl
 
 #result
 
@@ -112,7 +112,7 @@ for(i in 2:5){
 	lines(1:noPeople,result[i,],type="b",lty=i, col=colors[i])
 }
 setEPS()
-postscript("graph.eps",height = 6, width = 8)
+postscript("graph_normalization.eps",height = 6, width = 8)
 plot(1:noPeople,result[1,], xaxt="n",type="b",xlab="Person",ylab="Success Rate",ylim=(c(min(result),max(result))),col=colors[1]) # ylim=(c(min(result),max(result))),
 axis(1, at=1:noPeople, labels=x_lab)
 legend("bottomright",c("min-max pre","min-max post","z-score pre","z-score post","none"),cex=0.8,col=colors,lty=1:4)

@@ -7,14 +7,7 @@ library("base") # for timing
 # the purpose of this source code is to load in the data needed and prepare it for processing. It will then be stored in external .dat files.
 # the data is prepared to be used for the KNN method in 
 
-# working director with the data
-# must be two folders into the folder with the data (in a member folder) because the loadSinglePersonsData function from given_functions currently defines it..
 
-if ( file.exists("personalpath.RData") ) {
-	dataDepository = "/home/niko/dokumenter/machine_learning/trunk/group3/member1" # nikolaj
-} else {
-	dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository/group3/member1" # lukas	
-}
 
 # list of people to access data from
 getPeople <- function(){
@@ -22,23 +15,23 @@ getPeople <- function(){
 	p0 = c(1, 1)
 	p1 = c(1, 2)
 	p2 = c(1, 3)
-# 	p3 = c(2, 1) 
+	p3 = c(2, 1) 
 	p4 = c(2, 2)
 	p5 = c(2, 3)
 	p6 = c(3, 1)
 	p7 = c(3, 2)
-# 	p8 = c(4, 1)
-# 	p9 = c(4, 2)
-# 	p10 = c(4, 3)
+	p8 = c(4, 1)
+	p9 = c(4, 2)
+	p10 = c(4, 3)
 	p11 = c(5, 1)
 	p12 = c(5, 2)
 	p13 = c(6, 1)
-# 	p14 = c(6, 2)
+	p14 = c(6, 2)
 	p15 = c(7, 1)
-# 	p16 = c(7, 2)
+# 	p16 = c(7, 2) # not at all
 	p17 = c(7, 3)
-	all = list(p0, p1, p2, p4, p5, p6, p7, p11, p12, p13, p15, p17)
-# 	all = list(p17, p6)
+	all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p15, p17)
+# 	all = list(p14, p6)
 # all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)
 	# test_people  = c(p6, p7)
 	# train_people = p7
@@ -61,11 +54,6 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
 	# place to store the data
 	peopleData <- list(1:noPeople);
 	
-	# change the working directory to where the data is
-	currentWD <- getwd()
-	setwd(dataDepository)
-	#print(currentWD)
-	
 	# the greatest number of pixels for a cipher 
 	maxCipherSize <- 0
 	
@@ -87,10 +75,7 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
 			timer <- (((proc.time() - startTime)[3])*(noPeople-person)/person)
 			print(paste(c("Estimated finish time of loading datasets within: ",timer, " seconds."),collapse=""))
 		}
-	}
-	
-	setwd(currentWD)
-	
+	}	
 	
 	return(list(cipherSize=maxCipherSize, data=peopleData))
 }
@@ -112,11 +97,10 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 		# load the data
 		print("Loading data...")
 		personData <- list(1);
-		currentWD <- getwd()
-		setwd(dataDepository)
+		
 		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter)
 		maxCipherSize = dim(personData[[1]][[1]])[2]
-		setwd(currentWD)
+		
 		dataResult = list(cipherSize=maxCipherSize, data=personData)
 		
 		
@@ -167,7 +151,12 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 }
 
 prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad = getPeople()){ # the number of elements (ciphers) taken from each group	
-	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,"_N",length(peopleToLoad),".RData"),collapse="")
+	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter),collapse="")
+	
+	for(i in 1:length(peopleToLoad)){
+		fileName <- paste(c(fileName,"_G",peopleToLoad[[i]][1],"M",peopleToLoad[[i]][2]),collapse="")
+	}
+	fileName <- paste(c(fileName,".RData"),collapse="")
 	
 	if ( file.exists(fileName) ) {
 		print("File exist")
@@ -223,6 +212,8 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 		
 		
 		save(finalData, file = fileName)
+		
+		print("Data saved.")
 	}
 	return(finalData) # return to test on it
 }
@@ -316,6 +307,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 		
 		
 		save(finalData, file = fileName)
+		print("Data saved.")
 	
 	}
 	return(finalData) # return to test on it
