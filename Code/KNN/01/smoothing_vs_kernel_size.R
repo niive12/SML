@@ -47,4 +47,4 @@ k = 1:20
 size =  c(seq(3,15,2))
 sigma = c(seq(0.1,2,0.1))
 
-makeContoursSmoothing(x=sigma,y=k,title="Success Of Smoothing",xlab="Sigma",ylab="Kernel Size",file_name="../../../Report/graphics/success_of_smoothing_contour.eps")
+makeContoursSmoothing(x=sigma,y=size,title="Success Of Smoothing",xlab="Sigma",ylab="Kernel Size",file_name="../../../Report/graphics/success_of_smoothing_contour.eps")

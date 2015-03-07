@@ -18,7 +18,7 @@ if ( file.exists(fileName) && 0 ) {
 	time = array(0,length(PC))
 	success = array(0,length(PC))
 # 	people_data = prepareOne(group=3,member=1,trainPart=360,testPart=40) #1m53.803s runtime
-	people_data = prepareOneAlone(3,1) #9 people vs 1 person             #39m35.806s runtime
+	people_data = prepareOneAlone(3,2) #9 people vs 1 person             #39m35.806s runtime
 # 	people_data = prepareAllMixed(360,40) #90:10
 	for(i in 1:length(PC) ){
 		time_tmp = proc.time()
