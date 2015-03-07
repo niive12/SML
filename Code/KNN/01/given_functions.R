@@ -21,8 +21,7 @@ smoothImage <- function(grayImg){
 	
 	return(smoothed)
 }
-gaussianSmoothImage <- function(grayImg, sigma){
-	size = 5
+gaussianSmoothImage <- function(grayImg, sigma, size){
 	kernel <- matrix(1,     # the data elements 
 					 size,  # number of rows 
 					 size)  # number of columns
@@ -44,7 +43,7 @@ gaussianSmoothImage <- function(grayImg, sigma){
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigma=1){
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigma=1, size = 5){
 	#   #load the scaned images
 	#load the scaned images
 	fileName <- paste(c("G",groupNr,"M",groupMemberNr,"_DPI",DPI,".RData"),collapse="")
@@ -101,7 +100,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 			}
 		} else if(smooth == "gaussian" ) {
 			for(i in 1:5) {
-				smoothed[[i]] <- gaussianSmoothImage(gray[[i]],sigma)
+				smoothed[[i]] <- gaussianSmoothImage(gray[[i]],sigma, size)
 			}
 		} else {
 			smoothed = gray;

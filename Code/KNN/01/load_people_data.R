@@ -41,7 +41,7 @@ getPeople <- function(){
 
 
 # load all group members data
-loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
+loadAllPeople <- function(DPI, filter = "none", peopleToLoad, sigma=0.5, size = 5){
 	# returns list( the greatest number of pixels for a cipher , a matrix with the data of all people )
 	
 	# get the people to load data for
@@ -61,7 +61,7 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
 	startTime <- proc.time() # used for timing
 	for(person in 1:noPeople){
 # 		print(paste(c(" - Loading G", people[[person]][1], "M", people[[person]][2],"..."),collapse=""))
-		peopleData[[person]] <- loadSinglePersonsData(DPI,people[[person]][1],people[[person]][2], filter)
+		peopleData[[person]] <- loadSinglePersonsData(DPI,people[[person]][1],people[[person]][2], filter, sigma=sigma, size=size)
 		
 # 		peopleData[[person]] [is.na(peopleData[[person]])] <- 0 # set NA's from dataset to zero...
 		
@@ -81,7 +81,7 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad){
 }
 
 
-prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "none"){ # the number of elements (ciphers) taken from each group
+prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "none", sigma =0.5, size =5){ # the number of elements (ciphers) taken from each group
 	
 	fileName <- paste(c("person_G",group,"M",member,"_",DPI,"_",trainPart,"-",testPart,"_FILTER",filter,".RData"),collapse="")
 	
@@ -98,7 +98,7 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 		print("Loading data...")
 		personData <- list(1);
 		
-		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter)
+		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter, sigma=sigma, size=size)
 		maxCipherSize = dim(personData[[1]][[1]])[2]
 		
 		dataResult = list(cipherSize=maxCipherSize, data=personData)
@@ -150,7 +150,7 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 	return(finalData) # return to test on it
 }
 
-prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad = getPeople()){ # the number of elements (ciphers) taken from each group	
+prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peopleToLoad = getPeople(),sigma =0.5, size =5){ # the number of elements (ciphers) taken from each group	
 	fileName <- paste(c("allPeople_DPI",DPI,"_",trainPart,"-",testPart,"_FILTER",filter),collapse="")
 	
 	for(i in 1:length(peopleToLoad)){
@@ -169,7 +169,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 		
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter, peopleToLoad)
+		dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
@@ -220,7 +220,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 
 
 # trainPartSize and testSize is the number of elements of one class taken from that class into on of the two sets
-prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad = getPeople() ){
+prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, DPI = 100 , filter = "none", peopleToLoad = getPeople(), sigma =0.5, size =5 ){
 	
 	fileName <- paste(c("onePerson_DPI",DPI,"_G",group,"M",member,"_SIZE",trainPartSize,"-",testSize,"_FILTER",filter),collapse="")
 	
@@ -260,7 +260,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 		# load one into the test set and all the others into the training set
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter,peopleToLoad)
+		dataResult = loadAllPeople(DPI, filter,peopleToLoad, sigma=sigma, size=size)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
@@ -314,7 +314,7 @@ prepareOneAlone <- function(group, member, trainPartSize = 400, testSize = 200, 
 }
 
 
-prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none", peopleToLoad = getPeople() ){
+prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none", peopleToLoad = getPeople(), sigma =0.5, size =5){
 	
 	if(split > 1){
 		e <- simpleError("Bad input. Too high split (> 1).")
@@ -323,7 +323,7 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 	
 	# load the data
 	print("Loading data...")
-	dataResult = loadAllPeople(DPI, filter, peopleToLoad)
+	dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size)
 	print("Data loaded.")
 	data <- dataResult$data
 	maxCipher <- dataResult$cipherSize
