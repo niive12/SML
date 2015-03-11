@@ -2,6 +2,7 @@
 #  takes about 10h30 in full resolution (400 400) for 16 ppl
 
 library("graphics")
+library("parallel") 
 
 source("load_people_data.R")
 source("pca_test.R")
@@ -79,7 +80,7 @@ if(file.exists(fileName) && 0){
 }
 
 
-# print(result)
+print(result)
 
 # mean
 mean <- 1:5

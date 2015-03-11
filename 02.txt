@@ -30,3 +30,9 @@ Success rate + var of confusion
 all-mixed (100 DPI)
 time vs no. ppl. (90/10 split, fixed K = 10)
 
+...
+compare KNN and K-means in table = performance and runtime # Lukas kmean = 400
+
+elbowpoint: raw, zscore, smoothing and z-score & smoothing # nikolaj
+
+
