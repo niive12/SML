@@ -4,12 +4,7 @@ library("graphics")
 source("load_people_data.R")
 source("pca_test.R")
 
-
-
-# all-mixed (100 DPI)
-# time vs no. ppl. (90/10 split, fixed K = 10)
-
-k = 10
+k = c(50,100,200,400)
 split = 0.9
 
 people <- getPeople()

@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "../NR_LIB/code/nr3.h"
 #include "../NR_LIB/code/svd.h"
 #include <fstream>
-#include "trivial_functions.h"
+#include "trivial_functions.h" //length and print functions
 
 using namespace std;
 
@@ -50,7 +50,6 @@ void analyze(char* datafile, double threshold = -1){
 		}
 	}
 
-
 //	SVD decomposition
 	SVD result(A);
 
@@ -63,8 +62,7 @@ void analyze(char* datafile, double threshold = -1){
 	cout << "Parameters: "; q.print();
 //	Residual error
 	double residualError;
-//	residualError = (A*q-z).length();
-	residualError = my_length((A*q-z));
+	residualError = (A*q-z).length();
 	cout << "Residual error: " << residualError << endl;
 
 //	std. deviation
@@ -73,9 +71,9 @@ void analyze(char* datafile, double threshold = -1){
 		StdDeviation[j] = 0;
 		for(int i = 0; i < result.n; i++) {
 			if(result.w[i] <= threshold) {
-                result.v[j][i] = 0;
-            }
-            StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
+				result.v[j][i] = 0;
+			}
+			StdDeviation[j] += pow(((result.v[j][i])/(result.w[i])),2);
 		}
 		StdDeviation[j] = sqrt(StdDeviation[j]);
 	}

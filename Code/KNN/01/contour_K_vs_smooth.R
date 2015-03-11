@@ -1,6 +1,4 @@
-# 17m21.895s runtime
-# library("gplots") # needs to be installe
-
+# 48h50m20.349s
 library("grDevices") # gray.colors
 
 source("load_people_data.R")
