@@ -25,7 +25,7 @@ fileName <- paste(c(fileName,".RData"),collapse="")
 
 
 # run test
-if(file.exists(fileName) && 0){
+if(file.exists(fileName) && 1){
 	load(fileName)
 } else{
 	data <- prepareOneAlone(3,2, trainPartSize = 400, testSize = 400, peopleToLoad = people)
@@ -54,9 +54,9 @@ if(file.exists(fileName) && 0){
 }
 # 
 # # plot
-postscript("homogenity.eps",height = 6, width = 8)
+postscript("../../../Report/graphics/homogenity.eps",height = 6, width = 8)
 plot(k, homogenity,type="b",xlab="K clusters",ylab="Homogenity [%]") 
 q = dev.off()
-postscript("heterogenity.eps",height = 6, width = 8)
+postscript("../../../Report/graphics/heterogenity.eps",height = 6, width = 8)
 plot(k, 1-homogenity,type="b",xlab="K clusters",ylab="heterogenity [%]") 
 q = dev.off()
