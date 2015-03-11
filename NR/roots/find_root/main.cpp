@@ -70,10 +70,10 @@ double rtsec_table(T &func, const Doub x1, const Doub x2, const Doub xacc, Doub 
 
 int main() {
 
-	double x1 = 0.0, x2 = PI/2, accuracy = pow(10,-10);
+	double x1 = 0.0, x2 = PI/2, accuracy = 10e-10;
 
 	cout << setprecision(10);
-
+	
 	// bracketing
 	VecDoub b1(0), b2(0);
 	int roots;

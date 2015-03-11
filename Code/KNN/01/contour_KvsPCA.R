@@ -1,6 +1,8 @@
-# library("gplots") # needs to be installe
+# 4h40m with 8 cores 11 PCA's and 21 K's at 400/400
+# 7h30m with 8 cores 11 PCA's and 24 K's at 400/400
 
 library("grDevices") # gray.colors
+library("parallel") 
 
 source("load_people_data.R")
 source("pca_test.R")
@@ -9,16 +11,23 @@ source("pca_test.R")
 makeContours <- function(PCA,k,data,name){
 	startTime <- proc.time() # used for timing
 	contour_data = matrix(,length(PCA),length(k))
+	cl <- makeCluster(getOption("cl.cores", 8))
+	
 	for(PCA_val in 1:length(PCA)){
 		simplifiedData <- pca_simplification(data, breakpoint=PCA[PCA_val])
-		for(k_val in 1:length(k)){
-			contour_data[PCA_val,k_val] <- ((run_knn(simplifiedData,k[k_val]))$success)
-			# timer :D
-			timer <- ((proc.time() - startTime)[1])
-			print(paste(c((length(k)*(PCA_val-1) + k_val), "/",(length(PCA)*length(k))," runs completed. Time used till now: ",timer, " seconds."),collapse=""))
-		}
+		contour_data[PCA_val,] <- do.call('c',parLapply(cl,k,function(x){source("pca_test.R");return ((run_knn(data = simplifiedData, K = x))$success)}))
+		# 		
+#		for(k_val in 1:length(k)){
+# 			contour_data[PCA_val,k_val] <- ((run_knn(simplifiedData,k[k_val]))$success)
+# 			# timer :D
+# 			timer <- ((proc.time() - startTime)[1])
+# 			print(paste(c((length(k)*(PCA_val-1) + k_val), "/",(length(PCA)*length(k))," runs completed. Time used till now: ",timer, " seconds."),collapse=""))
+# 		}
+		print(paste(c(PCA_val, "/",length(PCA)," runs completed."),collapse=""))
 	}
-	
+
+	stopCluster(cl)
+
 	# plot the contour plot
 	filled.contour(y = k, x = PCA, contour_data, color.palette = gray.colors)
 # 	filled.contour(y = k, x = PCA, contour_data, color.palette = heat.colors)
@@ -44,7 +53,7 @@ testPerson <- c(3,2)
 
 # actual measured points in ascending order
 PCA = c(0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1)
-k = 1:20
+k = c(seq(1,47,2))
 # k = c(seq(1,40,4))
 
 # 
@@ -55,13 +64,10 @@ k = 1:20
 
 # best plot: k = 19, PCA = 0.8
 print("One vs Rest")
-data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 400, testSize = 400, peopleToLoad = getPeople())
-makeContours(PCA,k,data,"contour_k_PCA_oneVsRest.eps")
-
+print(system.time(data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 400, testSize = 400, peopleToLoad = getPeople())))
+print(system.time(makeContours(PCA,k,data,"contour_k_PCA_oneVsRest.eps")))
 # 
 # print("All mixed")
 # data <- prepareAllMixed(100,40,peopleToLoad = getPeople())
 # makeContours(PCA,k,data,"contour_k_PCA_allMixed.eps")
-
-
 

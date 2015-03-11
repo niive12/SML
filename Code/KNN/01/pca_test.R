@@ -1,3 +1,5 @@
+library("class")
+
 
 pca_simplification <- function(data, breakpoint=1, noPC=0) {
 	if(breakpoint > 1){
