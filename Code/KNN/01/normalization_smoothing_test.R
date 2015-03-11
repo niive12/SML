@@ -18,9 +18,9 @@ source("normalize.R")
 
 
 PCA = 0.8
-k = 19
-smooth = 1.7
-smoothSize = 5
+k = 10
+smooth = 0.7
+smoothSize = 9
 
 
 # prep for data
@@ -45,7 +45,7 @@ if(file.exists(fileName) && 0){
 	# make loop to save data
 		   
 	for(person in 1:noPeople){
-		data_s <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people, make_new=1, sigma =0.5, size =5, filter = "gaussian" )
+		data_s <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people, make_new=1, sigma =smooth, size =smoothSize, filter = "gaussian" )
 		data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people, make_new=1, filter = "none" )
 		
 		# 	print("no normalization")
