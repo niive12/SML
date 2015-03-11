@@ -51,19 +51,26 @@ No Normalization & 47.9 \% \\ \hline
 
 \subsubsection{Performance Effect when adding a Filter}
 
-% \textbf{Graphs for selection of optimum filter}
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[width = \textwidth]{graphics/success_of_smoothing_contour}
-\caption[Optimal smoothing]{To find the optimal kernel size the success detection rate was plotted with a varying $\sigma$.
-The data was tested with group 3 member 2's data against 14 other students and preprocessed with a Gaussian filter. 
-The optimal kernel size is chosen to be 9 pixels wide.
+\caption[Optimal smoothing]{Impact of sigma and kernel size when smoothing an image. 
+Tested with group 3 member 2's data against 14 other students.
 }
+\label{fig:smoothing_contour}
 \end{figure}
 
-The filter size and sigma is from figure \textbf{ref!!} found to be \textbf{hohaha}.
+To find the optimal kernel size the success detection rate was plotted with a varying $\sigma$. 
+The optimal kernel size is chosen to be 9 pixels wide.
+From figure \ref{fig:smoothing_contour} it is concluded that a filter size of 9 is optimal.
 This was then used to generate figure \textbf{ref!!}.
 
-\textbf{Graph with effect of adding filter to the normalized data}
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width = \textwidth]{graphics/}
+% \caption[Filtered and normalized data]{Filtered data normalized vs unfiltered data.
+% }
+% \label{fig:smoothing_contour}
+% \end{figure}
 
 
