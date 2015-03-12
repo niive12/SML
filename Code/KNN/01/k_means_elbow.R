@@ -6,7 +6,10 @@ source("load_people_data.R")
 source("pca_test.R")
 
 # k = c(50,100,200,400)
-k = seq(50,800,50)
+# k = seq(50,800,50)
+k = seq(100,4000,200)
+
+kmeans_iterations = 500
 
 people <- getPeople()
 noPeople <- length(people)
@@ -25,14 +28,14 @@ fileName <- paste(c(fileName,".RData"),collapse="")
 
 
 # run test
-if(file.exists(fileName) && 1){
+if(file.exists(fileName) && 0){
 	load(fileName)
 } else{
 	data <- prepareOneAlone(3,2, trainPartSize = 400, testSize = 400, peopleToLoad = people)
 	homogenity = 1:length(k)
 	for(n in 1:length(k)){
 		homogenity[n] = 0;
-		result = kmeans(data$trainSet, k[n])
+		result = kmeans(data$trainSet, k[n], iter.max = kmeans_iterations)
 		for(cluster_i in 1:k[n]) {
 			digit = array(0,10);
 			for(entry_i in 1:length(result$cluster)){
@@ -48,15 +51,17 @@ if(file.exists(fileName) && 1){
 			}
 			homogenity[n] = homogenity[n] + (digit[class]/sum(digit))/k[n];
 		}
-		print(homogenity[n])
+		print(paste(c(n, "/", length(k)," homogeneity: ", homogenity[n]),collapse =""))
 		save(homogenity,file=fileName)
 	}
 }
 # 
 # # plot
-postscript("../../../Report/graphics/homogenity.eps",height = 6, width = 8)
-plot(k, homogenity,type="b",xlab="K clusters",ylab="Homogenity [%]") 
+setEPS()
+postscript("homogenity.eps",height = 6, width = 8)
+plot(k, homogenity,type="b",xlab="K clusters",ylab="Homogeneity [%]") 
 q = dev.off()
-postscript("../../../Report/graphics/heterogenity.eps",height = 6, width = 8)
-plot(k, 1-homogenity,type="b",xlab="K clusters",ylab="heterogenity [%]") 
+setEPS()
+postscript("heterogenity.eps",height = 6, width = 8)
+plot(k, 1-homogenity,type="b",xlab="K clusters",ylab="Heterogeneity [%]") 
 q = dev.off()
