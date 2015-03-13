@@ -1,5 +1,4 @@
 source("given_functions.R")
-
 library("class") # for knn test
 library("base") # for timing
 
