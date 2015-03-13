@@ -3,6 +3,7 @@ library("stats")
 
 source("load_people_data.R")
 source("pca_test.R")
+source("normalize.R")
 
 # compare KNN and K-means in table = performance and runtime # Lukas kmean = 400
 
@@ -10,6 +11,30 @@ kmean = 1500
 k_knn = 10
 k_mean = 10
 kmean_iterations = 500
+
+# kmean = 1500
+# k_knn = 10
+# k_mean = 10
+# kmean_iterations = 500
+# Time taken to prep kmean: 747.229999999996
+# Time taken to run kmean classification: 42.1600000000035
+# Success for kmean: 0.54275
+# Time taken to prep norm kmean: 802.549999999996
+# Time taken to run norm kmean classification: 44.4400000000023
+# Success for norm kmean: 0.63125
+# Time taken to run raw knn classification: 1878.1
+# Success for raw knn: 0.73625
+
+
+# kmean = 1500
+# k_knn = 10
+# k_mean = 10
+# kmean_iterations = 500
+# Time taken to prep kmean: 692.27"
+# [1] "Time taken to run kmean classification: 42.6500000000015"
+# [1] "Success for kmean: 0.536"
+# [1] "Time taken to run raw knn classification: 1839.56"
+# [1] "Success for raw knn: 0.7395"
 
 # kmean = 400
 # k_knn = 10
@@ -66,7 +91,7 @@ if(file.exists(fileName) && 0){
 } else{
 	data <- prepareOneAlone(3,2, trainPartSize = 400, testSize = 400, peopleToLoad = people)
 	
-	# k means
+	# pure k means 
 	startTimeKmeanPrep <- proc.time()
 	dataKMeans = kmeans(data$trainSet, kmean, iter.max = kmean_iterations)
 	clusterClasifications = 1:kmean
@@ -101,8 +126,44 @@ if(file.exists(fileName) && 0){
 	print(paste(c("Time taken to run kmean classification: ",kmeanRunTime),collapse=""))
 	print(paste(c("Success for kmean: ",kmeanResult$success),collapse=""))
 	
+	# noralized k means 
+	startTimeKmeanPrep <- proc.time()
+	data_norm <- normalizeData(data, "z-score")
+	dataKMeans_norm = kmeans(data_norm$trainSet, kmean, iter.max = kmean_iterations)
+	clusterClasifications = 1:kmean
 	
-	# run normal knn
+	for(cluster_i in 1:kmean) {
+		digit = array(0,10);
+		for(entry_i in 1:length(dataKMeans_norm$cluster)){
+			if (dataKMeans_norm$cluster[entry_i] == cluster_i ){
+				digit[data_norm$trainVali[entry_i]] = digit[data_norm$trainVali[entry_i]] + 1;
+			}
+		}
+		# find most present digit
+		class = 1
+		for(d in 2:10){
+			if(digit[d] > digit[class]){
+				class = d;
+			}
+		}
+		# update cluster classification
+		clusterClasifications[cluster_i] = class
+	}
+	
+	kmeanPrepTime <- (proc.time() - startTimeKmeanPrep)[3]
+	print(paste(c("Time taken to prep norm kmean: ",kmeanPrepTime),collapse=""))
+	# run knn on data
+	kmeanData_norm = list(trainSet = dataKMeans_norm$centers,trainVali = clusterClasifications,testSet = data_norm$testSet,testVali = data_norm$testVali)
+	
+	startTimeKmean <- proc.time()
+	kmeanResult_norm = run_knn(kmeanData_norm, k_mean)
+	
+	kmeanRunTime_norm <- (proc.time() - startTimeKmean)[3]
+	print(paste(c("Time taken to run norm kmean classification: ",kmeanRunTime_norm),collapse=""))
+	print(paste(c("Success for norm kmean: ",kmeanResult_norm$success),collapse=""))
+	
+	
+	# run pure knn
 	startTimeKNN <- proc.time()
 	knnResult = run_knn(data,k_knn)
 	knnRunTime <- (proc.time() - startTimeKNN)[3]
