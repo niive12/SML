@@ -7,10 +7,34 @@ source("normalize.R")
 
 # compare KNN and K-means in table = performance and runtime # Lukas kmean = 400
 
+# kmean = 1500
 kmean = 1300
 k_knn = 10
 k_mean = 10
-kmean_iterations = 500
+kmean_iterations = 10
+
+
+# kmean = 1300
+# k_knn = 10
+# k_mean = 10
+# kmean_iterations = 500
+# Time taken to prep kmean: 675.6"
+# [1] "Time taken to run kmean classification: 37.22"
+# [1] "Success for kmean: 0.53325"
+# [1] "Time taken to prep norm kmean: 737.88"
+# [1] "Time taken to run norm kmean classification: 37.21"
+# [1] "Success for norm kmean: 0.6045"
+# [1] "Time taken to run raw knn classification: 1849.95"
+# [1] "Success for raw knn: 0.742"
+# kmean_iterations = 10
+# Time taken to prep kmean: 637.23"
+# [1] "Time taken to run kmean classification: 37.4300000000003"
+# [1] "Success for kmean: 0.5185"
+# [1] "Time taken to prep norm kmean: 719.02"
+# [1] "Time taken to run norm kmean classification: 37.5200000000004"
+# [1] "Success for norm kmean: 0.61125"
+
+
 
 # kmean = 1500
 # k_knn = 10

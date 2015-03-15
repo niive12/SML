@@ -1,4 +1,4 @@
-# 39m35.806s runtime
+# 1h52m2.586s runtime
 # (2.1.4) # Nikolaj
 # time vs PC (optional: time & success vs PC)
 # PCA: 10:10:380 dimensions
@@ -11,7 +11,7 @@ PC = seq(10, 380, 10)
 
 fileName <- "time_vs_PC.RData"
 
-if ( file.exists(fileName) && 1 ) {
+if ( file.exists(fileName) && 0 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
