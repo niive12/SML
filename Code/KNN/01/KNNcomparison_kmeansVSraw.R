@@ -7,7 +7,7 @@ source("normalize.R")
 
 # compare KNN and K-means in table = performance and runtime # Lukas kmean = 400
 
-kmean = 1500
+kmean = 1300
 k_knn = 10
 k_mean = 10
 kmean_iterations = 500
