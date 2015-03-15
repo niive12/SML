@@ -1,3 +1,4 @@
+# 11h14m55.804s
 # library("gplots") # needs to be installe
 # elbowpoint: raw, zscore, smoothing and z-score & smoothing
 library("graphics")
@@ -129,21 +130,21 @@ if(file.exists(fileName) && 1){
 	}
 }
 # 
-test_name = c("raw_homogenity", "z_homogenity", "s_homogenity", "zs_homogenity")
+test_name = c("raw", "z-score", "smoothed", "z-score+smoothed")
 
 # # plot
 colors = rainbow(4)
 setEPS()
-postscript("../../../Report/graphics/homogenity.eps",height = 6, width = 8)
-plot(k, raw_homogenity,type="b",lty=1, col=colors[1],xlab="K clusters",ylab="Homogenity [%]") 
+postscript("../../../Report/graphics/homogenity.eps",height = 4, width = 8)
+plot(k, raw_homogenity,type="b",lty=1, col=colors[1],xlab="K clusters",ylab="Homogeneity [%]") 
 lines(k,z_homogenity,  type="b",lty=2, col=colors[2])
 lines(k,s_homogenity,  type="b",lty=3, col=colors[3])
 lines(k,zs_homogenity, type="b",lty=4, col=colors[4])
 legend("bottomright",test_name,cex=0.8,col=colors,lty=1:4)
 q = dev.off()
 setEPS()
-postscript("../../../Report/graphics/heterogenity.eps",height = 6, width = 8)
-plot(k, 1-raw_homogenity,   type="b",lty=1, col=colors[1],xlab="K clusters",ylab="heterogenity [%]") 
+postscript("../../../Report/graphics/heterogenity.eps",height = 4, width = 8)
+plot(k, 1-raw_homogenity,   type="b",lty=1, col=colors[1],xlab="K clusters",ylab="heterogeneity [%]") 
 lines(k,1-z_homogenity, type="b",lty=2, col=colors[2])
 lines(k,1-s_homogenity, type="b",lty=3, col=colors[3])
 lines(k,1-zs_homogenity,type="b",lty=4, col=colors[4])

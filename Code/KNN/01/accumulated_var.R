@@ -12,16 +12,16 @@ accumulated = data.frame(one_person = x)
 
 
 fileName <- "accumulated_variance_data.RData" #to save time, runtime without this is 0m48.832s
-if ( file.exists(fileName) && 1 ) { #toggle wether we want new data or not
+if ( file.exists(fileName) && 0 ) { #toggle wether we want new data or not
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
-	data = prepareOne(group=3,member=1,trainPart=360,testPart=40)
+	data = prepareOne(group=3,member=2,trainPart=360,testPart=40)
 	data = pca_simplification(data)
 	variance$one_person = data$variance[x]/sum(data$variance)
 	accumulated$one_person = cumsum(variance$one_person)
 
-	data = prepareOneAlone(3,1) #9 people vs 1 person
+	data = prepareOneAlone(3,2) #9 people vs 1 person
 	data = pca_simplification(data)
 	variance$all_one = data$variance[x]/sum(data$variance)
 	accumulated$all_one = cumsum(variance$all_one)
