@@ -13,8 +13,8 @@ The two types of normalization are performed both before and after the data redu
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.95 \textwidth]{graphics/graph_normalization_allppl}
-\caption[Comparison of different students.]{\textbf{RUN AGAIN WITH K = 10} Success rate for detection of characters of on person when not in the training set. 
+\includegraphics[width = \textwidth]{graphics/graph_normalization}
+\caption[Comparison of different students.]{Success rate for detection of characters of on person when not in the training set. 
 Data normalized before (pre) and after (post) dataset reduction using PCA.
 PCA was set to ensure that 80\% of all variance was included in the data set and K as 10.
 The person tested for is given as 'Group':'Member'.
@@ -23,7 +23,7 @@ It was tested with 16 people.}
 \end{figure}
 
 The mean success rate of figure \ref{fig:normalization_test_pre-post} is listed in table \ref{tab:meanSuccess_normalization_test_pre-post}.
-From both the graph and table, it can be concluded that the z-score standardization before the PCA reduction performs, on average, at least \textbf{3\%} better than the other methods.
+From both the graph and table, it can be concluded that the z-score standardization before the PCA reduction performs, on average, at least 3\% better than the other methods.
 
 The figure \ref{fig:normalization_test_pre-post} also shows that in general all three normalizations, except for the min-max normalization after PCA reduction, is on average, yielding a higher number of correct predictions.
 
@@ -36,13 +36,13 @@ Some of the performance improvement can be because of features of a low variance
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|r|}\hline
-% 0.5532031 0.4493750 0.5874687 0.5339844 0.4791094
+% 0.5720167 0.4639500 0.6055167 0.5521333 0.5034333
 Normalization Method & Mean Success \\ \hline
-Min-Max Normalization Pre & 55.3 \% \\ \hline
-Min-Max Normalization Post & 44.9 \% \\ \hline
-Z-Score Normalization Pre & 58.7 \% \\ \hline
-Z-Score Normalization Post & 53.4  \% \\ \hline
-No Normalization & 47.9 \% \\ \hline
+Min-Max Normalization Pre & 57.2 \% \\ \hline
+Min-Max Normalization Post & 46.4 \% \\ \hline
+Z-Score Normalization Pre & 60.6 \% \\ \hline
+Z-Score Normalization Post & 55.2  \% \\ \hline
+No Normalization & 50.3 \% \\ \hline
 \end{tabular}
 \caption{Mean success rates for normalization test as seen in figure \ref{fig:normalization_test_pre-post}.}
 \label{tab:meanSuccess_normalization_test_pre-post}
@@ -65,15 +65,16 @@ To find the optimal kernel size the success detection rate was plotted with a va
 The optimal kernel size is chosen to be 9 pixels wide.
 From figure \ref{fig:smoothing_contour} it is concluded that a filter size of 9 is optimal.
 
-Using this knowledge figure \textbf{ref!!} was generated.
+Using this knowledge figure \ref{fig:normalization_test_with_smooth} was generated.
 The figure compares the unprocessed success rate compared to that of the z-score pre and z-score pre with gaussian smoothing (filter size 9 and sigma 0.7).
 
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width = \textwidth]{graphics/}
-% \caption[Filtered and normalized data]{Filtered data normalized vs unfiltered data.
-% }
-% \label{fig:smoothing_contour}
-% \end{figure}
+ \begin{figure}[H]
+ \centering
+ \includegraphics[width = \textwidth]{graphics/graph_normalization_smoothed}
+ \caption[Filtered and normalized data.]{Filtered data normalized vs unfiltered normalized data.
+ Running each person against the rest of the class in the train set.
+ }
+ \label{fig:normalization_test_with_smooth}
+ \end{figure}
 
-
+As seen on figure \ref{fig:normalization_test_with_smooth}, then the result of smoothing the data before normalization is not improving the data.

@@ -44,7 +44,7 @@ if(file.exists(fileName) && 0){
 	startTime <- proc.time() # used for timing
 	# make loop to save data
 	for(person in 1:noPeople){
-		data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people)
+		data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people,make_new=1)
 		
 		# min max
 		# 	print("min max")
