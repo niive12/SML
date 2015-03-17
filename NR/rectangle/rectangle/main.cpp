@@ -4,9 +4,9 @@
 #include "../../NR_LIB/code/quadrature.h"
 
 double function(double x){
-	// cos(x^2)*e^(-x)/sprt(x)
-	double result = cos(pow(2,x))*exp(-x)/sqrt(x);
-	return result;
+    // cos(x^2)*e^(-x)/sprt(x)
+    double result = cos(pow(2,x))*exp(-x)/sqrt(x);
+    return result;
 }
 
 template <class T>
@@ -14,7 +14,7 @@ struct our_midpoint : Quadrature {
 	Doub a,b,s;
 	T &funk;
     our_midpoint(T &funcc, const Doub aa, const Doub bb) :
-		funk(funcc), a(aa), b(bb) {n=0;}
+        funk(funcc), a(aa), b(bb) {n=0;}
 	Doub next(){
 		Int it,j;
 		Doub x,tnm,sum,del,ddel;
@@ -38,7 +38,7 @@ struct our_midpoint : Quadrature {
 			return s;
 		}
 	}
-	virtual Doub func(const Doub x) {return funk(x);}
+    virtual Doub func(const Doub x) {return funk(x);}
 };
 
 
@@ -53,8 +53,8 @@ int main() {
 	cout << endl;
 
 	int m = 10;
-	double s_h1 = 1, s_h2 = 1, s_h3 = 1, alpha_k, error;
-	our_midpoint<Doub> assingment(function, 0, 1);
+    double s_h1 = 1, s_h2 = 1, s_h3 = 1, alpha_k, error;
+    our_midpoint<Doub> assingment(function, 0, 1);
 	for(int iterations = 1; iterations<=m+1; iterations++) {
 		s_h1 = s_h2;
 		s_h2 = s_h3;
