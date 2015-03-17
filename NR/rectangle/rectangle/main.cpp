@@ -5,22 +5,22 @@
 
 double function(double x){
 	// cos(x^2)*e^(-x)/sprt(x)
-	double result = cos(pow(2,x))*exp(-x)/sqrt(x);
+	double result = (cos(pow(x,2))*exp(-x))/sqrt(x);
 	return result;
 }
 
 template <class T>
-void print_midpoint (T &funcc, const Doub aa, const Doub bb){
+void print_midpoint (T &funcc, const Doub aa, const Doub bb, int k=20, double precision=10e-5){
 	cout << setw(10) << "iterations" << "\t";
 	cout << setw(10) << "s_h3" << "\t";
 	cout << setw(10) << "alpha_k" << "\t";
+	cout << setw(10) << "order" << "\t";
 	cout << setw(10) << "error" << "\t";
 	cout << endl;
 
-	int m = 10;
 	double s_h1 = 1, s_h2 = 1, s_h3 = 1, alpha_k, error;
 	Midpnt<T> assingment(funcc, aa, bb);
-	for(int iterations = 1; iterations<=m+1; iterations++) {
+	for(int iterations = 1; iterations<=k; iterations++) {
 		s_h1 = s_h2;
 		s_h2 = s_h3;
 		s_h3 = assingment.next();
@@ -30,8 +30,13 @@ void print_midpoint (T &funcc, const Doub aa, const Doub bb){
 			cout << setw(10) << iterations << "\t";
 			cout << setw(10) << s_h3 << "\t";
 			cout << setw(10) << alpha_k << "\t";
+			cout << setw(10) << log(alpha_k)/log(3) << "\t";
 			cout << setw(10) << error << "\t";
 			cout << endl;
+			if (error < precision) {
+				cout << "stopped at : " << iterations << " iterations" << endl;
+				return;
+			}
 		}
 	}
 }
