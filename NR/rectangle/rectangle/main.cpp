@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "../NR_LIB/code/nr3.h"
+#include "../../NR_LIB/code/nr3.h"
 
 using namespace std;
 
