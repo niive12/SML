@@ -14,7 +14,7 @@ void function(float x){
 struct our_midpoint : Quadrature {
 	Doub a,b,s;
 	T &funk;
-	Midpnt(T &funcc, const Doub aa, const Doub bb) :
+    our_midpoint(T &funcc, const Doub aa, const Doub bb) :
 		funk(funcc), a(aa), b(bb) {n=0;}
 	Doub next(){
 		Int it,j;
