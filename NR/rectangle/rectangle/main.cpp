@@ -3,18 +3,17 @@
 #include "../../NR_LIB/code/nr3.h"
 #include "../../NR_LIB/code/quadrature.h"
 
-using namespace std;
-
-void function(float x){
+double function(double x){
 	// cos(x^2)*e^(-x)/sprt(x)
-	float result = cos(pow(2,x))*exp(-x)/sqrt(x);
+	double result = cos(pow(2,x))*exp(-x)/sqrt(x);
 	return result;
 }
 
+template <class T>
 struct our_midpoint : Quadrature {
 	Doub a,b,s;
 	T &funk;
-	Midpnt(T &funcc, const Doub aa, const Doub bb) :
+	our_midpoint(T &funcc, const Doub aa, const Doub bb) :
 		funk(funcc), a(aa), b(bb) {n=0;}
 	Doub next(){
 		Int it,j;
@@ -47,7 +46,29 @@ struct our_midpoint : Quadrature {
 // show iterations, S(h_k), Rich-order estimate, Rich-error estimate
 
 int main() {
+	cout << setw(20) << "iterations" << "\t";
+	cout << setw(20) << "s_h3" << "\t";
+	cout << setw(20) << "alpha_k" << "\t";
+	cout << setw(20) << "error" << "\t";
+	cout << endl;
 
+	int m = 10;
+	double s_h1 = 1, s_h2 = 1, s_h3 = 1, alpha_k, error;
+	our_midpoint<Doub> assingment(function, 0, 1);
+	for(int iterations = 1; iterations<=m+1; iterations++) {
+		s_h1 = s_h2;
+		s_h2 = s_h3;
+		s_h3 = assingment.next();
+		alpha_k = (s_h1-s_h2)/(s_h2-s_h3);
+		error = (s_h2-s_h1)/(alpha_k-1);
+		if (iterations > 2 ) {
+			cout << setw(20) << iterations << "\t";
+			cout << setw(20) << s_h3 << "\t";
+			cout << setw(20) << alpha_k << "\t";
+			cout << setw(20) << error << "\t";
+			cout << endl;
+		}
+	}
 
 	return 0;
 }
