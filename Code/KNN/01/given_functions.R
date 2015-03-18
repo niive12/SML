@@ -56,7 +56,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 	} else {
 		dataDepository = "C:/Users/Lukas Schwartz/Documents/Skole/6. semester/Statistical Machine Learning/SVNRepository" # lukas	
 	}
-		
+	
 	
 	if(file.exists(fileName)){
 		load(fileName)
@@ -116,8 +116,11 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 		#extract individual ciffers
 		xStep <- (corners[1,7]-corners[1,1])/20;
 		yStep <- (corners[1,8]-corners[1,2])/20;
-		xStepT <- trunc(xStep)
-		yStepT <- trunc(yStep)
+		
+# 		xStepT <- trunc(xStep)
+		xStepT <- 60*DPI/300
+# 		yStepT <- trunc(yStep)
+		yStepT <- 60*DPI/300
 		
 		tempM <- matrix(,20*20,(yStepT-2)*(xStepT-2))
 		trainingDigit <- list(1:10);
