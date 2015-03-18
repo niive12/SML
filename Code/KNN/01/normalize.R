@@ -11,11 +11,11 @@ bin <- function(x, bins){
 	binSize = (max-min)/bins
 	
 	for(feature in 1:length(x)){
-		bin = 0
+		bin = 1
 		while(x[feature] > (min + bin*binSize)){
 			bin = bin +1
 		}
-		x[feature] = bin
+		x[feature] = bin-1
 	}
 	
 	return(x)
