@@ -22,10 +22,12 @@ source("normalize.R")
 PCA = 0.8
 k = 10
 
+train_size = 100
+test_size = 400
 
 
 # prep for data
-people <- getPeople()
+people <- getPeople()[1:8]
 noPeople <-length(people)
 result <- matrix(0,5,noPeople)
 
@@ -44,7 +46,7 @@ if(file.exists(fileName) && 0){
 	startTime <- proc.time() # used for timing
 	# make loop to save data
 	for(person in 1:noPeople){
-		data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = 400, testSize = 400, peopleToLoad = people,make_new=1)
+		data <- prepareOneAlone(people[[person]][1],people[[person]][2], trainPartSize = train_size, testSize = test_size, peopleToLoad = people,make_new=1)
 		
 		# min max
 		# 	print("min max")
