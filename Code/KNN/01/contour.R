@@ -10,5 +10,5 @@ k = c(1,5,10,15,20)
 
 # plot the contour plot
 # filled.contour(y = k, x = trainingSetSize, contour_data, color.palette = heat.colors)
-filled.contour(y = k, x = trainingSetSize, contour_data, col=colorpanel(20, "grey10", "white"), nlevels=20)
+filled.contour(y = k, x = trainingSetSize, contour_data, col=colorpanel(10, "white", "black"), levels=seq(min(contour_data), max(contour_data), length.out= 11))
 title(main = NULL, xlab = "Training Array Size", ylab = "K")

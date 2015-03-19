@@ -18,7 +18,7 @@ bin <- function(x, bins){
 		x[feature] = bin-1
 	}
 	
-	return(x)
+	return(as.factor(x))
 }
 
 

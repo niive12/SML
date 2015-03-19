@@ -17,17 +17,17 @@ source("normalize.R")
 
 # take plot way from: results.R
 # b = streg imellem, o = streg igennem
-
+startTimer <- proc.time() # used for timing
 
 PCA = 0.8
 k = 10
 
-train_size = 100
+train_size = 400
 test_size = 400
 
 
 # prep for data
-people <- getPeople()[1:8]
+people <- getPeople()
 noPeople <-length(people)
 result <- matrix(0,5,noPeople)
 
@@ -96,7 +96,9 @@ print(mean)
 # 0.44050 0.33925 0.47000 0.40975 0.38300 # 100 40 test K = 19
 # 0.5032083 0.4072083 0.5439375 0.4913542 0.4149167 # 400 400 test K = 19
 # 0.5532031 0.4493750 0.5874687 0.5339844 0.4791094 # 400 400 test 16 ppl K = 19
+
 #  K = 10
+# 0.6439500 0.5409667 0.6769833 0.6252333 0.5667167 with new load fun
 
 #result
 
@@ -125,4 +127,5 @@ for(i in 2:5){
 }
 dev.off()
 
+print(paste(c("Time taken to run program: ", ((proc.time() - startTimer)[3]), " seconds"), collapse = "") )
 

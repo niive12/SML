@@ -29,12 +29,12 @@ makeContours <- function(PCA,k,data,name){
 	stopCluster(cl)
 
 	# plot the contour plot
-	filled.contour(y = k, x = PCA, contour_data, color.palette = gray.colors)
+	filled.contour(y = k, x = PCA, contour_data, col=colorpanel(10, "white", "black"), levels=seq(min(contour_data), max(contour_data), length.out= 11))
 # 	filled.contour(y = k, x = PCA, contour_data, color.palette = heat.colors)
 	title(main = NULL, xlab = "Accumulated PCA Variance", ylab = "K")
 	setEPS()
 	postscript(name,height = 6, width = 8)
-	filled.contour(y = k, x = PCA, contour_data, color.palette = gray.colors)
+	filled.contour(y = k, x = PCA, contour_data, col=colorpanel(10, "white", "black"), levels=seq(min(contour_data), max(contour_data), length.out= 11))
 # 	filled.contour(y = k, x = PCA, contour_data, color.palette = heat.colors)
 	title(main = NULL, xlab = "Accumulated PCA Variance", ylab = "K")
 	dev.off()
