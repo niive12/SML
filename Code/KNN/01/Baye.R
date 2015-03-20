@@ -1,5 +1,5 @@
 library("e1071")
-library("gmodels")
+# library("gmodels")
 
 
 baye_predict <- function(data, laplace = 0){
@@ -26,20 +26,20 @@ baye_predict <- function(data, laplace = 0){
 	}
 	variance   =  var(trueDetections)
 	
-	return(list(confusion_matrix = confus, success = per, var=variance))))
+	return(list(confusion_matrix = confus, success = per, var=variance))
 }
 
 #example run
-source("load_people_data.R")
-source("normalize.R")
-source("pca_test.R")
-
-data = prepareAllMixed(400,400,peopleToLoad = getPeople())
-data = normalizeData(data, "z-score")
-data = pca_simplification(data,breakpoint=0.8)
-data = normalizeData(data,"bin", 2)
-
-baye_predict(data)
+# source("load_people_data.R")
+# source("normalize.R")
+# source("pca_test.R")
+# 
+# data = prepareAllMixed(400,400,peopleToLoad = getPeople())
+# data = normalizeData(data, "z-score")
+# data = pca_simplification(data,breakpoint=0.8)
+# data = normalizeData(data,"bin", 2)
+# 
+# baye_predict(data)
 
 
 # print(predictions)

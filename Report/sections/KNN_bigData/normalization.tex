@@ -18,7 +18,9 @@ The two types of normalization are performed both before and after the data redu
 Data normalized before (pre) and after (post) dataset reduction using PCA.
 PCA was set to ensure that 80\% of all variance was included in the data set and K as 10.
 The person tested for is given as 'Group':'Member'.
-It was tested with 16 people.}
+It was tested with 16 people.
+The means are seen in table \ref{tab:meanSuccess_normalization_test_pre-post}.
+}
 \label{fig:normalization_test_pre-post}
 \end{figure}
 
@@ -34,13 +36,13 @@ Some of the performance improvement can be because of features of a low variance
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|r|}\hline
-% 0.5720167 0.4639500 0.6055167 0.5521333 0.5034333
+% 0.6439500 0.5409667 0.6769833 0.6252333 0.5667167
 Normalization Method & Mean Success \\ \hline
-Min-Max Normalization Pre & 57.2 \% \\ \hline
-Min-Max Normalization Post & 46.4 \% \\ \hline
-Z-Score Normalization Pre & 60.6 \% \\ \hline
-Z-Score Normalization Post & 55.2  \% \\ \hline
-No Normalization & 50.3 \% \\ \hline
+Min-Max Normalization Pre & 64.4 \% \\ \hline
+Min-Max Normalization Post & 54.1 \% \\ \hline
+Z-Score Normalization Pre & 67.7 \% \\ \hline
+Z-Score Normalization Post & 62.5  \% \\ \hline
+No Normalization & 56.7 \% \\ \hline
 \end{tabular}
 \caption{Mean success rates for normalization test as seen in figure \ref{fig:normalization_test_pre-post}.}
 \label{tab:meanSuccess_normalization_test_pre-post}
