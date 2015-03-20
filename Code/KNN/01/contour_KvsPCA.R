@@ -1,7 +1,8 @@
 # 4h40m with 8 cores 11 PCA's and 21 K's at 400/400
+# 3.8h with 6 cores
 # 7h30m with 8 cores 11 PCA's and 24 K's at 400/400
 
-library("grDevices") # gray.colors
+library("gplots") # gray.colors
 library("parallel") 
 
 source("load_people_data.R")
@@ -11,7 +12,7 @@ source("pca_test.R")
 makeContours <- function(PCA,k,data,name){
 	startTime <- proc.time() # used for timing
 	contour_data = matrix(,length(PCA),length(k))
-	cl <- makeCluster(getOption("cl.cores", 8))
+	cl <- makeCluster(getOption("cl.cores", 5))
 	
 	for(PCA_val in 1:length(PCA)){
 		simplifiedData <- pca_simplification(data, breakpoint=PCA[PCA_val])
@@ -29,12 +30,12 @@ makeContours <- function(PCA,k,data,name){
 	stopCluster(cl)
 
 	# plot the contour plot
-	filled.contour(y = k, x = PCA, contour_data, col=colorpanel(10, "white", "black"), levels=seq(min(contour_data), max(contour_data), length.out= 11))
+	filled.contour(y = k, x = PCA, contour_data, col=colorpanel(20, "black", "white"), levels=seq(min(contour_data), max(contour_data), length.out= 21))
 # 	filled.contour(y = k, x = PCA, contour_data, color.palette = heat.colors)
 	title(main = NULL, xlab = "Accumulated PCA Variance", ylab = "K")
 	setEPS()
 	postscript(name,height = 6, width = 8)
-	filled.contour(y = k, x = PCA, contour_data, col=colorpanel(10, "white", "black"), levels=seq(min(contour_data), max(contour_data), length.out= 11))
+	filled.contour(y = k, x = PCA, contour_data, col=colorpanel(20, "black", "white"), levels=seq(min(contour_data), max(contour_data), length.out= 21))
 # 	filled.contour(y = k, x = PCA, contour_data, color.palette = heat.colors)
 	title(main = NULL, xlab = "Accumulated PCA Variance", ylab = "K")
 	dev.off()

@@ -22,7 +22,7 @@ makeContoursSmoothing <- function(x,y,title,xlab,ylab,file_name){
 	# plot the contour plot
 	setEPS()
 	postscript(file_name,height = 6, width = 8)
-	filled.contour(y = y, x = x, contour_data, col=colorpanel(10, "white", "black"), levels=seq(min(contour_data), max(contour_data), length.out= 11))
+	filled.contour(y = y, x = x, contour_data, col=colorpanel(20, "black", "white"), levels=seq(min(contour_data), max(contour_data), length.out= 21))
 	title(main = title, xlab = xlab, ylab = ylab)
 	q = dev.off()
 }
