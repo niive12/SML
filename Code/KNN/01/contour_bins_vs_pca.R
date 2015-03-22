@@ -1,3 +1,6 @@
+# 2h40m for PC <- c(0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1) bins <- 1:10
+# 6h for PC <- c(0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1) bins <- 1:20
+
 
 library("gplots") # contour plot colors
 
@@ -10,7 +13,7 @@ source("pca_test.R")
 makeContour_bin_pca <- function(data, pc, bins){
 	result <- matrix(,length(pc),length(bins))
 	
-	startTime <- proc.time() # used for timing
+	startTime <- proc.time() # used for timings
 	
 	for(pc_i in 1:length(pc)){
 		# simplify data 
@@ -19,7 +22,7 @@ makeContour_bin_pca <- function(data, pc, bins){
 			# binarize data
 			data_norm = normalizeData(simplifiedData,"bin", bins = bins[bin_i])
 			# run bayes
-			baye_pre = baye_predict(data_norm)
+			baye_pre = baye_predict(data_norm, laplace = 1)
 			# save data
 			result[pc_i,bin_i] <- baye_pre$success
 			
@@ -33,15 +36,16 @@ makeContour_bin_pca <- function(data, pc, bins){
 
 
 testPerson <- c(3,2)
-PC <- c(0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1)
-bins <- 1:10
+PC <- c(0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1)
+bins <- 1:20
 
 if(TRUE){
 	data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 400, testSize = 400, peopleToLoad = getPeople())
+	data <- normalizeData(data,"z-score")
 	contour_data <- makeContour_bin_pca(data, PC, bins)
-	save(contour_data, file = "contour_bin-vs-pca.R")
+	save(contour_data, file = "contour_bin-vs-pca.Rdata")
 }else {
-	load("contour_bin-vs-pca.R")
+	load("contour_bin-vs-pca.Rdata")
 }
 
 # plot the contour plot

@@ -4,7 +4,7 @@ library("e1071")
 
 baye_predict <- function(data, laplace = 0){
 	# print("Naive Bayes")
-	classifier <- naiveBayes(x = data$trainSet, y = as.factor(data$trainVali))
+	classifier <- naiveBayes(x = data$trainSet, y = as.factor(data$trainVali), laplace = laplace)
 	
 	# print("Prediction")
 	predictions <- predict(classifier, data$testSet, type = "class")
