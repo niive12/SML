@@ -1,4 +1,6 @@
-show_image <- function(digit, filename="image.eps", width = 20) {
+source("load_people_data.R")
+
+show_image <- function(digit, filename="image.eps", width = 18) {
 	height = length(digit)/width;
 
 	print(height)
@@ -9,7 +11,6 @@ show_image <- function(digit, filename="image.eps", width = 20) {
 		img[d,] = digit[(d*width):((d-1)*width+1)]
 	}
 	
-	print(debug)
 	setEPS()
 	postscript(filename,height = height, width = width)
 	image(img, xaxt="n", yaxt="n")
