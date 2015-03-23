@@ -90,7 +90,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 			r <-ciffers[[i]][,,1]
 			g <-ciffers[[i]][,,2]
 			b <-ciffers[[i]][,,3]
-			gray[[i]] <- (r+g+b)/3
+			gray[[i]] <- (r*0.3+g*0.6+b*0.1)
 		}
 		
 		#   #smooth images
@@ -117,12 +117,42 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 		xStep <- (corners[1,7]-corners[1,1])/20;
 		yStep <- (corners[1,8]-corners[1,2])/20;
 		
-# 		xStepT <- trunc(xStep)
+		# 		xStepT <- trunc(xStep)
 		xStepT <- 60*DPI/300
-# 		yStepT <- trunc(yStep)
+		# 		yStepT <- trunc(yStep)
 		yStepT <- 60*DPI/300
 		
-		tempM <- matrix(,20*20,(yStepT-2)*(xStepT-2))
+		# 		tempM <- matrix(,20*20,(yStepT-2)*(xStepT-2))
+		# 		trainingDigit <- list(1:10);
+		# 		
+		# 		for(pages in 1:5)
+		# 		{
+		# 			for(box in 1:2)
+		# 			{
+		# 				#     trainingDigit[[(pages-1)*2 + box]] <- matrix(,20*20,(yStepT-2)*(xStepT-2))) 
+		# 				for(cifX in 1:20)
+		# 				{
+		# 					aXbase <- corners[(pages-1)*2 + box,1] + xStep*(cifX-1)
+		# 					for(cifY in 1:20)
+		# 					{
+		# 						aYbase <- corners[(pages-1)*2 + box,2] + yStep*(cifY-1)
+		# 						
+		# 						for(px in 2:xStepT-1)
+		# 						{
+		# 							for(py in 2:yStepT-1)
+		# 							{
+		# 								tempM[(cifY-1)*20 + cifX, (px-2)*(yStepT-2) + py-1] <- prepared[[pages]][aYbase+py,aXbase+px]
+		# 							}
+		# 						}
+		# 					}
+		# 				}
+		# 				# trainingDigit is filled with the ciphers [[digit eg '0','1',...]][pixel || row, column] one row = one string of the pixel being the letter
+		# 				trainingDigit[[(pages-1)*2 + box]] <- tempM
+		# 			}
+		# 		}
+		# 		save(trainingDigit, file = fileName)
+		
+		tempM <- matrix(,20*20,(yStepT)*(xStepT))
 		trainingDigit <- list(1:10);
 		
 		for(pages in 1:5)
@@ -137,11 +167,11 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 					{
 						aYbase <- corners[(pages-1)*2 + box,2] + yStep*(cifY-1)
 						
-						for(px in 1:xStepT-2)
+						for(px in 1:xStepT)
 						{
-							for(py in 1:yStepT-2)
+							for(py in 1:yStepT)
 							{
-								tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-2) + py] <- prepared[[pages]][aYbase+py+1,aXbase+px+1]
+								tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT) + py] <- prepared[[pages]][aYbase+py+1,aXbase+px+1]
 							}
 						}
 					}

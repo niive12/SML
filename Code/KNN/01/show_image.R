@@ -1,16 +1,17 @@
-show_image <- function(digit, filename="image.eps", width = 20) {
+source("load_people_data.R")
+
+show_image <- function(digit, filename="image.eps", width = 18) {
 	height = length(digit)/width;
 
 	print(height)
 	print(width)
 	img = matrix(,height,width)
 
-	for( d in 1:height) {
-		for ( i in 1:width) { 
-			img[[i,d]] = digit[i+(d-1)*width] 
-		} 
+	for( d in 1:height) {		
+		img[d,] = digit[((d-1)*width + 1):(d*width)]
 	}
 	
+	display(img)
 	setEPS()
 	postscript(filename,height = height, width = width)
 	image(img, xaxt="n", yaxt="n")
@@ -20,3 +21,7 @@ show_image <- function(digit, filename="image.eps", width = 20) {
 # img = c(0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9)
 # img = bin(img, 10)
 # show_image(img,20)
+
+
+data <- prepareOneAlone(3,2, trainPartSize = 400, testSize = 400, peopleToLoad = getPeople()[7:8], DPI = 100)
+show_image(data$testSet[821,], width = 20)
