@@ -10,10 +10,9 @@ library("gmodels")
 smoothImage <- function(grayImg){
 	#manual kernel:
 	kernel <- matrix(c(0, 1, 0, 
-					   1, 1, 1, 
-					   0, 1, 0), # the data elements 
-					 3,              # number of rows 
-					 3)
+	                   1, 1, 1, 
+	                   0, 1, 0), # the data elements 
+	                   3,3)
 	kernel <- kernel/5
 	
 	#using r library for smoothing
@@ -33,7 +32,7 @@ gaussianSmoothImage <- function(grayImg, sigma, size){
 		}
 	}
 	kernel = kernel * 1/sum(kernel)
-	
+	print("hello")
 	smoothed <- filter(grayImg, kernel, method="convolution", sides=2)
 	return(smoothed)
 }
@@ -43,7 +42,7 @@ gaussianSmoothImage <- function(grayImg, sigma, size){
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigma=1, size = 5){
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigma=1, size = 5, make_new=0){
 	#   #load the scaned images
 	#load the scaned images
 	fileName <- paste(c("G",groupNr,"M",groupMemberNr,"_DPI",DPI,".RData"),collapse="")
@@ -58,7 +57,8 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 	}
 	
 	
-	if(file.exists(fileName)){
+	if(file.exists(fileName) && !make_new){
+		print("loading old loadSinglePersonsData")
 		load(fileName)
 	} else{
 		# change the working directory to where the data is
@@ -97,7 +97,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 		if(smooth == "average" ){
 			for(i in 1:5) {
 				smoothed[[i]] <- smoothImage(gray[[i]])
-			}
+			}            
 		} else if(smooth == "gaussian" ) {
 			for(i in 1:5) {
 				smoothed[[i]] <- gaussianSmoothImage(gray[[i]],sigma, size)

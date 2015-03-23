@@ -40,7 +40,7 @@ getPeople <- function(){
 
 
 # load all group members data
-loadAllPeople <- function(DPI, filter = "none", peopleToLoad, sigma=0.5, size = 5){
+loadAllPeople <- function(DPI, filter = "none", peopleToLoad, sigma=0.5, size = 5, make_new=0){
 	# returns list( the greatest number of pixels for a cipher , a matrix with the data of all people )
 	
 	# get the people to load data for
@@ -60,7 +60,7 @@ loadAllPeople <- function(DPI, filter = "none", peopleToLoad, sigma=0.5, size = 
 	startTime <- proc.time() # used for timing
 	for(person in 1:noPeople){
 # 		print(paste(c(" - Loading G", people[[person]][1], "M", people[[person]][2],"..."),collapse=""))
-		peopleData[[person]] <- loadSinglePersonsData(DPI,people[[person]][1],people[[person]][2], filter, sigma=sigma, size=size)
+		peopleData[[person]] <- loadSinglePersonsData(DPI,people[[person]][1],people[[person]][2], smooth=filter, sigma=sigma, size=size, make_new=make_new)
 		
 # 		peopleData[[person]] [is.na(peopleData[[person]])] <- 0 # set NA's from dataset to zero...
 		
@@ -97,7 +97,7 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 		print("Loading data...")
 		personData <- list(1);
 		
-		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter, sigma=sigma, size=size)
+		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter, sigma=sigma, size=size, make_new=make_new)
 		maxCipherSize = dim(personData[[1]][[1]])[2]
 		
 		dataResult = list(cipherSize=maxCipherSize, data=personData)
@@ -259,7 +259,7 @@ prepareOneAlone <- function(group, member, trainPartSize=400, testSize=200, DPI=
 		# load one into the test set and all the others into the training set
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter,peopleToLoad, sigma=sigma, size=size)
+		dataResult = loadAllPeople(DPI, filter,peopleToLoad, sigma=sigma, size=size, make_new=make_new)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
