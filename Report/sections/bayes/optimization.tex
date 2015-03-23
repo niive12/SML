@@ -1,1 +1,32 @@
 \subsection{Naive Bayes Optimization}
+\textbf{LAPLACE}
+
+To find one of the the best settings for the Naive Bayes, a contour for the number of bins and the accumulated variance in the PCA analysis was made.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{graphics/contour_bins_vs_pca_04_L1_NZ}
+\caption{Contour of the success rate of the Naive Bayes with accumulated PCA going from 0.3 to 1 and the number of bins from 2 to 20.
+The data was normalized using z-score first and the Laplace value was set to 1.
+The contour was created with G3M2 data in the test set and the remaining 15 loadable datasets in the training set.}
+\label{fig:contour_bin-vs-pca}
+\end{figure}
+
+...
+
+From figure \ref{fig:contour_bin-vs-pca} it can be seen that the best point is with XX bins and an accumulative PCA of 0.X.
+These values for bins, PCA and Laplace are then used to compare all people with the rest of the class in figure \ref{fig:comp_naiveBayes}.
+
+\begin{figure}[H]
+\centering
+%\includegraphics[width = \textwidth]{graphics/...}
+\caption{Comparison of Naive Bayes for one person with the rest of the class.
+Where bins is XXX, PCA is YYY and laplace is ZZZ.}
+\label{fig:comp_naiveBayes}
+\end{figure}
+
+
+
+
+
+
