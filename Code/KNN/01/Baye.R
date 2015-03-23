@@ -2,9 +2,9 @@ library("e1071")
 # library("gmodels")
 
 
-baye_predict <- function(data, laplace = 0){
+baye_predict <- function(data, laplace = 0, threshold = 0, eps=0){
 	# print("Naive Bayes")
-	classifier <- naiveBayes(x = data$trainSet, y = as.factor(data$trainVali), laplace = laplace)
+	classifier <- naiveBayes(x = data$trainSet, y = as.factor(data$trainVali), laplace = laplace, threshold=threshold, eps=eps)
 	
 	# print("Prediction")
 	predictions <- predict(classifier, data$testSet, type = "class")
