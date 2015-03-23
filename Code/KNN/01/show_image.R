@@ -23,5 +23,5 @@ show_image <- function(digit, filename="image.eps", width = 18) {
 # show_image(img,20)
 
 
-data <- prepareOneAlone(3,2, trainPartSize = 400, testSize = 400, peopleToLoad = getPeople()[7:8], DPI = 100)
-show_image(data$testSet[821,], width = 20)
+data <- prepareOneAlone(1,1, trainPartSize = 400, testSize = 400, peopleToLoad = getPeople()[1:2], DPI = 100)
+show_image(data$testSet[441,], width = 20)
