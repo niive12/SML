@@ -20,11 +20,11 @@ source("Baye.R")
 # b = streg imellem, o = streg igennem
 startTimer <- proc.time() # used for timing
 
-PCA = 0.6
+PCA = 0.5
 bins = 20
 laplace = 1
-tresh = 0.1
-eps = 0.1
+tresh = 0
+eps = 0
 
 train_size = 400
 test_size = 400
@@ -99,7 +99,7 @@ colors = rainbow(5)
 plot(1:noPeople,result[1,], xaxt="n",type="b",xlab="Person",ylab="Success Rate",ylim=(c(min(result),max(result))),col=colors[1]) # ylim=(c(min(result),max(result))),
 axis(1, at=1:noPeople, labels=x_lab)
 setEPS()
-postscript("graph_normalization.eps",height = 6, width = 8)
+postscript("graph_baye_comparison.eps",height = 6, width = 8)
 plot(1:noPeople,result[1,], xaxt="n",type="b",xlab="Person",ylab="Success Rate",ylim=(c(min(result),max(result))),col=colors[1]) # ylim=(c(min(result),max(result))),
 axis(1, at=1:noPeople, labels=x_lab)
 dev.off()
