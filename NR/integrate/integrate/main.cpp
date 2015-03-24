@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "../../NR_LIB/code/nr3.h"
+#include "../../NR_LIB/code/quadrature.h"
 #include "../../NR_LIB/code/derule.h"
 
 #define ever ;;
@@ -24,16 +25,16 @@ void print_DErule(T &funcc, const Doub aa, const Doub bb, const Doub hmaxx=3.7){
 
 	double s_h1 = 1, s_h2 = 1, s_h3 = 1, alpha_k, error;
 	DErule<T> int_derule(funcc, aa, bb, hmaxx);
-
+	int width = 10;
 	for(ever){
 		s_h1 = s_h2;
 		s_h2 = s_h3;
-		sh_3 = int_derule.next();
+		s_h3 = int_derule.next();
 		alpha_k = (s_h1-s_h2)/(s_h2-s_h3);
 		error = (s_h2-s_h1)/(alpha_k-1);
 
 //		if (iterations > 2 ) {
-			cout << setw(4) << iterations << "\t";
+//			cout << setw(4) << iterations << "\t";
 			cout << setw(width) << s_h3 << "\t";
 			cout << setw(width) << alpha_k << "\t";
 			cout << setw(width) << log(alpha_k)/log(3) << "\t";
@@ -44,7 +45,6 @@ void print_DErule(T &funcc, const Doub aa, const Doub bb, const Doub hmaxx=3.7){
 }
 
 int main() {
-
-
+	print_DErule(function,0,1);
 	return 0;
 }
