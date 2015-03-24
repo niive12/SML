@@ -8,11 +8,18 @@
 
 double function(double x, double tau){
 	double result;
-//   cos(pow(x,2))*exp(-x)
-//   cos(pow(x,2))*exp(-x)/sqrt(x) // hint: sqrt(tau)...
+//    cos(pow(x,2))*exp(-x) = 0.590051 from 0 to 1
+//    cos(pow(x,2))*exp(-x)/sqrt(x) = 1.44599 from 0 to 1 // hint: sqrt(tau)...
 
 	result = (cos(pow(x,2))*exp(-x));
-//    result = (cos(pow(x,2))*exp(-x))/sqrt(tau);
+
+//    if(x < 0.00001){
+//        result = (cos(pow(x,2))*exp(-x))/sqrt(tau);
+//    }
+//    else{
+//        result = (cos(pow(x,2))*exp(-x))/sqrt(x);
+//    }
+
 	return result;
 }
 
