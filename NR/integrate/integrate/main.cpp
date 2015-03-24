@@ -13,12 +13,12 @@ double function(double x, double tau){
 
 	result = (cos(pow(x,2))*exp(-x));
 
-//    if(x < 0.00001){
-//        result = (cos(pow(x,2))*exp(-x))/sqrt(tau);
-//    }
-//    else{
-//        result = (cos(pow(x,2))*exp(-x))/sqrt(x);
-//    }
+	if(x < 0.1){
+		result = (cos(pow(x,2))*exp(-x))/sqrt(tau);
+	}
+	else{
+		result = (cos(pow(x,2))*exp(-x))/sqrt(x);
+	}
 
 	return result;
 }
@@ -32,7 +32,7 @@ void print_DErule(T &funcc, const Doub aa, const Doub bb, int max_iter=100, cons
 	int width = 17;
 	cout << setw(4) << "iter"<< "\t";
 	cout << setw(width) << "s_h3" << "\t";
-	cout << setw(width) << "s_h3-s_h2" << "\n";
+	cout << setw(width+5) << "s_h3-s_h2" << "\n";
 	cout.precision(15);
 	double s_h1 = 1, s_h2 = 1, s_h3 = 1, alpha_k, error;
 	DErule<T> int_derule(funcc, aa, bb, hmaxx);
@@ -45,7 +45,7 @@ void print_DErule(T &funcc, const Doub aa, const Doub bb, int max_iter=100, cons
 
 			cout << setw(4) << iterations << "\t";
 			cout << setw(width) << s_h3 << "\t";
-			cout << setw(width) << s_h3-s_h2 << "\t";
+			cout << setw(width+5) << s_h3-s_h2 << "\t";
 			cout << endl;
 	}
 }
