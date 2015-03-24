@@ -20,7 +20,7 @@ source("Baye.R")
 # b = streg imellem, o = streg igennem
 startTimer <- proc.time() # used for timing
 
-PCA = 0.6
+PCA = 0.5
 bins = 20
 laplace = 1
 tresh = 0.1
@@ -44,7 +44,7 @@ for(i in 1:length(people)){
 fileName <- paste(c(fileName,".RData"),collapse="")
 
 
-if(file.exists(fileName) && 0){
+if(file.exists(fileName) && 1){
 	load(fileName)
 } else{
 	startTime <- proc.time() # used for timing
@@ -60,8 +60,9 @@ if(file.exists(fileName) && 0){
 		data <- normalizeData(data, "bin", bins = bins)
 		
 		# z-score, PCA, Bayes
-		result[1,person] <- (baye_predict(data, laplace = laplace, threshold = tresh, eps=eps))$success
-		
+# 		result[1,person] <- (baye_predict(data, laplace = laplace, threshold = tresh, eps=eps))$success
+		result[1,person] <- (baye_predict(data))$success
+		print(result[1,person])
 		timer <- (((proc.time() - startTime)[3])*(noPeople-person)/person)
 		print(paste(c(person, "/", noPeople, " datasets loaded. Estimated finish time: ",timer, " seconds."),collapse = ""))
 		
@@ -72,12 +73,10 @@ if(file.exists(fileName) && 0){
 	print(paste(c("time taken to run program: ", (proc.time() - startTime)[3]),collapse = ""))
 }
 
-
 print(result)
 
-
-print("mean")
 print(mean(result[1,]))
+
 # 0.44050 0.33925 0.47000 0.40975 0.38300 # 100 40 test K = 19
 # 0.5032083 0.4072083 0.5439375 0.4913542 0.4149167 # 400 400 test K = 19
 # 0.5532031 0.4493750 0.5874687 0.5339844 0.4791094 # 400 400 test 16 ppl K = 19
