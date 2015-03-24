@@ -12,16 +12,14 @@ The contour was created with G3M2 data in the test set and the remaining 15 load
 \label{fig:contour_bin-vs-pca}
 \end{figure}
 
-...
-
-From figure \ref{fig:contour_bin-vs-pca} it can be seen that the best point is with XX bins and an accumulative PCA of 0.X.
+From figure \ref{fig:contour_bin-vs-pca} it can be seen that the best point goes out of the view, and is in fact increasing, indicating that it gets better . The best bin size is above 15 bins and an accumulative PCA of 50\%.
 These values for bins, PCA and Laplace are then used to compare all people with the rest of the class in figure \ref{fig:comp_naiveBayes}.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width = \textwidth]{graphics/...}
+\includegraphics[width = \textwidth]{graphics/graph_baye_comparison}
 \caption{Comparison of Naive Bayes for one person with the rest of the class.
-Where bins is XXX, PCA is YYY and laplace is ZZZ.}
+Where bins is 20, PCA is 50\% and laplace of 1. The mean success rate is 33.7\%.}
 \label{fig:comp_naiveBayes}
 \end{figure}
 
