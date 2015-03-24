@@ -37,7 +37,7 @@ makeContour_bin_pca <- function(data, pc, bins){
 
 testPerson <- c(3,2)
 PC <- c(0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1)
-bins <- 1:20
+bins <- seq(2,200,10)
 
 if(TRUE){
 	data <- prepareOneAlone(testPerson[1],testPerson[2], trainPartSize = 400, testSize = 400, peopleToLoad = getPeople())
