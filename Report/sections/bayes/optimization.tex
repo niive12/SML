@@ -23,8 +23,14 @@ Where bins is 20, PCA is 50\% and laplace of 1. The mean success rate is 33.7\%.
 \label{fig:comp_naiveBayes}
 \end{figure}
 
+The timing was measured with different bin sizes. 
+In figure \ref{fig:baye_timing} the timing and success can be seen.
+The timing is linear and there is no increase in successful classifications with more than 100 bins. 
+The timing doesn't include the time it took to 
 
-
-
-
-
+\begin{figure}
+\centering
+\includegraphics[width = \textwidth]{graphics/baye_timing_bins}
+\caption[Timing with different bin sizes]{Timing and success of different bin sizes. Data was tested on Group 3 member 2's data vs 16 people.}
+\label{fig:baye_timing}
+\end{figure}
