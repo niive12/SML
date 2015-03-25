@@ -19,11 +19,38 @@ These values for bins, PCA and Laplace are then used to compare all people with 
 \centering
 \includegraphics[width = \textwidth]{graphics/graph_baye_comparison}
 \caption{Comparison of Naive Bayes for one person with the rest of the class.
-Where bins is 40, PCA is 50\% and laplace of 1. The mean success rate is XX.X\%.}
+Where bins is 50, PCA is 50\% and laplace of 1. The mean success rate is 34.6\%.}
 \label{fig:comp_naiveBayes}
 \end{figure}
 
-
+\begin{table}[H]
+\centering
+	\begin{subtable}{0.4\textwidth}
+        \flushright
+        \begin{tikzpicture}
+            \node at (0,0) {};
+            \node at (1,0) {\huge Actual Class}; 
+        \end{tikzpicture}
+    \end{subtable}
+    
+    \begin{subtable}{0.1\textwidth}
+        \flushright
+        \begin{tikzpicture}
+            \node[rotate=90] {\huge Predicted Class};
+        \end{tikzpicture}
+    \end{subtable}
+    \begin{subtable}{0.65\textwidth}
+            \centering
+            {\scriptsize
+                \begin{tabular}{l|*{10}{c}}
+                    \input{sections/bayes/baye_confusionmatrix}
+                \end{tabular}
+            }
+    \end{subtable}
+    \caption{Confusion matrix for Naive Bayes.
+    Where bins is 50, PCA is 50\% and laplace of 1.}
+    \label{tb:confus}
+\end{table}
 
 
 

@@ -20,15 +20,6 @@ library("gmodels")
 #-------------------------------------------------------------
 source("given_functions.R")
 
-write.latex <- function(data, col, row, filename) {
-	colnames(data) = col;
-	colnames(data)[1] = paste(c("&",col[1]),collapse="")
-	rownames(data) = row;
-	rownames(data)[1] = paste(c("\\hline\n",row[1]),collapse="")
-	write.table(data, file=filename, append = FALSE, sep="\t& ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
-}
-
-
 # generates a set of dataelements where: [[set]][training/testing (1/2)][number ('0','1',..)][trial, pixel]
 # input data to split in format [[number ('0','1',..)][trial, pixel], split ratio = percentage of set being in training set, sets = number of different sets.
 getSystematicSplit <- function(data, splitRatio, sets) { 

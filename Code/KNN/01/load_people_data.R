@@ -6,6 +6,14 @@ library("base") # for timing
 # the purpose of this source code is to load in the data needed and prepare it for processing. It will then be stored in external .dat files.
 # the data is prepared to be used for the KNN method in 
 
+write.latex <- function(data, col, row, filename) {
+	colnames(data) = col;
+	colnames(data)[1] = paste(c("&",col[1]),collapse="")
+	rownames(data) = row;
+	rownames(data)[1] = paste(c("\\hline\n",row[1]),collapse="")
+	write.table(data, file=filename, append = FALSE, sep="\t& ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
+}
+
 
 
 # list of people to access data from
