@@ -21,7 +21,7 @@ source("Baye.R")
 startTimer <- proc.time() # used for timing
 
 PCA = 0.5
-bins = 20
+bins = 40
 laplace = 1
 tresh = 0
 eps = 0
