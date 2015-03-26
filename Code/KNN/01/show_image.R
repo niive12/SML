@@ -1,5 +1,4 @@
 library("gplots")
-library("gplots")
 source("load_people_data.R")
 
 show_image <- function(digit, filename="image.eps", width = 18) {
@@ -19,12 +18,12 @@ show_image <- function(digit, filename="image.eps", width = 18) {
 			sum = sum + img[x,y]
 		}
 	}
-	print(sum)
+	print(c("sum: ",sum))
 	
-	setEPS()
-	postscript(filename,height = height, width = width)
-	image(img, xaxt="n", yaxt="n",col=colorpanel(256, "black", "white"))
-	q = dev.off()
+# 	setEPS()
+# 	postscript(filename,height = height, width = width)
+# 	image(img, xaxt="n", yaxt="n",col=colorpanel(256, "black", "white"))
+# 	q = dev.off()
 }
 
 source("load_people_data.R")
