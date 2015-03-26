@@ -15,7 +15,7 @@ probability <- function(data,pdf){
 	big   = 0
 	if( data < min(pdf$x) ) {
 		res = pdf$y[min(pdf$x)]
-	} else if (data > max(pdf$x) ) {
+	} else if (data >= max(pdf$x) ) {
 		res = pdf$y[max(pdf$x)]
 	} else {
 		for( s in 1:length(pdf$x) ){
@@ -25,8 +25,9 @@ probability <- function(data,pdf){
 				break
 			}
 		}
-		(pdf$y[s]+pdf$y[s+1])/2 * (pdf$x[s+1]-pdf$x[s])
+		res = (pdf$y[s]+pdf$y[s+1])/2 * (pdf$x[s+1]-pdf$x[s])
 	}
+	return(res)
 }
 
 sum_weighted <- function(digit) {
@@ -54,15 +55,12 @@ sum_weighted <- function(digit) {
 	b = 2
 	for(x in (com$x-width+1):centerx ){
 		for(y in (com$y-height):centery ){
-# 			kernel[x+centerx,y+centery] = 
+# 			kernel[x+centerx,y+centery] = 1
 # 			kernel[x+centerx,y+centery] = sqrt(x^2+y^2)*exp(-1*(x^2+y^2))
 			kernel[x+centerx,y+centery] = (1/(2*pi*sigma^2))*exp(-1*((a*x)^2+(b*y)^2)/(2*sigma^2)) + (1/(2*pi*sigma^2))*exp(-1*((b*x)^2+(a*y)^2)/(2*sigma^2))
 		}
 	}
 	
-	for(i in 1:length(img)){
-		img[i] = img[i] -1
-	}
 	img = kernel %*% img
 	
 	sum = sum_of_digit(img)
@@ -78,10 +76,12 @@ new_trainset = matrix(0,(dim(data$trainSet)[1]/10),10)
 # }
 
 for( i in 1:dim(data$trainSet)[1]) {
+# 	new_trainset[[i %% dim(new_trainset)[1]+1,data$trainVali[i]]] = sum_of_digit(data$trainSet[i,])
 	new_trainset[[i %% dim(new_trainset)[1]+1,data$trainVali[i]]] = sum_weighted(data$trainSet[i,])
 }
 new_testset = matrix(0,(dim(data$testSet)[1]/10),10)
 for( i in 1:dim(data$testSet)[1]) {
+# 	new_testset[[i %% dim(new_testset)[1]+1,data$testVali[i]]] = sum_of_digit(data$testSet[i,])
 	new_testset[[i %% dim(new_testset)[1]+1,data$testVali[i]]] = sum_weighted(data$testSet[i,])
 }
 
@@ -89,10 +89,10 @@ estimated_pdf = list(c(1:10,1:10))
 
 train_x = matrix(0,dim(data$trainSet)[1])
 for( i in 1:dim(data$trainSet)[1] ){
-	train_x[i] = sum_weighted(data$trainSet[i,])
+	train_x[i] = sum_of_digit(data$trainSet[i,])
+# 	train_x[i] = sum_weighted(data$trainSet[i,])
 }
 pdf_x = bkde(x=train_x, kernel="normal")
-
 for( i in 1:10) {
 	estimated_pdf[[i]] = bkde(x=new_trainset[,i], kernel="normal")
 }
@@ -114,27 +114,33 @@ ymax = max(ymas)
 ymin = min(ymis)
 colors = rainbow(10)
 
-for( i in 1:10) {
-	print( (probability(new_testset[1], estimated_pdf[[i]]) * 0.1) / probability(new_testset[1], pdf_x) )
+confus = matrix(0,10,10)
+res = 1:10
+percent = 0
+for( d in 1:length(new_testset) ){
+	for( i in 1:10) {
+		res[i] = ( (probability(new_testset[d], estimated_pdf[[i]])) )
+# 		res[i] = ( (probability(new_testset[d], estimated_pdf[[i]])) / probability(new_testset[d], pdf_x) )
+	}
+	detect = which.max(res) 
+	
+	confus[[detect,data$testVali[d]]] = confus[detect,data$testVali[d]] + 1;
+	if(detect == (data$testVali)[i]){
+		percent = percent + 1
+	} 
 }
-# print(probability(new_testset[1], estimated_pdf[[1]]) )
-# print(probability(new_testset[1], pdf_x) )
-# print(probability(new_testset[1], estimated_pdf[[2]]) )
-# print(probability(new_testset[1], estimated_pdf[[3]]) )
-# print(probability(new_testset[1], estimated_pdf[[4]]) )
-# print(probability(new_testset[1], estimated_pdf[[5]]) )
-# print(probability(new_testset[1], estimated_pdf[[6]]) )
-# print(probability(new_testset[1], estimated_pdf[[7]]) )
-# print(probability(new_testset[1], estimated_pdf[[8]]) )
-# print(probability(new_testset[1], estimated_pdf[[9]]) )
-# print(probability(new_testset[1], estimated_pdf[[10]]) )
-
-
-
-
+percent = percent/length(data$testVali)
+ 
+trueDetections = array(0,10)
+noChars = 10
+for(i in 1:noChars){
+	trueDetections[i] = (confus[i,i]/(length(data$testVali)/noChars))
+}
+print(confus)
+print(percent)
 
 plot(estimated_pdf[[1]], xlab="x", ylab="pdf", xlim=c(xmin,xmax), ylim=c(ymin,ymax),type="l",col=colors[1],lty=1)
 for( i in 2:10) {
 	lines(estimated_pdf[[i]],col=colors[i],lty=i)#, xlab="x", ylab="pdf")
 }
-legend("topright",NULL,0:9,cex=0.8,col=colors,lty=1:3)
+legend("topright",NULL,1:10,cex=0.8,col=colors,lty=1:10)
