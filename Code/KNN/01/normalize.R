@@ -5,7 +5,8 @@ normalize <- function(x){
 	return((x-min(x))/(max(x)-min(x)))
 }
 
-bin <- function(x, bins){
+
+bin <- function(x, bins, inverse = TRUE){
 	min = min(x)
 	max = max(x)
 	binSize = (max-min)/bins
@@ -15,14 +16,18 @@ bin <- function(x, bins){
 		while(x[feature] > (min + bin*binSize) && bin < bins){
 			bin = bin +1
 		}
-		x[feature] = (bin)
+		x[feature] = (bin-1)
+		if(inverse){
+			x[feature] = (bins-bin)
+		}
+		
 	}
 	
 	return(as.factor(x))
 }
 
 
-normalizeData <- function(data, normMethod = "min-max", bins = 2){ # data must be a list with a trainSet adn testSet entry
+normalizeData <- function(data, normMethod = "min-max", bins = 2, inverseBinning = TRUE){ # data must be a list with a trainSet adn testSet entry
 	trainS = matrix(,dim(data$trainSet)[1],dim(data$trainSet)[2])
 	testS = matrix(,dim(data$testSet)[1],dim(data$testSet)[2])
 	
@@ -49,15 +54,16 @@ normalizeData <- function(data, normMethod = "min-max", bins = 2){ # data must b
 		}
 		
 		for(i in 1:dim(data$trainSet)[1]){
-			trainS[i,] = bin(data$trainSet[i,], bins)
+			trainS[i,] = bin(data$trainSet[i,], bins, inverseBinning)
 		}
 		for(i in 1:dim(data$testSet)[1]){
-			testS[i,] = bin(data$testSet[i,], bins)
+			testS[i,] = bin(data$testSet[i,], bins, inverseBinning)
 		}
 	}
 	
 	return(list(trainSet = trainS, testSet = testS,trainVali=data$trainVali,testVali=data$testVali))
 }
+
 
 countEntries <- function(dataRow, dataElements){
 	result <- matrix(0,1,length(dataElements))
@@ -176,7 +182,7 @@ centerOfMass <- function(dataRow, charWidth){
 
 # #  test of bin in normalizeData
 # testarray = c(0.1,0.8,0.1,1,0,0.9,0.1,0.6,0.4,0.55)
-# print(bin(testarray,3))
+# print(bin(testarray,3, inverse = T))
 
 # test centerOfMass
 # testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
