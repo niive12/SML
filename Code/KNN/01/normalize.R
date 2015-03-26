@@ -129,6 +129,13 @@ countBinning <-function(data, charWidth, dataElements, pictureDevisions = 1){
 centerOfMass <- function(dataRow, charWidth){
 	charHeight <- length(dataRow)/charWidth
 	
+	if(floor(charHeight) != charHeight ){
+		# generate error..
+		e <- simpleError(paste(c("Bad input. charWidth not valid. Picture must form a square."),collapse=""))
+		stop(e)
+	}
+	
+	
 	completeMass = sum(dataRow)
 	
 	x_com <- 0
@@ -176,5 +183,5 @@ centerOfMass <- function(dataRow, charWidth){
 # print(bin(testarray,3))
 
 # test centerOfMass
-# testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
-# print(centerOfMass(testarray,4))
+testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+print(centerOfMass(testarray,4))
