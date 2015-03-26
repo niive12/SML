@@ -8,9 +8,10 @@ This can be done on various ways:
 This reduces the probability calculations to be done in the Naive Bayes. \label{list:bin}
 \item Nearby pixels can be grouped together, which is the same as reducing the resolution.
 \item PCA can be applied on the z-score normalized data to find the most significant variation in it and step \ref{list:bin} can then be applied. \label{list:pca_bin}
+\item The picture can be subdivided and the occurrence of the pixel values counted. To improve this, the pixel values can be binned into fewer groups beforehand. \label{list:bin_count}
 \end{enumerate}
 
-From these methods, method \ref{list:pca_bin} was chosen.
+From these methods, method \ref{list:pca_bin} and \ref{list:bin_count} was chosen.
 
 Figure \ref{fig:effect_of_binning} shows the effect on a picture when the numbers are only binned.
 The PCA and normalization can here, for good reasons, not be shown.
