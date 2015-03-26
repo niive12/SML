@@ -148,16 +148,12 @@ centerOfMass <- function(dataRow, charWidth){
 	for(x_mass in 1:charWidth){
 		x_mass_dist <- x_mass_dist + dataRow[((x_mass-1)*charWidth + 1):(x_mass*charWidth)]
 	}
-	
-	print(x_mass_dist)
-	
+		
 	# y mass dist
 	for(y_mass in 1:charHeight){
 		y_mass_dist[1,y_mass] <- sum(dataRow[((y_mass-1)*charWidth + 1):(y_mass*charWidth)])
 	}
-	
-	print(y_mass_dist)
-	
+		
 	# com in x
 	for(x in 1:charWidth){
 		x_com <- x_com + x_mass_dist[1,x]*x
@@ -183,5 +179,5 @@ centerOfMass <- function(dataRow, charWidth){
 # print(bin(testarray,3))
 
 # test centerOfMass
-testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
-print(centerOfMass(testarray,4))
+# testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+# print(centerOfMass(testarray,4))
