@@ -12,20 +12,20 @@ sum_of_digit <- function(digit) {
 
 probability <- function(data,pdf){
 	small = 0
-	big   = 0
 	if( data < min(pdf$x) ) {
 		res = pdf$y[min(pdf$x)]
 	} else if (data >= max(pdf$x) ) {
 		res = pdf$y[max(pdf$x)]
 	} else {
 		for( s in 1:length(pdf$x) ){
-			if ( data > s ) {
-				small = pdf$x[s]
+			if ( data > pdf$x[s] ) {
+				small = s
 			} else {
 				break
 			}
 		}
-		res = (pdf$y[s]+pdf$y[s+1])/2 * (pdf$x[s+1]-pdf$x[s])
+# 		res = (pdf$y[small]+pdf$y[small+1])/2 * (pdf$x[small+1]-pdf$x[small])
+		res = pdf$y[small]
 	}
 	return(res)
 }
@@ -55,9 +55,9 @@ sum_weighted <- function(digit) {
 	b = 2
 	for(x in (com$x-width+1):centerx ){
 		for(y in (com$y-height):centery ){
-# 			kernel[x+centerx,y+centery] = 1
+			kernel[x+centerx,y+centery] = 1
 # 			kernel[x+centerx,y+centery] = sqrt(x^2+y^2)*exp(-1*(x^2+y^2))
-			kernel[x+centerx,y+centery] = (1/(2*pi*sigma^2))*exp(-1*((a*x)^2+(b*y)^2)/(2*sigma^2)) + (1/(2*pi*sigma^2))*exp(-1*((b*x)^2+(a*y)^2)/(2*sigma^2))
+# 			kernel[x+centerx,y+centery] = (1/(2*pi*sigma^2))*exp(-1*((a*x)^2+(b*y)^2)/(2*sigma^2)) + (1/(2*pi*sigma^2))*exp(-1*((b*x)^2+(a*y)^2)/(2*sigma^2))
 		}
 	}
 	
@@ -124,10 +124,10 @@ for( d in 1:length(new_testset) ){
 	}
 	detect = which.max(res) 
 	
-	confus[[detect,data$testVali[d]]] = confus[detect,data$testVali[d]] + 1;
-	if(detect == (data$testVali)[i]){
+	if(detect == (data$testVali)[d]){
 		percent = percent + 1
 	} 
+	confus[[detect,data$testVali[d]]] = confus[detect,data$testVali[d]] + 1;
 }
 percent = percent/length(data$testVali)
  
@@ -136,11 +136,16 @@ noChars = 10
 for(i in 1:noChars){
 	trueDetections[i] = (confus[i,i]/(length(data$testVali)/noChars))
 }
-print(confus)
+# print(confus)
 print(percent)
+print(trueDetections)
+write.latex(confus, 0:9, 0:9, "../../../Report/graphics/kde_confus.tex")
 
+setEPS()
+postscript("../../../Report/graphics/kde_graphs_sum.eps",height = 4, width = 8)
 plot(estimated_pdf[[1]], xlab="x", ylab="pdf", xlim=c(xmin,xmax), ylim=c(ymin,ymax),type="l",col=colors[1],lty=1)
 for( i in 2:10) {
 	lines(estimated_pdf[[i]],col=colors[i],lty=i)#, xlab="x", ylab="pdf")
 }
-legend("topright",NULL,1:10,cex=0.8,col=colors,lty=1:10)
+legend("topright",NULL,0:9,cex=0.8,col=colors,lty=1:10)
+q = dev.off()
