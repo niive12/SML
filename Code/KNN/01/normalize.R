@@ -176,6 +176,90 @@ centerOfMass <- function(dataRow, charWidth){
 	return (list(x = x_com,y = y_com))
 }
 
+
+cropDigitLimits <- function(dataRow, charWidth, is2binned = FALSE){
+	
+	if(!is2binned){
+		dataRow <- bin(dataRow, 2, TRUE)
+	}
+	
+	x_b <- 0
+	x_e <- charWidth
+	y_b <- 0
+	y_e <- charWidth
+	
+	x_mass_dist <- matrix(0,1,charWidth)
+	y_mass_dist <- matrix(0,1,charHeight)
+	
+	# x mass dist
+	for(x_mass in 1:charWidth){
+		x_mass_dist <- x_mass_dist + dataRow[((x_mass-1)*charWidth + 1):(x_mass*charWidth)]
+	}
+	
+	# y mass dist
+	for(y_mass in 1:charHeight){
+		y_mass_dist[1,y_mass] <- sum(dataRow[((y_mass-1)*charWidth + 1):(y_mass*charWidth)])
+	}
+	
+	# xb
+	x = 0
+	while(x_mass_dist[x] == 0){
+		x <- x + 1
+	}
+	x_b <- x
+	
+	# xe
+	x = charWidth
+	while(x_mass_dist[x] == 0){
+		x <- x - 1
+	}
+	x_e <- x
+	
+	# yb
+	y = 0
+	while(y_mass_dist[y] == 0){
+		y <- y + 1
+	}
+	y_b <- y
+	
+	# ye
+	y = charWidth
+	while(y_mass_dist[y] == 0){
+		y <- y - 1
+	}
+	y_e <- y
+	
+	
+	return (list(xb = x_b, yb = y_b, xe = x_e, ye = y_e))
+}
+
+
+cropDigit <- function(dataRow, charWidth, cropCords){
+	
+	# make frame for it
+	frame <- rep.int(FALSE,length(dataRow))
+	# everything to remove above the picture
+# 	frame[1:((cropCords$yb-1)*charWidth)] <- rep.int(FALSE,(cropCords$yb-1)*charWidth)
+# 	# the pic(ture minus the sides
+	frame_x <- 1:charWidth
+	frame_x[1:charWidth] <- c(rep.int(FALSE,cropCords$xb-1),rep.int(TRUE,(cropCords$xe-cropCords$xb + 1)),rep.int(FALSE,(charWidth-cropCords$xe)))
+	frame[((cropCords$yb - 1)*charWidth + 1):(cropCords$ye*charWidth)] <- rep(frame_x,(cropCords$ye-cropCords$yb + 1))
+# 	# averything below the image
+# 	frame[(cropCords$ye*charWidth + 1):(length(dataRow))] <- rep(FALSE,(length(dataRow)-(cropCords$ye*charWidth)))
+	
+	cropped_pic <- matrix(,1,length(dataRow[frame]))
+
+	index = 1
+	for(i in 1:length(dataRow)){
+		if(frame[i] == TRUE){
+			cropped_pic[index] <- dataRow[i]
+			index <- index + 1
+		}
+	}
+
+	return (cropped_pic)
+}
+
 # test countEntries
 # testlist <- c(1,2,1,1,1,1,1,2,2,2,3,2,2,3,1,3,1,2,2,1,1) # 1 = 10, 2 = 8, 3 = 3
 # print(countEntries(testlist,1:3))
@@ -187,3 +271,9 @@ centerOfMass <- function(dataRow, charWidth){
 # test centerOfMass
 # testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
 # print(centerOfMass(testarray,4))
+
+# test crop
+# image <- c(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5)
+# result <- cropDigit(image, 5, (list(xb = 2, yb = 3, xe = 4, ye = 5)))
+# print(result)
+
