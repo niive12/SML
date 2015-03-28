@@ -5,28 +5,29 @@
 
 double func_F_x(double x){
 	const double d = 1.0;
-	double y = 0;
-	return 0.5* (pow(d,2)/pow((pow(d,2)+pow(x-y,2)),3/2));
+	double y = 0.25;
+	return 0.5* (pow(d,2)/pow((pow(d,2)+pow(x-y,2)),3/2)) * x;
 }
 
 double func_F_y(double y){
 	const double d = 1.0;
-	double x = 0;
-	return 0.5* (pow(d,2)/pow((pow(d,2)+pow(x-y,2)),3/2));
+	double x = 0.25;
+	return 0.5* (pow(d,2)/pow((pow(d,2)+pow(x-y,2)),3/2))*y;
 }
 
 template<class T>
 double int_func(T &funcc, double aa, double bb){
 	const double min_error = 10e-6;
 	int max_iter = 20;
-	double s_h1 = 1, s_h2 = 1, s_h3 = 1, error;
+	double s_h1 = 1, s_h2 = 1, s_h3 = 1, error,alpha_k;
 
 	Trapzd<T> int_trapez(funcc, aa, bb);
 	for(int iterations = 0; iterations < max_iter; iterations++){
 		s_h1 = s_h2;
 		s_h2 = s_h3;
 		s_h3 = int_trapez.next();
-		error = (s_h1-s_h2)/(s_h2-s_h3);
+		alpha_k = (s_h1-s_h2)/(s_h2-s_h3);
+		error = (s_h2-s_h1)/(alpha_k-1);
 		if(error < min_error){
 			return s_h3;
 		}
@@ -55,16 +56,33 @@ double func_v(double u_0){
 	return eps*sigma*pow(T,4)+(1-eps)*I;
 }
 
+double func_Q1(double u_0){
+	double w = 1.0;
+	double I = int_func(func_F_x,-0.5*w, 0.5*w);
+	return (u_0 - I);
+}
+double func_Q2(double v_0){
+	double w = 1.0;
+	double I = int_func(func_F_y,-0.5*w, 0.5*w);
+	return (v_0 - I);
+}
+
 int main() {
 	double u_0=0,v_0=0,u_1,v_1;
 	int N = 16;
-
+	double w = 1.0;
+	double q1,q2;
 	for( int i = 0; i < N; i++){
 		u_1 = func_u(v_0);
 		v_1 = func_v(u_0);
 		u_0 = u_1;
 		v_0 = v_1;
-		cout << "u = " << u_0 << "\tv = " << v_0 << endl;
+
+		q1 = int_func(func_Q1, -0.5*w,0.5*w);
+		q2 = int_func(func_Q2, -0.5*w,0.5*w);
+
+		cout << "q1 = " << q1 << "\tq2 = " << q2 << endl;
+//		cout << "u = " << u_0 << "\tv = " << v_0 << endl;
 	}
 
 	return 0;
