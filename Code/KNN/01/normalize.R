@@ -6,24 +6,24 @@ normalize <- function(x){
 }
 
 
-bin <- function(x, bins, inverse = TRUE){
+bin <- function(x, bin, inverse = TRUE){
 	min = min(x)
 	max = max(x)
-	binSize = (max-min)/bins
+	binSize = (max-min)/bin
 	
 	for(feature in 1:length(x)){
-		bin = 1
-		while(x[feature] > (min + bin*binSize) && bin < bins){
-			bin = bin +1
+		bini = 1
+		while(x[feature] > (min + bini*binSize) && bini < bin){
+			bini = bini +1
 		}
-		x[feature] = (bin-1)
+		x[feature] = (bini-1)
 		if(inverse){
-			x[feature] = (bins-bin)
+			x[feature] = (bin-bini)
 		}
 		
 	}
 	
-	return(as.factor(x))
+	return(x)
 }
 
 
@@ -54,10 +54,10 @@ normalizeData <- function(data, normMethod = "min-max", bins = 2, inverseBinning
 		}
 		
 		for(i in 1:dim(data$trainSet)[1]){
-			trainS[i,] = bin(data$trainSet[i,], bins, inverseBinning)
+			trainS[i,] <- bin(data$trainSet[i,], bins, inverseBinning)
 		}
 		for(i in 1:dim(data$testSet)[1]){
-			testS[i,] = bin(data$testSet[i,], bins, inverseBinning)
+			testS[i,] <- bin(data$testSet[i,], bins, inverseBinning)
 		}
 	}
 	
@@ -178,14 +178,21 @@ centerOfMass <- function(dataRow, charWidth){
 
 
 cropDigitLimits <- function(dataRow, charWidth, is2binned = FALSE){
+	charHeight <- length(dataRow)/charWidth
+	
+	if(floor(charHeight) != charHeight ){
+		# generate error..
+		e <- simpleError(paste(c("Bad input. charWidth not valid. Picture must form a square."),collapse=""))
+		stop(e)
+	}
 	
 	if(!is2binned){
 		dataRow <- bin(dataRow, 2, TRUE)
 	}
 	
-	x_b <- 0
+	x_b <- 1
 	x_e <- charWidth
-	y_b <- 0
+	y_b <- 1
 	y_e <- charWidth
 	
 	x_mass_dist <- matrix(0,1,charWidth)
@@ -202,7 +209,7 @@ cropDigitLimits <- function(dataRow, charWidth, is2binned = FALSE){
 	}
 	
 	# xb
-	x = 0
+	x = 1
 	while(x_mass_dist[x] == 0){
 		x <- x + 1
 	}
@@ -216,7 +223,7 @@ cropDigitLimits <- function(dataRow, charWidth, is2binned = FALSE){
 	x_e <- x
 	
 	# yb
-	y = 0
+	y = 1
 	while(y_mass_dist[y] == 0){
 		y <- y + 1
 	}
@@ -266,7 +273,8 @@ cropDigit <- function(dataRow, charWidth, cropCords){
 
 # #  test of bin in normalizeData
 # testarray = c(0.1,0.8,0.1,1,0,0.9,0.1,0.6,0.4,0.55)
-# print(bin(testarray,3, inverse = T))
+# result <- bin(testarray,2, inverse = T)
+# print(result)
 
 # test centerOfMass
 # testarray = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
