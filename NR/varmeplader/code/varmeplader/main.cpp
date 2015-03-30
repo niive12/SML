@@ -2,6 +2,8 @@
 #include <cmath>
 #include "../../../NR_LIB/code/nr3.h"
 #include "../../../NR_LIB/code/quadrature.h"
+#include "../../../nr_robot/trivial_functions.h"
+#include "../../../NR_LIB/code/ludcmp.h"
 
 double func_F_x(double x){
 	const double d = 1.0;
@@ -16,43 +18,42 @@ double func_F_y(double y){
 }
 
 template<class T>
-double int_func(T &funcc, double aa, double bb){
-	const double min_error = 10e-6;
-	int max_iter = 20;
-	double s_h1 = 1, s_h2 = 1, s_h3 = 1, error,alpha_k;
+double int_func(T &funcc, double aa, double bb, int N = 4){
+//	const double min_error = 10e-6;
+	int max_iter = N;
+	double s_h1 = 1, s_h2 = 1, s_h3 = 1;//, error,alpha_k;
 
 	Trapzd<T> int_trapez(funcc, aa, bb);
 	for(int iterations = 0; iterations < max_iter; iterations++){
 		s_h1 = s_h2;
 		s_h2 = s_h3;
 		s_h3 = int_trapez.next();
-		alpha_k = (s_h1-s_h2)/(s_h2-s_h3);
-		error = (s_h2-s_h1)/(alpha_k-1);
-		if(error < min_error){
-			return s_h3;
-		}
+//		alpha_k = (s_h1-s_h2)/(s_h2-s_h3);
+//		error = (s_h2-s_h1)/(alpha_k-1);
+//		if(error < min_error){
+//			return s_h3;
+//		}
 	}
-	throw("Too many iterations in int_func");
-	return min_error;
+	return s_h3;
 }
 
-double func_u(double v_0){
+double func_u(double v_0, int N){
 	int T=1000;
 	double eps = 0.80;
 	double sigma = 1.712*10e-9;
 	double w=1.0;
 
-	double I = int_func(func_F_x,-0.5*w, 0.5*w) * v_0;
+	double I = int_func(func_F_x,-0.5*w, 0.5*w, N) * v_0;
 	return eps*sigma*pow(T,4)+(1-eps)*I;
 }
 
-double func_v(double u_0){
+double func_v(double u_0, int N){
 	int T=500;
 	double eps = 0.60;
 	double sigma = 1.712*10e-9;
 	double w=1.0;
 
-	double I = int_func(func_F_x,-0.5*w, 0.5*w) * u_0;
+	double I = int_func(func_F_x,-0.5*w, 0.5*w, N) * u_0;
 	return eps*sigma*pow(T,4)+(1-eps)*I;
 }
 
@@ -67,23 +68,112 @@ double func_Q2(double v_0){
 	return (v_0 - I);
 }
 
-int main() {
-	double u_0=0,v_0=0,u_1,v_1;
-	int N = 16;
-	double w = 1.0;
-	double q1,q2;
-	for( int i = 0; i < N; i++){
-		u_1 = func_u(v_0);
-		v_1 = func_v(u_0);
-		u_0 = u_1;
-		v_0 = v_1;
+//int main() {
+//	double u_0=0,v_0=0,u_1,v_1;
+//	int N = 4;
+//	double w = 10.0;
+//	double q1,q2;
+//	int tN = 32;
+//	for( int d=2; d <= tN; d=d*2){
+//		cout << d << endl;
+//		for( int i = 0; i < N; i++){
+//			u_1 = func_u(v_0, d);
+//			v_1 = func_v(u_0, d);
+//			u_0 = u_1;
+//			v_0 = v_1;
 
-		q1 = int_func(func_Q1, -0.5*w,0.5*w);
-		q2 = int_func(func_Q2, -0.5*w,0.5*w);
+//			q1 = int_func(func_Q1, -0.5*w,0.5*w,d);
+//			q2 = int_func(func_Q2, -0.5*w,0.5*w,d);
 
-		cout << "q1 = " << q1 << "\tq2 = " << q2 << endl;
-//		cout << "u = " << u_0 << "\tv = " << v_0 << endl;
+//			cout << "q1 = " << q1 << "\tq2 = " << q2 << endl;
+//			cout << "u = " << u_0 << "\tv = " << v_0 << endl;
+//		}
+//		u_0 = 0;
+//		v_0 = 0;
+//	}
+//	return 0;
+//}
+
+double func_F(double x, double y, double d = 1.0){
+	return 0.5* (pow(d,2)/pow((pow(d,2)+pow(x-y,2)),3/2)) * x;
+}
+
+void find_u_and_v(int N){
+	double T1=1000, T2 = 500;
+	double eps1 = 0.80, eps2=0.60;
+	double sigma = 1.712*1e-9;
+	double w=1.0;
+	double const_1 = eps1*sigma*pow(T1,4);
+	double const_2 = eps2*sigma*pow(T2,4);
+
+//	cout << const_1 << "\t" << const_2 << "\t";
+
+	double int_start = -0.5*w;
+	double int_end   =  0.5*w;
+
+	double h = (int_start-int_end)/N;
+
+	VecDoub parts(N+2);
+	for( int i = 0; i < N+2; i++){
+		parts[i] = int_end - (int_end + (double((2*i)-(N+1))/(N+1) * int_start)); //as the who said... I can't explain.
 	}
 
+//	I = int_func(func_F_x,-0.5*w, 0.5*w, N) * v_0;
+//	u(x) = const_1 + (1-eps)*I;
+//	u(x) - (1-eps)*I = const_1;
+
+
+	int size = 2*(N+1);
+	MatDoub A(size,size);
+	VecDoub z(size);
+	int x=0,y=0;
+
+	for(int a=0; a<size; a++){
+		x = 0;
+		y = 0;
+		for(int b=0; b<size; b++){
+			if (a == b ){
+				A[a][b] = 1;
+			} else {
+				if(a%2){
+					z[a] = const_1;
+					if(b % 2){
+						if (x == 0 || x == N+1) {
+							A[a][b] = (1-eps1) * 0.5 * h * func_F(parts[x],parts[y]);
+						} else {
+							A[a][b] = (1-eps1) * h * func_F(parts[x],parts[y]);
+						}
+						x++;
+					} else {
+						A[a][b] = 0;
+					}
+				} else {
+					z[a] = const_2;
+					if(!(b % 2)){
+						if(y == 0 || y == N+1){
+							A[a][b] = (1-eps1) * 0.5 * h * func_F(parts[x],parts[y]);
+						} else {
+							A[a][b] = (1-eps1) * h * func_F(parts[x],parts[y]);
+						}
+						y++;
+					} else {
+						A[a][b] = 0;
+					}
+				}
+			}
+		}
+	}
+	LUdcmp result(A);
+
+	VecDoub u_and_v(size);
+	result.solve(z,u_and_v);
+	cout << u_and_v[0] << "\t" << u_and_v[1] << endl;
+}
+
+
+int main() {
+	for(int i = 1; i <= 512; i*=2){
+		find_u_and_v(i);
+	}
 	return 0;
 }
