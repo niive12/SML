@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <utility>
 #include "../../../NR_LIB/code/nr3.h"
 #include "../../../NR_LIB/code/quadrature.h"
 #include "../../../nr_robot/trivial_functions.h"
@@ -95,13 +96,13 @@ double func_Q2(double v_0){
 //}
 
 double func_F(double x, double y, double d = 1.0){
-	return 0.5* (pow(d,2)/pow((pow(d,2)+pow(x-y,2)),3/2)) * x;
+	return 0.5* (pow(d,2)/pow((pow(d,2)+pow((x-y),2)),3/2));
 }
 
-void find_u_and_v(int N){
+pair<double,double> find_u_and_v(int N){
 	double T1=1000, T2 = 500;
 	double eps1 = 0.80, eps2=0.60;
-	double sigma = 1.712*1e-9;
+	double sigma = 1.712e-9;
 	double w=1.0;
 	double const_1 = eps1*sigma*pow(T1,4);
 	double const_2 = eps2*sigma*pow(T2,4);
@@ -113,9 +114,14 @@ void find_u_and_v(int N){
 
 	double h = (int_start-int_end)/N;
 
-	VecDoub parts(N+2);
-	for( int i = 0; i < N+2; i++){
-		parts[i] = int_end - (int_end + (double((2*i)-(N+1))/(N+1) * int_start)); //as the who said... I can't explain.
+//	VecDoub parts(N+2);
+//	for( int i = 0; i < N+2; i++){
+//		parts[i] = int_end - (int_end + (double((2*i)-(N+1))/(N+1) * int_start));
+//	}
+	VecDoub parts(N+1);
+	for( int i = 0; i < N+1; i++){
+		parts[i] = (i*(double(int_end-int_start)/(N)))*(int_end-int_start)+int_start;
+		//Khan Acadamy har forklaret dette meget fint... youtube.com/watch?v=h3h--K5928M
 	}
 
 //	I = int_func(func_F_x,-0.5*w, 0.5*w, N) * v_0;
@@ -126,36 +132,37 @@ void find_u_and_v(int N){
 	int size = 2*(N+1);
 	MatDoub A(size,size);
 	VecDoub z(size);
-	int x=0,y=0;
 
+	int x,y;
 	for(int a=0; a<size; a++){
-		x = 0;
-		y = 0;
 		for(int b=0; b<size; b++){
 			if (a == b ){
 				A[a][b] = 1;
 			} else {
-				if(a%2){
+				if(!(a%2)){ //even row... y changes (u)
+					x = a/2;
+					y = b/2;
 					z[a] = const_1;
-					if(b % 2){
-						if (x == 0 || x == N+1) {
+					if((b % 2)){
+						if (y == 0 || y == N) {
 							A[a][b] = (1-eps1) * 0.5 * h * func_F(parts[x],parts[y]);
 						} else {
 							A[a][b] = (1-eps1) * h * func_F(parts[x],parts[y]);
 						}
-						x++;
 					} else {
 						A[a][b] = 0;
 					}
-				} else {
+				} else { //odd row, x changes (v)
+					y = a/2;
+					x = b/2;
 					z[a] = const_2;
 					if(!(b % 2)){
-						if(y == 0 || y == N+1){
-							A[a][b] = (1-eps1) * 0.5 * h * func_F(parts[x],parts[y]);
+						if(x == 0 || x == N){
+							A[a][b] = (1-eps2) * 0.5 * h * func_F(parts[x],parts[y]);
 						} else {
-							A[a][b] = (1-eps1) * h * func_F(parts[x],parts[y]);
+							A[a][b] = (1-eps2) * h * func_F(parts[x],parts[y]);
 						}
-						y++;
+						x++;
 					} else {
 						A[a][b] = 0;
 					}
@@ -164,16 +171,64 @@ void find_u_and_v(int N){
 		}
 	}
 	LUdcmp result(A);
-
 	VecDoub u_and_v(size);
 	result.solve(z,u_and_v);
-	cout << u_and_v[0] << "\t" << u_and_v[1] << endl;
+//	u_and_v.print();
+	pair<double,double> U_V(u_and_v[(size-1)/2],u_and_v[(size-1)/2+1]);
+
+//	double I_1 = 0, I_2 = 0, line;
+//	for(int a=0; a<size; a++){
+//		for(int b=a+1; b<size; b++){
+//			line = A[a][b];
+//			if(!(a%2)){
+////				line *= u_and_v[a/2];
+//				I_1 += line;
+//			} else {
+////				line *= u_and_v[a/2+1];
+//				I_2 += line;
+//			}
+//		}
+//	}
+
+//	double Q_1 = u_and_v[0] - const_1/(1-eps1), Q_2 = u_and_v[1] - const_2/(1-eps2);
+	double Q_1 = const_1/(1-eps1), Q_2 = const_2/(1-eps2);
+
+	for(int a=0; a<size; a++){
+		if(!(a%2)){ //u
+			if (a == 0 || a == size-2) {
+				Q_1 += -1/(1-eps1) * 0.5 * h * u_and_v[a];
+			} else {
+				Q_1 += -1/(1-eps1) * h * u_and_v[a];
+			}
+		} else { //v
+			if (a == 1 || a == size-1) {
+				Q_2 += -1/(1-eps2) * 0.5 * h * u_and_v[a];
+			} else {
+				Q_2 += -1/(1-eps2) * h * u_and_v[a];
+			}
+		}
+	}
+
+	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
+
+	return U_V;
 }
 
 
 int main() {
-	for(int i = 1; i <= 512; i*=2){
-		find_u_and_v(i);
+	pair<double,double> U_V(0,0);
+	for(int i = 2; i <= 256; i*=2){
+		U_V = find_u_and_v(i);
+//		cout << U_V.first << "\t" << U_V.second << endl;
 	}
 	return 0;
 }
+
+/*
+ *  U:            V:
+ *    1398.36       323.266
+ * mine:
+ *   13821.3        905.071
+ * westermann:
+ Q1 = 1272.9, Q2 =  282.54
+ */
