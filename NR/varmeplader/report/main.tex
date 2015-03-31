@@ -7,6 +7,10 @@
 \usepackage{fullpage}
 \usepackage{tikz}
 
+\usepackage{arydshln} % dashed lines in array
+\usepackage{multirow} % multirow in array
+
+\usepackage{pdflscape} % landscape page
 
 \renewcommand\arraystretch{2}
 
@@ -57,13 +61,19 @@
 
 \begin{document}
 
-\title{Varmeplader \\{\large\emph{Numerical Methods}}}
+\title{Radiation Equilibrium of Parallel Plates \\{\large\emph{Numerical Methods}}}
 \author{Nikolaj Iversen and Lukas Schwartz}
-\date{April 5th, 2015}
+\date{April 6th, 2015}
 \maketitle
 
 
 \newpage
+
+\section{Radiation Equilibrium of Parallel Plates}
+
+\input{sections/mathematicalModel}
+
+\input{sections/computation}
 
 
 \end{document}

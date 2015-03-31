@@ -1,0 +1,151 @@
+\subsection{Mathematical Model}
+The two equations \ref{eq:u_x} and \ref{eq:v_x} where given.
+
+%The linear equation in equation \ref{eq:mathematicalModel} is used to solve the two equations for $(v_i)_{i=0}^N$ and $(u_i)_{i=0}^N$.
+
+\begin{eqnarray}
+u(x) &=& c_1 + k_1 \int^{\omega/2}_{-\omega/2} F(x,y,d)v(y) \partial y \qquad \because c_1 = \varepsilon_1  \sigma T_1^4, k_1 = 1 - \varepsilon_1 \label{eq:u_x} \\
+v(y) &=& c_2 + k_2 \int^{\omega/2}_{-\omega/2} F(x,y,d)u(x) \partial x \qquad \because c_2 = \varepsilon_2  \sigma T_2^4, k_2 = 1 - \varepsilon_2 \label{eq:v_x}
+\end{eqnarray}
+
+These can be rewritten with help of the trapezoidal rule to give the equations \ref{eq:u_trap} and \ref{eq:v_trap}.
+Where $(v_i)_{i=0}^N$ and $(u_i)_{i=0}^N$ are the values for the two functions in the points $(x_i)_{i=0}^N = -\omega/2 + i h$ used in the trapezoidal equation and $h = \omega/N$.
+
+\begin{eqnarray}
+u_j &=& c_1 + k_1 h \left[ \frac{F(x_j, x_0, d) \cdot v_0 + F(x_j, x_N, d) \cdot v_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_j, x_i, d) \cdot v_i \right) \right] \label{eq:u_trap}\\
+v_j &=& c_2 + k_2 h \left[ \frac{F(x_0, x_j, d) \cdot u_0 + F(x_N, x_j, d) \cdot u_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_i, x_j, d) \cdot u_i \right) \right] \label{eq:v_trap}
+\end{eqnarray}
+
+This gives the linear equations seen in ...
+
+\begin{eqnarray}
+c_1 &=& u_j - k_1 h \left[ \frac{F(x_j, x_0, d) \cdot v_0 + F(x_j, x_N, d) \cdot v_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_j, x_i, d) \cdot v_i \right) \right] \label{eq:u_trap_lin}\\
+c_2 &=& v_j - k_2 h \left[ \frac{F(x_0, x_j, d) \cdot u_0 + F(x_N, x_j, d) \cdot u_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_i, x_j, d) \cdot u_i \right) \right] \label{eq:v_trap_lin}
+\end{eqnarray}
+
+
+The equations \ref{eq:u_trap_lin} and \ref{eq:v_trap_lin} can then be written into matrix form of equation \ref{eq:equationFormat}, where $A$, $x$ and $b$ are given in equations \ref{eq:A_matrix} and \ref{eq:c-b_matrix}.
+
+\begin{equation}
+A \cdot x = b
+\label{eq:equationFormat}
+\end{equation}
+
+\begin{landscape}
+
+\begin{equation}
+% -- A --
+A = 
+\left[
+\begin{array}{*{5}{c}:*{5}{c}}
+\multicolumn{5}{c}{\multirow{5}{*}{\Huge{$I$}}} 
+& \frac{G(x_0,x_0)}{2}
+& G(x_0,x_1)
+& \cdots
+& G(x_0,x_{N-1})
+& \frac{G(x_0,x_N)}{2} \\
+
+&&&&& \frac{G(x_1,x_0)}{2}
+& G(x_1,x_1) 
+& \cdots
+& G(x_{1},x_{N-1}) 
+& \frac{G(x_{1},x_{N})}{2} \\
+
+&&&&& \vdots
+& \vdots
+& \ddots
+& \vdots
+& \vdots\\
+
+&&&&& \frac{G(x_{N-1},x_0)}{2}
+& G(x_{N-1},x_{1}) 
+& \cdots
+& G(x_{N-1},x_{N-1}) 
+& \frac{G(x_{N-1},x_{N})}{2} \\
+
+&&&&& \frac{G(x_N,x_0)}{2} 
+& G(x_{N},x_{1}) 
+& \cdots
+& G(x_{N},x_{N-1})
+& \frac{G(x_{N},x_{N})}{2} \\
+ \hdashline
+ 
+\frac{H(x_0,x_0)}{2}
+& H(x_0,x_1)
+& \cdots
+& H(x_0,x_{N-1})
+& \frac{H(x_0,x_N)}{2} &
+\multicolumn{5}{c}{\multirow{5}{*}{\Huge{$I$}}}
+\\
+
+\frac{H(x_1,x_0)}{2}
+& H(x_1,x_1) 
+& \cdots
+& H(x_{1},x_{N-1}) 
+& \frac{H(x_{1},x_{N})}{2} \\
+
+\vdots
+& \vdots
+& \ddots
+& \vdots
+& \vdots\\
+
+\frac{H(x_{N-1},x_0)}{2}
+& H(x_{N-1},x_{1}) 
+& \cdots
+& H(x_{N-1},x_{N-1}) 
+& \frac{H(x_{N-1},x_{N})}{2} \\
+
+\frac{H(x_N,x_0)}{2} 
+& H(x_{N},x_{1}) 
+& \cdots
+& H(x_{N},x_{N-1})
+& \frac{H(x_{N},x_{N})}{2} \\
+\end{array}
+\right]
+\label{eq:A_matrix}
+\end{equation}
+
+Where $G$ and $H$ are given in equation \ref{eq:G_explained} and \ref{eq:H_explained} and $I$ is the identity matrix (in this case of size $N \times N).$
+
+\begin{eqnarray}
+G(x,y) &=&  -k_1 h F(x,y,1) \label{eq:G_explained} \qquad \because d = 1 \\
+H(x,y) &=&  -k_2 h F(x,y,1)\label{eq:H_explained}
+\end{eqnarray}
+
+\end{landscape}
+
+\begin{equation}
+% -- x --
+x = 
+\left[
+\begin{array}{c}
+u_0 \\
+u_1 \\
+\vdots \\
+u_N \\
+v_0 \\
+v_1 \\
+\vdots \\
+v_N \\
+\end{array}
+\right]
+\qquad
+% -- b --
+b =
+\left[
+\begin{array}{c}
+c_1 \\
+c_1 \\
+\vdots \\
+c_1 \\
+c_2 \\
+c_2 \\
+\vdots\\
+c_2 \\
+\end{array}
+\right]
+\label{eq:c-b_matrix}
+\end{equation}
+
+
