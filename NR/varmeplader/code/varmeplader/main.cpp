@@ -102,26 +102,26 @@ VecDoub find_u_and_v(int N, double &Q1, double &Q2){
 	Q1 = Q_1;
 	Q2 = Q_2;
 
-//	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
-
 	return x;
 }
 
 int main() {
-    int width = 14;
-	cout << setw(4)       << "n" << "\t"
-		 << setw(width+1) << "Q1" << "\t"
-		 << setw(width+1) << "Q2" << "\t"
-		 << setw(width+1) << "err1" << "\t"
-		 << setw(width+1) << "err2" << "\t"
-		 << endl;
+	int width = 15;
+	cout << setw(3)       << "n" << "&\t"
+		 << setw(width) << "Q1" << "&\t"
+		 << setw(width) << "Q2" << "&\t"
+		 << setw(width+5) << "error1" << "&\t"
+		 << setw(width+5) << "error2" << "\\\\\t"
+         << endl;
 
 
 	double Q1_h3 = 0, Q2_h3 = 0;
 	double Q1_h1 = 0, Q1_h2 = 0, Q2_h1 = 0, Q2_h2 = 0;
 	double error1, error2, alpha_k = 2;
-	cout.precision(width);
-    for(int n = 4; n <= 512; n*=2){
+
+//	cout.precision(8);
+    cout << fixed << setprecision(3);
+	for(int n = 1; n <= 256; n*=2){
 		VecDoub U_V((n+1)*2);
 		Q1_h1 = Q1_h2;
 		Q1_h2 = Q1_h3;
@@ -135,21 +135,31 @@ int main() {
 		error1 = (Q1_h2-Q1_h1)/(alpha_k-1);
 		error2 = (Q2_h2-Q2_h1)/(alpha_k-1);
 
-        if ( n >= pow(4,2) ) {
-			cout << setw(4)     << n << "\t"
-				 << setw(width) << Q1_h3 << "\t"
-				 << setw(width) << Q2_h3 << "\t"
-				 << setw(width) << error1 << "\t"
-				 << setw(width) << error2 << "\t"
+        if ( n >= 4 && false ) {
+			cout << setw(3)     << n << "&\t"
+				 << setw(width) << Q1_h3 << "&\t"
+				 << setw(width) << Q2_h3 << "&\t"
+				 << setw(width+5) << error1 << "&\t"
+				 << setw(width+5) << error2 << "\\\\\t"
 				 << endl;
 		}
 
-//		cout << i << "\t"
-//			 << U_V[0] << "\t"
-//			 << U_V[i/4] << "\t"
-//			 << U_V[i/2] << "\t"
-//			 << U_V[i*3/4] << "\t"
-//			 << U_V[i] << endl;
+        if(n >= 4 && false){
+            cout << setw(3)<< n << " & "
+                 << setw(8) << U_V[0] << " & "
+                 << setw(8) << U_V[n/4] << " & "
+                 << setw(8) << U_V[n/2] << " & "
+                 << setw(8) << U_V[n*3/4] << " & "
+                 << setw(8) << U_V[n] << "\\\\ \\hline" << endl;
+        }
+        if(n >= 4 && true){
+            cout << setw(3)<< n << " & "
+                 << setw(8) << U_V[n+1] << " & "
+                 << setw(8) << U_V[n+1+n/4] << " & "
+                 << setw(8) << U_V[n+1+n/2] << " & "
+                 << setw(8) << U_V[n+1+n*3/4] << " & "
+                 << setw(8) << U_V[2*n+1] << "\\\\ \\hline" << endl;
+        }
 	}
 	return 0;
 }

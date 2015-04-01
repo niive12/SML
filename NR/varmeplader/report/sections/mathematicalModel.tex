@@ -1,4 +1,4 @@
-\subsection{Mathematical Model}
+\section{Radiation Equilibrium of Parallel Plates}
 The two equations \ref{eq:u_x} and \ref{eq:v_x} where given.
 
 %The linear equation in equation \ref{eq:mathematicalModel} is used to solve the two equations for $(v_i)_{i=0}^N$ and $(u_i)_{i=0}^N$.
@@ -16,7 +16,8 @@ u_j &=& c_1 + k_1 h \left[ \frac{F(x_j, x_0, d) \cdot v_0 + F(x_j, x_N, d) \cdot
 v_j &=& c_2 + k_2 h \left[ \frac{F(x_0, x_j, d) \cdot u_0 + F(x_N, x_j, d) \cdot u_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_i, x_j, d) \cdot u_i \right) \right] \label{eq:v_trap}
 \end{eqnarray}
 
-This gives the linear equations seen in ...
+This can be rearranged to give equations \ref{eq:u_trap_lin} and \ref{eq:v_trap_lin}.
+Which can be written into matrix form of equation \ref{eq:equationFormat}, where $A$, $x$ and $b$ are given in equations \ref{eq:A_matrix} and \ref{eq:c-b_matrix}.
 
 \begin{eqnarray}
 c_1 &=& u_j - k_1 h \left[ \frac{F(x_j, x_0, d) \cdot v_0 + F(x_j, x_N, d) \cdot v_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_j, x_i, d) \cdot v_i \right) \right] \label{eq:u_trap_lin}\\
@@ -24,12 +25,44 @@ c_2 &=& v_j - k_2 h \left[ \frac{F(x_0, x_j, d) \cdot u_0 + F(x_N, x_j, d) \cdot
 \end{eqnarray}
 
 
-The equations \ref{eq:u_trap_lin} and \ref{eq:v_trap_lin} can then be written into matrix form of equation \ref{eq:equationFormat}, where $A$, $x$ and $b$ are given in equations \ref{eq:A_matrix} and \ref{eq:c-b_matrix}.
-
 \begin{equation}
 A \cdot x = b
 \label{eq:equationFormat}
 \end{equation}
+
+\begin{equation}
+% -- x --
+x = 
+\left[
+\begin{array}{c}
+u_0 \\
+u_1 \\
+\vdots \\
+u_N \\
+v_0 \\
+v_1 \\
+\vdots \\
+v_N \\
+\end{array}
+\right]
+\qquad
+% -- b --
+b =
+\left[
+\begin{array}{c}
+c_1 \\
+c_1 \\
+\vdots \\
+c_1 \\
+c_2 \\
+c_2 \\
+\vdots\\
+c_2 \\
+\end{array}
+\right]
+\label{eq:x-b_matrix}
+\end{equation}
+
 
 \begin{landscape}
 
@@ -113,39 +146,30 @@ G(x,y) &=&  -k_1 h F(x,y,1) \label{eq:G_explained} \qquad \because d = 1 \\
 H(x,y) &=&  -k_2 h F(x,y,1)\label{eq:H_explained}
 \end{eqnarray}
 
+
+
+From here the result of $x$ in equation \ref{eq:x-b_matrix} can then be used to compute the integrals given in equations \ref{eq:Q1} and \ref{eq:Q2}.
+
+\begin{eqnarray}
+Q1 &=& \int ^{\omega / 2}_{-\omega /2} (u(x)-I_1(x)) \partial x \qquad \because I_1(x) = \int^{\omega/2}_{-\omega/2} F(x,y,d)v(y) \partial y \label{eq:Q1}\\
+Q2 &=& \int ^{\omega / 2}_{-\omega /2} (v(y)-I_2(y)) \partial y \qquad \because I_2(y) = \int^{\omega/2}_{-\omega/2} F(x,y,d)u(x) \partial x \label{eq:Q2}
+\end{eqnarray}
+
 \end{landscape}
 
-\begin{equation}
-% -- x --
-x = 
-\left[
-\begin{array}{c}
-u_0 \\
-u_1 \\
-\vdots \\
-u_N \\
-v_0 \\
-v_1 \\
-\vdots \\
-v_N \\
-\end{array}
-\right]
-\qquad
-% -- b --
-b =
-\left[
-\begin{array}{c}
-c_1 \\
-c_1 \\
-\vdots \\
-c_1 \\
-c_2 \\
-c_2 \\
-\vdots\\
-c_2 \\
-\end{array}
-\right]
-\label{eq:c-b_matrix}
-\end{equation}
+
+Replacing $I_1$ and $I_2$ with $v(y)$ and $u(x)$, respectively, in the equations \ref{eq:Q1} and \ref{eq:Q2} one gains the equations \ref{eq:Q1_u_only} and \ref{eq:Q2_v_only}.
+
+\begin{eqnarray}
+Q1 &=& \int ^{\omega / 2}_{-\omega /2} ((u(x)-c_1)\cdot(-\epsilon_1/k_1)+c_1) \partial x \label{eq:Q1_u_only}\\
+Q2 &=& \int ^{\omega / 2}_{-\omega /2} (v(y)-c_2)\cdot(-\epsilon_2/k_2)+c_2) \partial y  \label{eq:Q2_v_only}
+\end{eqnarray}
+
+These can then be approximated using the trapezoidal rule as shown in the equations \ref{eq:Q1_disc} and \ref{eq:Q2_disc}.
+
+\begin{eqnarray}
+Q1 &=& \frac{(u_0 + u_N - 2 \cdot c_1)\cdot(-\epsilon_1/k_1) + 2 \cdot c_1}{2} + \sum ^{N-1}_{i = 1} \left(\frac{-\epsilon_1(u_i-c_1)}{k_1}+c_1\right) \partial x \label{eq:Q1_disc}\\
+Q2 &=& \frac{(v_0 + v_N - 2 \cdot c_2)\cdot(-\epsilon_2/k_2) + 2 \cdot c_2}{2} + \sum ^{N-1}_{i = 1} \left(\frac{-\epsilon_2(v_i-c_2)}{k_2}+c_2\right) \partial y \label{eq:Q2_disc}
+\end{eqnarray}
 
 

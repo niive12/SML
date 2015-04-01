@@ -1,1 +1,36 @@
-\subsection{Computation of Integrals}
+\section{Computation of Integrals}
+The computations of $(v_i)_{i=0}^N$ and $(u_i)_{i=0}^N$ are done using SVD and by setting up the system of linear equations as in equation \ref{eq:equationFormat}.
+The values for $u(x)$ and $v(y)$ are then computed in tables \ref{tb:u_calc} and \ref{tb:v_calc} for $x,y \in \left\{ -\frac{1}{2}, -\frac{1}{4}, 0, \frac{1}{4}, \frac{1}{2} \right\}$ for increasing values of $N$.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{*{6}{|c}|}\hline
+  N & u(-1/2) & u(-1/4) & u(0) & u(1/4) & u(1/2) \\ \hline
+  4 & 1393.613 & 1396.734 & 1397.913 & 1396.734 & 1393.613\\ \hline
+  8 & 1393.841 & 1397.041 & 1398.251 & 1397.041 & 1393.841\\ \hline
+ 16 & 1393.898 & 1397.118 & 1398.335 & 1397.118 & 1393.898\\ \hline
+ 32 & 1393.912 & 1397.137 & 1398.357 & 1397.137 & 1393.912\\ \hline
+ 64 & 1393.916 & 1397.142 & 1398.362 & 1397.142 & 1393.916\\ \hline
+128 & 1393.917 & 1397.144 & 1398.363 & 1397.144 & 1393.917\\ \hline
+256 & 1393.917 & 1397.144 & 1398.364 & 1397.144 & 1393.917\\ \hline
+\end{tabular}
+\caption{Computations of $(u_i)_{i=0}^N$ for five fixed values of $x$.}
+\label{tb:u_calc}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{*{6}{|c}|} \hline
+  N & v(-1/2) & v(-1/4) & v(0) & v(1/4) & v(1/2) \\ \hline
+  4 &  282.801 &  310.779 &  321.298 &  310.779 &  282.801\\ \hline
+  8 &  283.410 &  312.010 &  322.776 &  312.010 &  283.410\\ \hline
+ 16 &  283.563 &  312.317 &  323.144 &  312.317 &  283.563\\ \hline
+ 32 &  283.601 &  312.394 &  323.236 &  312.394 &  283.601\\ \hline
+ 64 &  283.610 &  312.413 &  323.259 &  312.413 &  283.610\\ \hline
+128 &  283.613 &  312.417 &  323.265 &  312.417 &  283.613\\ \hline
+256 &  283.613 &  312.419 &  323.266 &  312.419 &  283.613\\ \hline
+\end{tabular}
+\caption{Computations of $(v_i)_{i=0}^N$ for five fixed values of $y$.}
+\label{tb:v_calc}
+\end{table}
