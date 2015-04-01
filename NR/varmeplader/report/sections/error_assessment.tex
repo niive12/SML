@@ -2,10 +2,10 @@
 
 An estimate of the error can be calculated using the Richardson extrapolation.
 Since the integration converges to a more accurate estimate with a higher number of iterations the error can be calculated using the last two results to see how well it converges.
-The current integral is written as \(X_{h3}\) and the previous is thus called \(X_{h2}\) and the result before that is called \(X_{h1}\).
+The current integral is written as \(X_{h2}\) and the previous is thus called \(X_{h1}\).
 The order of a trapezoidal integration will always be 2 since the division is halfway between two points.
 % If the order is unknown then it can be calculated using equation \ref{eq:REorder}.
-Then the error can be estimated using equation \ref{eq:REerr}.
+Therefore the error can be estimated using equation \ref{eq:REerr}.
 
 % \begin{equation}
 %     \alpha^k = \frac{Q1_{h1}-Q1_{h2}}{Q1_{h2}-Q1_{h3}};
@@ -17,7 +17,8 @@ Then the error can be estimated using equation \ref{eq:REerr}.
     \label{eq:REerr}
 \end{equation}
 
-In table \ref{tb:error_estimate} is the integral and error shown for \(Q1\) and \(Q2\).
+In table \ref{tb:error_estimate} is the integral and error shown for \(Q1\) and \(Q2\), where $error1$ and $error2$ is the error for \(Q1\) and \(Q2\) respectively and $N \in \{2^m\}$ where $m \in \{2,3,... ,8\}$.
+The values for \(Q1\) and \(Q2\) when $N = 2$ where also calculated, but not shown, in order to achieve the error estimate for $N = 4$.
 
 \begin{table}[H]
 \centering
