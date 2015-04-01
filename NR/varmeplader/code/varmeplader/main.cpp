@@ -102,25 +102,24 @@ VecDoub find_u_and_v(int N, double &Q1, double &Q2){
 	Q1 = Q_1;
 	Q2 = Q_2;
 
-//	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
-
 	return x;
 }
 
 int main() {
-	int width = 10;
-	cout << setw(4)       << "n" << "\t"
-		 << setw(width+1) << "Q1" << "\t"
-		 << setw(width+1) << "Q2" << "\t"
-		 << setw(width+1) << "err1" << "\t"
-		 << setw(width+1) << "err2" << "\t"
+	int width = 15;
+	cout << setw(3)       << "n" << "&\t"
+		 << setw(width) << "Q1" << "&\t"
+		 << setw(width) << "Q2" << "&\t"
+		 << setw(width+5) << "error1" << "&\t"
+		 << setw(width+5) << "error2" << "\\\\\t"
 		 << endl;
 
 
 	double Q1_h3 = 0, Q2_h3 = 0;
 	double Q1_h1 = 0, Q1_h2 = 0, Q2_h1 = 0, Q2_h2 = 0;
 	double error1, error2, alpha_k = 2;
-	cout.precision(width);
+//	cout.precision(8);
+	cout << fixed << setprecision(10);
 	for(int n = 1; n <= 256; n*=2){
 		VecDoub U_V((n+1)*2);
 		Q1_h1 = Q1_h2;
@@ -136,11 +135,11 @@ int main() {
 		error2 = (Q2_h2-Q2_h1)/(alpha_k-1);
 
 		if ( n >= 4 ) {
-			cout << setw(4)     << n << "\t"
-				 << setw(width) << Q1_h3 << "\t"
-				 << setw(width) << Q2_h3 << "\t"
-				 << setw(width) << error1 << "\t"
-				 << setw(width) << error2 << "\t"
+			cout << setw(3)     << n << "&\t"
+				 << setw(width) << Q1_h3 << "&\t"
+				 << setw(width) << Q2_h3 << "&\t"
+				 << setw(width+5) << error1 << "&\t"
+				 << setw(width+5) << error2 << "\\\\\t"
 				 << endl;
 		}
 

@@ -4,7 +4,7 @@ double func_F(double x, double y, double d = 1.0){
 	return 0.5* (pow(d,2)/pow((pow(d,2)+pow((x-y),2)),3/2));
 }
 
-VecDoub niko_find_u_and_v(int N){
+VecDoub niko_find_u_and_v(int N, double &Q1, double &Q2){
 	double T1=1000, T2 = 500;
 	double eps1 = 0.80, eps2=0.60;
 	double sigma = 1.712e-9;
@@ -65,11 +65,9 @@ VecDoub niko_find_u_and_v(int N){
 			}
 		}
 	}
-	A.print();
 	LUdcmp result(A);
 	VecDoub x(size);
 	result.solve(b,x);
-	x.print();
 	double Q_1 = 0, Q_2 = 0;
 
 	for(int a=0; a<size; a++){
@@ -88,7 +86,8 @@ VecDoub niko_find_u_and_v(int N){
 		}
 	}
 
-	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
+	Q1 = Q_1;
+	Q2 = Q_2;
 
 	return x;
 }
