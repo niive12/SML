@@ -61,7 +61,7 @@
 
 // lukas funcs
 double F(double x, double y, double d){
-    double f = 0.5*pow(d,2)/pow(pow(d,2)+pow(x-y,2),(3/2));
+    double f = (0.5*pow(d,2))/(pow(pow(d,2)+pow(x-y,2),(3/2)));
     return f;
 }
 
@@ -193,6 +193,7 @@ VecDoub find_u_and_v(int N){
         }
     }
 
+//    b.print();
 //    A.print();
     // lukas A end
 
@@ -256,26 +257,26 @@ VecDoub find_u_and_v(int N){
     //		}
     //	}
 
-    //	double Q_1 = u_and_v[0] - const_1/(1-eps1), Q_2 = u_and_v[1] - const_2/(1-eps2);
-    //	double Q_1 = const_1/(1-eps1), Q_2 = const_2/(1-eps2);
+//        double Q_1 = x[0] - const_1/(1-eps1), Q_2 = x[1] - const_2/(1-eps2);
+        double Q_1 = 0, Q_2 = 0;
 
-    //	for(int a=0; a<size; a++){
-    //		if(!(a%2)){ //u
-    //			if (a == 0 || a == size-2) {
-    //				Q_1 += -1/(1-eps1) * 0.5 * h * u_and_v[a];
-    //			} else {
-    //				Q_1 += -1/(1-eps1) * h * u_and_v[a];
-    //			}
-    //		} else { //v
-    //			if (a == 1 || a == size-1) {
-    //				Q_2 += -1/(1-eps2) * 0.5 * h * u_and_v[a];
-    //			} else {
-    //				Q_2 += -1/(1-eps2) * h * u_and_v[a];
-    //			}
-    //		}
-    //	}
+        for(int a=0; a<size; a++){
+            if(a < (size/2)){ //u
+                if ((a % (size/2)) == 0 || (a % (size/2)) == (size/2-1)) {
+                    Q_1 += 0.5*h*((x[a] - const_1)*(-eps1)/(1-eps1) + const_1);
+                } else {
+                    Q_1 += h*((x[a] - const_1)*(-eps1)/(1-eps1) + const_1);
+                }
+            } else { //v
+                if ((a % (size/2)) == 0 || (a % (size/2)) == (size/2-1)) {
+                    Q_2 += 0.5*h*((x[a] - const_2)*(-eps2)/(1-eps2) + const_2);
+                } else {
+                    Q_2 += h*((x[a] - const_2)*(-eps2)/(1-eps2) + const_2);
+                }
+            }
+        }
 
-    //	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
+        cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
 
     return x;
 }
@@ -284,7 +285,7 @@ VecDoub find_u_and_v(int N){
 int main() {
 
 
-    for(int i = 4; i <= 256; i*=2){
+    for(int i = 4; i <= 4; i*=2){
         VecDoub U_V((i+1)*2);
         U_V = find_u_and_v(i);
         // i and u(x) for -0.5, -0.25, 0, 0.25 and 0.5
