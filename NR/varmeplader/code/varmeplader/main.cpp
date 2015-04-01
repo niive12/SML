@@ -4,7 +4,6 @@
 #include "../../../NR_LIB/code/nr3.h"
 #include "../../../NR_LIB/code/quadrature.h"
 #include "../../../NR_LIB/code/svd.h"
-//#include "nikolaj.cpp"
 
 double F(double x, double y, double d){
 	double f = (0.5*pow(d,2))/(pow(pow(d,2)+pow(x-y,2),(3/2)));
@@ -104,71 +103,93 @@ VecDoub find_u_and_v(int N, double &Q1, double &Q2){
 
 	return x;
 }
-
+/**
+ * Prints the three tables in the report
+ * Formattet for latex.
+ */
 int main() {
-	int width = 15;
-	cout << setw(3)       << "n" << "&\t"
-		 << setw(width) << "Q1" << "&\t"
-		 << setw(width) << "Q2" << "&\t"
-		 << setw(width+5) << "error1" << "&\t"
-		 << setw(width+5) << "error2" << "\\\\\t"
-         << endl;
-
-
+	int max = 256;
+	int width = 8;
 	double Q1_h3 = 0, Q2_h3 = 0;
+
+	cout << fixed << setprecision(width-5);
+
+	cout << setw(3) << "N"       << "&\t"
+		 << setw(width) << "u(-1/2)" << "&\t"
+		 << setw(width) << "u(-1/4)" << "&\t"
+		 << setw(width) << "u(0)"    << "&\t"
+		 << setw(width) << "u(1/4)"  << "&\t"
+		 << setw(width) << "u(1/2)"  << "\\\\ \\hline" << endl;
+
+	for(int n = 1; n <= max; n*=2){
+		VecDoub U_V((n+1)*2);
+		U_V = find_u_and_v(n, Q1_h3, Q2_h3);
+
+		if(n >= 4 ){
+			cout << setw(3)<< n << "&\t"
+				 << setw(width) << U_V[0] << "&\t"
+				 << setw(width) << U_V[n/4] << "&\t"
+				 << setw(width) << U_V[n/2] << "&\t"
+				 << setw(width) << U_V[n*3/4] << "&\t"
+				 << setw(width) << U_V[n] << "\\\\ \\hline" << endl;
+		}
+	}
+
+	cout << "\n\n\n" << setw(3) << "N"       << "&\t"
+		 << setw(width) << "v(-1/2)" << "&\t"
+		 << setw(width) << "v(-1/4)" << "&\t"
+		 << setw(width) << "v(0)"    << "&\t"
+		 << setw(width) << "v(1/4)"  << "&\t"
+		 << setw(width) << "v(1/2)"  << "\\\\ \\hline" << endl;
+
+	for(int n = 1; n <= max; n*=2){
+		VecDoub U_V((n+1)*2);
+		U_V = find_u_and_v(n, Q1_h3, Q2_h3);
+
+		if(n >= 4 ){
+			cout << setw(3)<< n << "&\t"
+				 << setw(width) << U_V[n+1] << "&\t"
+				 << setw(width) << U_V[n+1+n/4] << "&\t"
+				 << setw(width) << U_V[n+1+n/2] << "&\t"
+				 << setw(width) << U_V[n+1+n*3/4] << "&\t"
+				 << setw(width) << U_V[2*n+1] << "\\\\ \\hline" << endl;
+		}
+	}
+
 	double Q1_h1 = 0, Q1_h2 = 0, Q2_h1 = 0, Q2_h2 = 0;
 	double error1, error2, alpha_k = 2;
 
-//	cout.precision(8);
-    cout << fixed << setprecision(3);
-	for(int n = 1; n <= 256; n*=2){
+	width = 15;
+	cout << fixed << setprecision(width-5);
+
+	cout << "\n\n\n"<< setw(3)       << "n" << "&\t"
+		 << setw(width) << "Q1" << "&\t"
+		 << setw(width) << "Q2" << "&\t"
+		 << setw(width) << "error1" << "&\t"
+		 << setw(width) << "error2" << "\\\\ \hline"
+		 << endl;
+
+	for(int n = 1; n <= max; n*=2){
 		VecDoub U_V((n+1)*2);
 		Q1_h1 = Q1_h2;
 		Q1_h2 = Q1_h3;
 		Q2_h1 = Q2_h2;
 		Q2_h2 = Q2_h3;
 		U_V = find_u_and_v(n, Q1_h3, Q2_h3);
-		// i and u(x) for -0.5, -0.25, 0, 0.25 and 0.5
 //		alpha_k = (Q1_h1-Q1_h2)/(Q1_h2-Q1_h3);
 //		alpha_k = (Q2_h1-Q2_h2)/(Q2_h2-Q2_h3);
 		alpha_k = 4;
 		error1 = (Q1_h2-Q1_h1)/(alpha_k-1);
 		error2 = (Q2_h2-Q2_h1)/(alpha_k-1);
 
-        if ( n >= 4 && false ) {
+		if ( n >= 4 ) {
 			cout << setw(3)     << n << "&\t"
 				 << setw(width) << Q1_h3 << "&\t"
 				 << setw(width) << Q2_h3 << "&\t"
-				 << setw(width+5) << error1 << "&\t"
-				 << setw(width+5) << error2 << "\\\\\t"
+				 << setw(width) << error1 << "&\t"
+				 << setw(width) << error2 << "\\\\ \hline"
 				 << endl;
 		}
-
-        if(n >= 4 && false){
-            cout << setw(3)<< n << " & "
-                 << setw(8) << U_V[0] << " & "
-                 << setw(8) << U_V[n/4] << " & "
-                 << setw(8) << U_V[n/2] << " & "
-                 << setw(8) << U_V[n*3/4] << " & "
-                 << setw(8) << U_V[n] << "\\\\ \\hline" << endl;
-        }
-        if(n >= 4 && true){
-            cout << setw(3)<< n << " & "
-                 << setw(8) << U_V[n+1] << " & "
-                 << setw(8) << U_V[n+1+n/4] << " & "
-                 << setw(8) << U_V[n+1+n/2] << " & "
-                 << setw(8) << U_V[n+1+n*3/4] << " & "
-                 << setw(8) << U_V[2*n+1] << "\\\\ \\hline" << endl;
-        }
 	}
 	return 0;
 }
-
-/*
- *  U:            V:
- *    1398.36       323.266
- * mine:
- *   13821.3        905.071
- * westermann:
- Q1 = 1272.9, Q2 =  -282.54
- */
