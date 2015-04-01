@@ -1,0 +1,36 @@
+\section{Error assessment}
+
+An estimate of the error can be calculated using the Richardson extrapolation.
+Since the integration converges to a more accurate estimate with a higher number of iterations the error can be calculated using the last two results to see how well it converges.
+The current integral is written as \(X_{h3}\) and the previous is thus called \(X_{h2}\) and the result before that is called \(X_{h1}\).
+The order of a trapezoidal integration will always be 2 since the division is halfway between two points.
+% If the order is unknown then it can be calculated using equation \ref{eq:REorder}.
+Then the error can be estimated using equation \ref{eq:REerr}.
+
+% \begin{equation}
+%     \alpha^k = \frac{Q1_{h1}-Q1_{h2}}{Q1_{h2}-Q1_{h3}};
+%     \label{eq:REorder}
+% \end{equation}
+
+\begin{equation}
+    \text{error} = \frac{Q1_{h2}-Q1_{h1}}{\alpha^{k}-1};
+    \label{eq:REerr}
+\end{equation}
+
+In table \ref{tb:error_estimate} is the integral and error shown for \(Q1\) and \(Q2\).
+\renewcommand\arraystretch{1}
+\begin{table}[h]
+\centering
+\begin{tabular}{*{5}{r}}  
+  n&                 Q1&                     Q2&                      error1&                 error2\\
+  4&    1263.0042994788&        -299.1212789388&               -6.1320964286&         -12.5601797558\\
+  8&    1261.3382974160&        -302.4650240096&               -2.1290072849&          -4.2929309229\\
+ 16&    1260.9180057949&        -303.3075790665&               -0.5553340210&          -1.1145816903\\
+ 32&    1260.8127006578&        -303.5186206685&               -0.1400972070&          -0.2808516856\\
+ 64&    1260.7863599278&        -303.5714060874&               -0.0351017124&          -0.0703472007\\
+128&    1260.7797738435&        -303.5846040033&               -0.0087802433&          -0.0175951396\\
+256&    1260.7781272661&        -303.5879035798&               -0.0021953614&          -0.0043993053\\
+\end{tabular}
+\caption{Error estimates}
+\label{tb:error_estimate}
+\end{table}
