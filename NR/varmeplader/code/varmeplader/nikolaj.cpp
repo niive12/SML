@@ -1,3 +1,7 @@
+// min compiler vil ikke lade være med at builde den og komme med fejl :P
+#if false
+
+
 #include "../../../NR_LIB/code/ludcmp.h"
 
 double func_F(double x, double y, double d = 1.0){
@@ -92,3 +96,5 @@ VecDoub niko_find_u_and_v(int N){
 
 	return x;
 }
+
+#endif

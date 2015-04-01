@@ -108,7 +108,7 @@ VecDoub find_u_and_v(int N, double &Q1, double &Q2){
 }
 
 int main() {
-	int width = 10;
+    int width = 14;
 	cout << setw(4)       << "n" << "\t"
 		 << setw(width+1) << "Q1" << "\t"
 		 << setw(width+1) << "Q2" << "\t"
@@ -121,7 +121,7 @@ int main() {
 	double Q1_h1 = 0, Q1_h2 = 0, Q2_h1 = 0, Q2_h2 = 0;
 	double error1, error2, alpha_k = 2;
 	cout.precision(width);
-	for(int n = 1; n <= 256; n*=2){
+    for(int n = 4; n <= 512; n*=2){
 		VecDoub U_V((n+1)*2);
 		Q1_h1 = Q1_h2;
 		Q1_h2 = Q1_h3;
@@ -135,7 +135,7 @@ int main() {
 		error1 = (Q1_h2-Q1_h1)/(alpha_k-1);
 		error2 = (Q2_h2-Q2_h1)/(alpha_k-1);
 
-		if ( n >= 4 ) {
+        if ( n >= pow(4,2) ) {
 			cout << setw(4)     << n << "\t"
 				 << setw(width) << Q1_h3 << "\t"
 				 << setw(width) << Q2_h3 << "\t"
