@@ -4,8 +4,8 @@ The two equations \ref{eq:u_x} and \ref{eq:v_x} where given.
 %The linear equation in equation \ref{eq:mathematicalModel} is used to solve the two equations for $(v_i)_{i=0}^N$ and $(u_i)_{i=0}^N$.
 
 \begin{eqnarray}
-u(x) &=& c_1 + k_1 \int^{\omega/2}_{-\omega/2} F(x,y,d)v(y) \partial y \qquad \because c_1 = \varepsilon_1  \sigma T_1^4, k_1 = 1 - \varepsilon_1 \label{eq:u_x} \\
-v(y) &=& c_2 + k_2 \int^{\omega/2}_{-\omega/2} F(x,y,d)u(x) \partial x \qquad \because c_2 = \varepsilon_2  \sigma T_2^4, k_2 = 1 - \varepsilon_2 \label{eq:v_x}
+u(x) &=& c_1 + k_1 \overbrace{\int^{\omega/2}_{-\omega/2} F(x,y,d)v(y) \partial y}^{I_1(x)} \qquad \because c_1 = \varepsilon_1  \sigma T_1^4, k_1 = 1 - \varepsilon_1 \label{eq:u_x} \\
+v(y) &=& c_2 + k_2 \overbrace{\int^{\omega/2}_{-\omega/2} F(x,y,d)u(x) \partial x}^{I_2(y)} \qquad \because c_2 = \varepsilon_2  \sigma T_2^4, k_2 = 1 - \varepsilon_2 \label{eq:v_x}
 \end{eqnarray}
 
 These can be rewritten with help of the trapezoidal rule to give the equations \ref{eq:u_trap} and \ref{eq:v_trap}.
@@ -17,7 +17,7 @@ v_j &=& c_2 + k_2 h \left[ \frac{F(x_0, x_j, d) \cdot u_0 + F(x_N, x_j, d) \cdot
 \end{eqnarray}
 
 This can be rearranged to give equations \ref{eq:u_trap_lin} and \ref{eq:v_trap_lin}.
-Which can be written into matrix form of equation \ref{eq:equationFormat}, where $A$, $x$ and $b$ are given in equations \ref{eq:A_matrix} and \ref{eq:c-b_matrix}.
+Which can be written into matrix form of equation \ref{eq:equationFormat}, where $A$, $x$ and $b$ are given in equations \ref{eq:x-b_matrix} and \ref{eq:A_matrix}.
 
 \begin{eqnarray}
 c_1 &=& u_j - k_1 h \left[ \frac{F(x_j, x_0, d) \cdot v_0 + F(x_j, x_N, d) \cdot v_N}{2} + \sum_{i = 1}^{N-1} \left( F(x_j, x_i, d) \cdot v_i \right) \right] \label{eq:u_trap_lin}\\
@@ -151,8 +151,10 @@ H(x,y) &=&  -k_2 h F(x,y,1)\label{eq:H_explained}
 From here the result of $x$ in equation \ref{eq:x-b_matrix} can then be used to compute the integrals given in equations \ref{eq:Q1} and \ref{eq:Q2}.
 
 \begin{eqnarray}
-Q1 &=& \int ^{\omega / 2}_{-\omega /2} (u(x)-I_1(x)) \partial x \qquad \because I_1(x) = \int^{\omega/2}_{-\omega/2} F(x,y,d)v(y) \partial y \label{eq:Q1}\\
-Q2 &=& \int ^{\omega / 2}_{-\omega /2} (v(y)-I_2(y)) \partial y \qquad \because I_2(y) = \int^{\omega/2}_{-\omega/2} F(x,y,d)u(x) \partial x \label{eq:Q2}
+Q1 &=& \int ^{\omega / 2}_{-\omega /2} (u(x)-I_1(x)) \partial x %\qquad \because I_1(x) = \int^{\omega/2}_{-\omega/2} F(x,y,d)v(y) \partial y 
+\label{eq:Q1}\\
+Q2 &=& \int ^{\omega / 2}_{-\omega /2} (v(y)-I_2(y)) \partial y % \qquad \because I_2(y) = \int^{\omega/2}_{-\omega/2} F(x,y,d)u(x) \partial x 
+\label{eq:Q2}
 \end{eqnarray}
 
 \end{landscape}
