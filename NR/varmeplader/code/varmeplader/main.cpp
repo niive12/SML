@@ -25,7 +25,7 @@ double H(double x, double y, double h){
 	return (-k_2*h*F(x,y,1.0));
 }
 
-VecDoub find_u_and_v(int N){
+VecDoub find_u_and_v(int N, double &Q1, double &Q2){
 	double T1=1000, T2 = 500;
 	double eps1 = 0.80, eps2=0.60;
 	double sigma = 1.712e-9;
@@ -99,24 +99,57 @@ VecDoub find_u_and_v(int N){
 			}
 		}
 	}
+	Q1 = Q_1;
+	Q2 = Q_2;
 
-	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
+//	cout << "Q1 and Q2 : " << Q_1 << "\t" << Q_2 << endl;
 
 	return x;
 }
 
 int main() {
-	for(int i = 4; i <= 4; i*=2){
-		VecDoub U_V((i+1)*2);
-		U_V = find_u_and_v(i);
-		// i and u(x) for -0.5, -0.25, 0, 0.25 and 0.5
-		cout << i << "\t"
-			 << U_V[0] << "\t"
-			 << U_V[i/4] << "\t"
-			 << U_V[i/2] << "\t"
-			 << U_V[i*3/4] << "\t"
-			 << U_V[i] << endl;
+	int width = 10;
+	cout << setw(4)       << "n" << "\t"
+		 << setw(width+1) << "Q1" << "\t"
+		 << setw(width+1) << "Q2" << "\t"
+		 << setw(width+1) << "err1" << "\t"
+		 << setw(width+1) << "err2" << "\t"
+		 << endl;
 
+
+	double Q1_h3 = 0, Q2_h3 = 0;
+	double Q1_h1 = 0, Q1_h2 = 0, Q2_h1 = 0, Q2_h2 = 0;
+	double error1, error2, alpha_k = 2;
+	cout.precision(width);
+	for(int n = 1; n <= 256; n*=2){
+		VecDoub U_V((n+1)*2);
+		Q1_h1 = Q1_h2;
+		Q1_h2 = Q1_h3;
+		Q2_h1 = Q2_h2;
+		Q2_h2 = Q2_h3;
+		U_V = find_u_and_v(n, Q1_h3, Q2_h3);
+		// i and u(x) for -0.5, -0.25, 0, 0.25 and 0.5
+//		alpha_k = (Q1_h1-Q1_h2)/(Q1_h2-Q1_h3);
+//		alpha_k = (Q2_h1-Q2_h2)/(Q2_h2-Q2_h3);
+		alpha_k = 4;
+		error1 = (Q1_h2-Q1_h1)/(alpha_k-1);
+		error2 = (Q2_h2-Q2_h1)/(alpha_k-1);
+
+		if ( n >= 4 ) {
+			cout << setw(4)     << n << "\t"
+				 << setw(width) << Q1_h3 << "\t"
+				 << setw(width) << Q2_h3 << "\t"
+				 << setw(width) << error1 << "\t"
+				 << setw(width) << error2 << "\t"
+				 << endl;
+		}
+
+//		cout << i << "\t"
+//			 << U_V[0] << "\t"
+//			 << U_V[i/4] << "\t"
+//			 << U_V[i/2] << "\t"
+//			 << U_V[i*3/4] << "\t"
+//			 << U_V[i] << endl;
 	}
 	return 0;
 }
