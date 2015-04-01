@@ -71,18 +71,18 @@ A =
  \hdashline
  
 \frac{H(x_0,x_0)}{2}
-& H(x_0,x_1)
+& H(x_1,x_0)
 & \cdots
-& H(x_0,x_{N-1})
-& \frac{H(x_0,x_N)}{2} &
+& H(x_{N-1},x_0)
+& \frac{H(x_N,x_0)}{2} &
 \multicolumn{5}{c}{\multirow{5}{*}{\Huge{$I$}}}
 \\
 
-\frac{H(x_1,x_0)}{2}
+\frac{H(x_0,x_1)}{2}
 & H(x_1,x_1) 
 & \cdots
-& H(x_{1},x_{N-1}) 
-& \frac{H(x_{1},x_{N})}{2} \\
+& H(x_{N-1},x_1) 
+& \frac{H(x_N,x_1)}{2} \\
 
 \vdots
 & \vdots
@@ -90,23 +90,23 @@ A =
 & \vdots
 & \vdots\\
 
-\frac{H(x_{N-1},x_0)}{2}
-& H(x_{N-1},x_{1}) 
+\frac{H(x_0,x_{N-1})}{2}
+& H(x_1,x_{N-1}) 
 & \cdots
 & H(x_{N-1},x_{N-1}) 
-& \frac{H(x_{N-1},x_{N})}{2} \\
+& \frac{H(x_N,x_{N-1})}{2} \\
 
-\frac{H(x_N,x_0)}{2} 
-& H(x_{N},x_{1}) 
+\frac{H(x_0,x_N)}{2} 
+& H(x_1,x_N) 
 & \cdots
-& H(x_{N},x_{N-1})
+& H(x_{N-1},x_{N})
 & \frac{H(x_{N},x_{N})}{2} \\
 \end{array}
 \right]
 \label{eq:A_matrix}
 \end{equation}
 
-Where $G$ and $H$ are given in equation \ref{eq:G_explained} and \ref{eq:H_explained} and $I$ is the identity matrix (in this case of size $N \times N).$
+Where $G$ and $H$ are given in equation \ref{eq:G_explained} and \ref{eq:H_explained} and $I$ is the identity matrix (in this case of size $(N+1) \times (N+1)).$
 
 \begin{eqnarray}
 G(x,y) &=&  -k_1 h F(x,y,1) \label{eq:G_explained} \qquad \because d = 1 \\

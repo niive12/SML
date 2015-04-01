@@ -1,7 +1,7 @@
 #ifndef TRIVIAL_FUNCTIONS_H
 #define TRIVIAL_FUNCTIONS_H
 
-#endif // TRIVIAL_FUNCTIONS_H
+
 
 //functions are added in the class so that they can access the private data
 
@@ -46,3 +46,4 @@ void NRmatrix<T>::print()
 		cout << endl;
 	}
 }
+#endif // TRIVIAL_FUNCTIONS_H
