@@ -14,17 +14,14 @@ double y_one(){
     return result;
 }
 
+vector<double> y_marks(vector<double> prev){
+    vector<double> res(2);
 
-double y_mark_zero(vector<double> prev){
-    double result = prev[0]*prev[1];
-    return result;
+    res[0] = prev[0]*prev[1];
+    res[1] = -pow(prev[0],2);
+
+    return res;
 }
-
-double y_mark_one(vector<double> prev){
-    double result = -pow(prev[0],2);
-    return result;
-}
-
 
 
 template <class T>
@@ -49,7 +46,17 @@ int main()
     // make eulers!
     cout << "Hello World!" << endl;
 
+    vector<double> initials(2);
+    initials[0] = y_zero();
+    initials[1] = y_one();
 
+    vector<double> result(2);
+
+    result = euler_method(y_marks, initials, 20, 0.1);
+
+    for(int i = 0; i < result.size();  i++){
+        cout << result[i] << endl;
+    }
 
     return 0;
 }
