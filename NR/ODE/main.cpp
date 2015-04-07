@@ -4,13 +4,13 @@
 
 using namespace std;
 
-double y_marks(vector<double> prev,int i){
+vector<double> y_marks(vector<double> prev){
     vector<double> res(2);
 
     res[0] = prev[0]*prev[1];
     res[1] = -pow(prev[0],2);
 
-    return res[i];
+    return res;
 }
 
 
@@ -22,7 +22,7 @@ vector<double> euler_method(T &func, vector<double> init, int N, double h){
 
     for(int n = 0; n < N; n++){
         for(int i = 0; i < 2; i++){
-            double mark = func(x_vals_prev,i);
+            double mark = func(x_vals_prev)[i];
             x_vals_new[i] = x_vals_prev[i] + h*(mark);
         }
         x_vals_prev = x_vals_new;
