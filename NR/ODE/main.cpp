@@ -4,16 +4,6 @@
 
 using namespace std;
 
-double y_zero(){
-    double result = 1;
-    return result;
-}
-
-double y_one(){
-    double result = 1;
-    return result;
-}
-
 vector<double> y_marks(vector<double> prev){
     vector<double> res(2);
 
@@ -47,8 +37,8 @@ int main()
     cout << "Hello World!" << endl;
 
     vector<double> initials(2);
-    initials[0] = y_zero();
-    initials[1] = y_one();
+    initials[0] = 1;
+    initials[1] = 1;
 
     vector<double> result(2);
 
