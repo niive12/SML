@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 #include <vector>
 
@@ -35,20 +36,55 @@ vector<double> euler_method(T &func, vector<double> init, int N, double h){
 int main()
 {
     // make eulers!
-    cout << "Hello World!" << endl;
+    // output h, y_0^h(x),
+    cout << "Hello Euler!" << endl;
+
 
     vector<double> initials(2);
     initials[0] = 1;
     initials[1] = 1;
 
-    vector<double> result(2);
-    int N = 1;
-    double h = 1;
-    result = euler_method(y_marks, initials, N, h);
+    vector<double> result_h1(2);
+    vector<double> result_h2(0,2);
+    vector<double> result_h3(0,2);
 
-    for(int i = 0; i < result.size();  i++){
-        cout << result[i] << endl;
+
+    double X = 1;
+
+    cout << "For X = " << X << endl;
+
+    int width = 20;
+    cout << fixed << setprecision(width-5);
+
+    cout << setw(width) << "h\t"
+         << setw(width) << "y[0]\t"
+         << setw(width) << "error y[0]\t"
+         << setw(width) << "y[1]\t"
+         << setw(width) << "error y[1]\t"
+         << setw(width) << "y[0]^2 + y[1]^2"
+         << endl;
+
+
+
+    for(int N = 5; N <= 1280; N = N*2){
+        double h = X/double(N);
+
+        result_h1 = euler_method(y_marks, initials, N, h);
+
+        if(N >= 20)
+            cout << setw(width) << h << "\t"
+                 << setw(width) << result_h1[0] << "\t"
+                 << setw(width) << (result_h3[0] - result_h2[0])/(result_h2[0]-result_h1[0]) << "\t"
+                 << setw(width) << result_h1[1] << "\t"
+                 << setw(width) << (result_h3[1] - result_h2[1])/(result_h2[1]-result_h1[1]) << "\t"
+                 << endl;
+
+        result_h3 = result_h2;
+        result_h2 = result_h1;
+
     }
+
+
 
     return 0;
 }
