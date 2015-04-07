@@ -24,16 +24,21 @@ vector<double> ode_method(T &func, vector<double> init, int N, double h, int met
     vector<double> x_vals_prev = init;
     vector<double> x_vals_new = init;
 
+    double mark;
+
     for(int n = 0; n < N; n++){
         for(int i = 0; i < 2; i++){
             if(method == EULER){
-                double mark = func(x_vals_prev)[i];
+                mark = func(x_vals_prev)[i];
                 x_vals_new[i] = x_vals_prev[i] + h*(mark);
+                x_vals_prev[i] = x_vals_new[i];
             } else if(method = LEAP_FROG){
-
+                mark = func(x_vals_prev)[i];
+                double temp = x_vals_new[i];
+                x_vals_new[i] = x_vals_prev[i] + 2*h*mark;
+                x_vals_prev[i] = temp;
             }
         }
-        x_vals_prev = x_vals_new;
     }
 
     return x_vals_new;
@@ -73,12 +78,12 @@ int main()
 
 
 
-    for(int N = 50; N <= 1280*8; N = N*2){
+    for(int N = 5*X; N <= 40960*X; N = N*2){
         double h = X/double(N);
 
-        result_h1 = ode_method(y_marks, initials, N, h, EULER);
+        result_h1 = ode_method(y_marks, initials, N, h, LEAP_FROG);
 
-        if(N >= 200)
+        if(N >= 40*X)
             cout << setw(width) << h << "\t"
                  << setw(width) << result_h1[0] << "\t"
                  << setw(width) << (result_h3[0] - result_h2[0])/(result_h2[0]-result_h1[0]) << "\t"
