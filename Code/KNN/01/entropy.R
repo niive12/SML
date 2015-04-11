@@ -48,7 +48,7 @@ entropy <- function(component, classifications, divisions = 20, classes = 10){
 		result[div] = (sum(probabilities[1,])/ length(component))*S[1] + (sum(probabilities[2,])/ length(component))*S[2]
 	}
 	
-	return(list(entropyList = result, divider = result[which.min(result)], entropy = min(result)))
+	return(list(entropyList = result, divider = ((which.min(result))*interval + min_v), entropy = min(result)))
 	
 }
 
