@@ -10,7 +10,7 @@ source("entropy.R")
 divisions = 200
 pc_plot = 5
 
-datasetsize = 400
+datasetsize = 10
 
 
 data = prepareOneAlone(3,2,datasetsize, datasetsize, 100)
@@ -41,19 +41,22 @@ for(i in 1:pc_plot){
 colors = rainbow(pc_plot)
 setEPS()
 postscript("entropy_pc.eps",height = 6, width = 8)
-plot(1:divisions,entropy_data[1,], xlab="Division", ylab="Entropy",type="l",col=colors[1],lty=1, ylim=c(min(entropy_data),max(entropy_data)))
+plot(1:divisions,entropy_data[1,], xaxt="n", xlab="Division", ylab="Entropy",type="l",col=colors[1],lty=1, ylim=c(min(entropy_data),max(entropy_data)))
 if(pc_plot > 1){
 	for( i in 2:pc_plot) {
 		lines(entropy_data[i,],col=colors[i],lty=i)#, xlab="x", ylab="pdf")
 	}
 	legend("bottomright",NULL,name,cex=0.8,col=colors,lty=1:pc_plot)
 }
+axis(1, at=0:(pc_plot+1), labels=c("min", (1:pc_plot)/(pc_plot+1),"max"))
 q = dev.off()
 
-plot(1:divisions,entropy_data[1,], xlab="Division", ylab="Entropy",type="l",col=colors[1],lty=1, ylim=c(min(entropy_data),max(entropy_data)))
+
+plot(1:divisions,entropy_data[1,], xaxt="n", xlab="Division", ylab="Entropy",type="l",col=colors[1],lty=1, ylim=c(min(entropy_data),max(entropy_data)))
 if(pc_plot > 1){
 	for( i in 2:pc_plot) {
 		lines(entropy_data[i,],col=colors[i],lty=i)#, xlab="x", ylab="pdf")
 	}
 	legend("bottomright",NULL,name,cex=0.8,col=colors,lty=1:pc_plot)
 }
+axis(1, at=1:pc_plot, labels=c("min", (1:pc_plot)/(pc_plot+1),"max"))

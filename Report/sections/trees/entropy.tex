@@ -1,1 +1,28 @@
 \subsection{Entropy}
+To compute the optimum decision point for the individual principle components, the entropy method is used.
+The entropy of the PC's with our ten ciphers is given by equation \ref{eq:entropy}.
+
+\begin{equation}
+Entropy(S) = \sum_{i = '0'}^{'9'} -p_i \cdot \log_2(p_i) 
+\qquad \because p_i = P(x = i)
+\label{eq:entropy}
+\end{equation}
+
+To find the best decision point, it is wished that the entropy of the two resulting systems, when dividing one PC into two, is as low as possible.
+This can be represented as sum of entropy for our two resulting datasets, weighted by the relative size of such.
+This is given in equation \ref{eq:entropy_datasetdevision}.
+
+\begin{eqnarray}
+Entropy = \sum_{i = 1}^{2} \frac{s_i \cdot Entropy(S_i)}{\sum_{k = 1}^{2} s_k} 
+\qquad \because S_i \subset S\ and\ s_k = size(S_k)
+\label{eq:entropy_datasetdevision}
+\end{eqnarray}
+
+When using equation \ref{eq:entropy_datasetdevision} on the first five principle components on the data of 15 people from the class, then figure \ref{fig:entropy_pc5} was gained.
+
+\begin{figure}[H]
+\centering
+\caption{Figure showing the variation of the entropy of the dataset when the decision point varies. Computed using equation \ref{eq:entropy_datasetdevision}. The data of the first five principle component.}
+\label{fig:entropy_pc5}
+\end{figure}
+
