@@ -9,10 +9,10 @@ entropy <- function(component, classifications, divisions = 20, classes = 10){
 		stop(e)
 	}
 	
-	max <- max(component)
-	min <- min(component)
+	max_v <- max(component)
+	min_v <- min(component)
 	
-	interval <- (max - min)/(divisions + 1)
+	interval <- (max_v - min_v)/(divisions + 1)
 	
 	result <- 1:divisions
 	
@@ -21,7 +21,7 @@ entropy <- function(component, classifications, divisions = 20, classes = 10){
 	for(div in 1:divisions){
 		probabilities <- matrix(0,2,classes)
 		for(i in 1:length(component)){
-			if(component[i] < div*interval){
+			if(component[i] < (min_v + div*interval)){
 				probabilities[1,class_of_component[i]] = probabilities[1,class_of_component[i]] + 1
 			} else {
 				probabilities[2,class_of_component[i]] = probabilities[2,class_of_component[i]] + 1
@@ -29,19 +29,26 @@ entropy <- function(component, classifications, divisions = 20, classes = 10){
 		}
 		S <- c(0,0)
 		for(j in 1:classes){
+			p_1 = 0
+			p_2 = 0
+				
+			if(sum(probabilities[1,]) != 0){
 			p_1 = probabilities[1,j]/sum(probabilities[1,])
+			}
+			if(sum(probabilities[2,]) != 0){
 			p_2 = probabilities[2,j]/sum(probabilities[2,])
-			if(p_1 != 0){
+			}
+			if(p_1 != 0.0){
 				S[1] = S[1] - p_1 * log2(p_1)
 			}
-			if(p_2 != 0){
+			if(p_2 != 0.0){
 				S[2] = S[2] - p_2 * log2(p_2)
 			}
 		}
 		result[div] = (sum(probabilities[1,])/ length(component))*S[1] + (sum(probabilities[2,])/ length(component))*S[2]
 	}
 	
-	return(list(entropy = result, divider = result[which.min(result)]))
+	return(list(entropyList = result, divider = result[which.min(result)], entropy = min(result)))
 	
 }
 
