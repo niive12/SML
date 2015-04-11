@@ -15,15 +15,18 @@ datasetsize = 400
 
 data = prepareOneAlone(3,2,datasetsize, datasetsize, 100)
 # normalize data
+print("normalize")
 data <- normalizeData(data, "z-score")
 # pca
+print("pca")
 data <- pca_simplification(data, noPC = pc_plot)
 
 #calc entropy
+print("entropy")
 entropy_data <- matrix(0,pc_plot,divisions)
 startTimer <- proc.time()
 for( i in 1:pc_plot) {
-	entropy_data[i,] = (entropy(data$trainSet[,i], data$trainVali, divisions)$entropy)
+	entropy_data[i,] = (entropy(data$trainSet[,i], data$trainVali, divisions)$entropyList)
 	print(paste(c(i , " / ", pc_plot, ". Time taken till now: ", ((proc.time() - startTimer)[3]), " seconds. Estimated finish in: ", (pc_plot-i)*((proc.time() - startTimer)[3])/i), collapse = "") )
 }
 

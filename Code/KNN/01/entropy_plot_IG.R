@@ -8,11 +8,11 @@ source("normalize.R")
 source("entropy.R")
 
 
-divisions = 100
-pc_calc = 5
-pc_plot = 5
+divisions = 200
+pc_calc = 400
+pc_plot = 400
 
-datasetsize = 10
+datasetsize = 400
 
 
 data = prepareOneAlone(3,2,datasetsize, datasetsize, 100)
@@ -54,9 +54,9 @@ for(i in 2:pc_calc){
 # plot
 setEPS()
 postscript("entropy_pc.eps",height = 6, width = 8)
-plot(1:pc_plot,IG, xlab="PC", ylab="Information Gain",type="l",lty=1)
+plot(1:pc_plot,IG, xlab="PC", ylab="Information Gain",type="l",lty=1, xaxt="n")
 axis(1, at=1:pc_plot, labels=x_lab)
 q = dev.off()
 
-plot(1:pc_plot,IG, xlab="PC", ylab="Information Gain",type="l",lty=1)
+plot(1:pc_plot,IG, xlab="PC", ylab="Information Gain",type="l",lty=1, xaxt="n")
 axis(1, at=1:pc_plot, labels=x_lab)
