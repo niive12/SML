@@ -9,5 +9,5 @@ model = C50::C5.0(data$trainSet, as.factor(data$trainVali))
 
 ls(model)
 print(model$rules)
-# plot(model,subtree = 24)
+# ??plot(model,subtree = 24)
 # print(model)

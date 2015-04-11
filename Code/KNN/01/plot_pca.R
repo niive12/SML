@@ -23,7 +23,7 @@ xlabel = seq(round(min(x_axis)-0.05,digits=1),max(x_axis)+0.1,0.1)
 
 colors = rainbow(10)
 setEPS()
-postscript("Rplots.pdf",height = 4, width = 8)
+postscript("Rplots.eps",height = 4, width = 8)
 for(i in 1:10){
 	if(i == 1){
 		plot(x_axis[,i], array(i,size), pch=4, col=colors[i], xlim=c(min(xlabel),max(xlabel)+0.6), ylim=c(0,10), axes=FALSE, xlab="", ylab="")
