@@ -3,6 +3,12 @@
 #include <cmath>
 #include <vector>
 
+
+#define FIRST 0
+#define SECOND 1
+#define RUNMODE SECOND
+
+
 #define EULER 0
 #define LEAP_FROG 1
 
@@ -47,6 +53,8 @@ vector<double> ode_method(T &func, vector<double> init, int N, double h, int met
 
 int main()
 {
+
+#if RUNMODE == FIRST
     // make eulers!
     // output h, y_0^h(x),
     cout << "Hello Euler!" << endl;
@@ -95,6 +103,18 @@ int main()
         result_h2 = result_h1;
 
     }
+#elif RUNMODE == SECOND
+//    Numerically integrate the ODE system given by:
+//    y_1’(x)=y_1(x)y_2(x)
+//    y_2’(x)=-y_1(x)^2
+//    with starting condition:
+//    y_1(0)=y_2_(0) = 1
+//    integrate from x=0 to x=1 and print the number of calculations of the right side for a absolue max error of 10^-6, y_1(1) and y1(1)^2+y_2(1)^2
+//    Use the Odeint framework in NRcode and try out the StepperDopr5 and StepperRoss as the step functions.
+
+
+
+#endif
 
 
 
