@@ -40,6 +40,6 @@ postscript("../../../Report/graphics/tree_section.eps",height = 4, width = 8)
 plot(model,subtree = 24)
 q = dev.off()
 
-res = random_forrest_predict(model, data)
+res = random_forrest_predict(data=data, model=model)
 write.latex(res$confusion_matrix, 0:9, 0:9, "../../../Report/graphics/random_forrest_confusion.tex")
 print(res$success)
