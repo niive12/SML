@@ -2,7 +2,10 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
-
+#include "../NR_LIB/code/nr3.h"
+#include "../NR_LIB/code/odeint.h"
+#include "../NR_LIB/code/stepperross.h"
+#include "../NR_LIB/code/stepperdopr5.h"
 
 #define FIRST 0
 #define SECOND 1
@@ -49,6 +52,29 @@ vector<double> ode_method(T &func, vector<double> init, int N, double h, int met
 
 	return x_vals_new;
 }
+
+struct rhs{
+    rhs(){}
+    void operator()(const Doub x, VecDoub_I &y, VecDoubp_I &y, VecDoub_O &dydx){
+        dydx[0] = y[0]*y[1];
+        dydx[1] = -pow(y[0],2);
+    }
+
+    void jacobian(Doub x, VecDoub_I &y, VecDoub_O &dfdx, MatDoub_O &dfdy){
+        int n = y.size();
+        // set dfdx zero
+        for(int i = n; i < n; i++){
+            dfdx[i] = 0;
+        }
+        // set dfdy
+        dfdy[0][0] = y[1];
+        dfdy[0][1] = y[0];
+        dfdy[1][0] = -2*y[1];
+        dfdy[1][1] = 0;
+    }
+
+};
+
 
 
 int main()
@@ -110,6 +136,22 @@ int main()
 //    integrate from x=0 to x=1 and print the number of calculations of the right side for a absolue max error of 10^-6, y_1(1) and y1(1)^2+y_2(1)^2
 //    Use the Odeint framework in NRcode and try out the StepperDopr5 and StepperRoss as the step functions.
 
+    Int n = 2;
+    Doub rtol  = 1.0e-7, atol = 1.0e-4*rtol, h1 = 1.0e-6, hmin = 0.0, x1 = 0.0, x2 = 1;
+    VecDoub ystart(n);
+    ystart[0] = 1;
+    ystart[1] = 1;
+    Output out(100);
+    rhs d();
+    Odeint<StepperRoss<rhs> > ode(ystart, x1, x2, atol, rtol, h1, hmin, out, d);
+    ode.integrate();
+
+    for(int i = 0; i < out.count; i++){
+        cout << out.xsave[i] << " "
+             << out.ysave[0][i] << " "
+             << out.ysave[1][i] << " "
+             << out.ysave[2][i] << endl;
+    }
 
 
 #endif
