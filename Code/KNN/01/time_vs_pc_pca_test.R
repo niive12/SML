@@ -25,7 +25,7 @@ if ( file.exists(fileName) && 1 ) {
 		data = pca_simplification(people_data,noPC=PC[i])
 		success[i] = run_knn(data,10)$success
 		time_tmp = proc.time()-time_tmp
-		time[i] = time_tmp[["elapsed"]]
+		time[i] = time_tmp[["user.self"]]
 	
 	}
 	save(success, time, file = fileName)

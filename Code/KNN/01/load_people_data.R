@@ -402,6 +402,26 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 	return(finalData) # return to test on it
 }
 
+prepareOneAloneNormPCA <- function(group, member, prepare_data_in, normalize_in, PCA_in , make_new = 0){
+	fileName = "onePerson_norm_pca_"
+	fileName = paste(c(fileName, "G", group, "M", member,"_",normalize_in$normMethod,"_",PCA_in,".RData"),collapse="")
+	if(file.exists(fileName) && !make_new ){
+		print(paste(c("loaded ",fileName, " to save time"),collapse=""))
+		load(fileName)
+	} else {
+		prepare_data_in$group  = group
+		prepare_data_in$member = member	
+		data = do.call(prepareOneAlone,prepare_data_in)
+		normalize_in$data = data
+		data = do.call(normalizeData, normalize_in)
+		PCA_in$data = data
+		data = do.call(pca_simplification, PCA_in)
+		save(data, file = fileName)
+	}
+	return(data)
+}
+
+
 # -- test run knn --
 # currentTime <- proc.time()
 # haha <- prepareAllMixed(360,40) # default: 100 dpi and no filter
