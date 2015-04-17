@@ -10,7 +10,7 @@ source("entropy.R")
 divisions = 200
 pc_plot = 5
 
-datasetsize = 10
+datasetsize = 400
 
 
 data = prepareOneAlone(3,2,datasetsize, datasetsize, 100)
@@ -48,15 +48,5 @@ if(pc_plot > 1){
 	}
 	legend("bottomright",NULL,name,cex=0.8,col=colors,lty=1:pc_plot)
 }
-axis(1, at=0:(divisions+1), labels=c("min", (1:divisions)/(divisions+1),"max"))
+axis(1, at=c(0,seq(10,divisions-10,10),divisions+1), labels=c("min", round((seq(10,divisions-10,10))/(divisions+1),2),"max"))
 q = dev.off()
-
-
-plot(1:divisions,entropy_data[1,], xaxt="n", xlab="Division", ylab="Entropy",type="l",col=colors[1],lty=1, ylim=c(min(entropy_data),max(entropy_data)), xlim=c(0,divisions+1))
-if(pc_plot > 1){
-	for( i in 2:pc_plot) {
-		lines(entropy_data[i,],col=colors[i],lty=i)#, xlab="x", ylab="pdf")
-	}
-	legend("bottomright",NULL,name,cex=0.8,col=colors,lty=1:pc_plot)
-}
-axis(1, at=0:(divisions+1), labels=c("min", (1:divisions)/(divisions+1),"max"))
