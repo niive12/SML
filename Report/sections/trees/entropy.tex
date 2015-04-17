@@ -22,7 +22,13 @@ When using equation \ref{eq:entropy_datasetdevision} on the first five principle
 
 \begin{figure}[H]
 \centering
+\includegraphics[width = 0.95 \textwidth]{graphics/entropy_pc}
 \caption{Figure showing the variation of the entropy of the dataset when the decision point varies. Computed using equation \ref{eq:entropy_datasetdevision}. The data of the first five principle component.}
 \label{fig:entropy_pc5}
 \end{figure}
 
+
+The point of lowest entropy for a principle component was then used as the splitting point to convert the data into binary.
+This was done by setting everything below the splitting point to true and the rest false.
+This was then done for all principle components on both the test and train set. 
+The splitting point for the components in the test set were taken as the splitting point from the same component in the train set.
