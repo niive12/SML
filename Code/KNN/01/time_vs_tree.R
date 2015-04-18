@@ -7,14 +7,14 @@ fileName <- "time_vs_tree.RData"
 
 ntrees = 1:30
 
-if ( file.exists(fileName) && 0 ) {
+if ( file.exists(fileName) && 1 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
 	time = array(0,length(ntrees))
 	success = array(0,length(ntrees))
-	data = prepareOne(group=3,member=1,trainPart=360,testPart=40) 
-# 	data = prepareOneAlone(3,2) #9 people vs 1 person             
+# 	data = prepareOne(group=3,member=1,trainPart=360,testPart=40) 
+	data = prepareOneAlone(3,2) #9 people vs 1 person             
 # 	data = prepareAllMixed(360,40) #90:10
 	data = normalizeData(data, "z-score")
 	data = pca_simplification(data,noPC=50)

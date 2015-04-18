@@ -20,9 +20,7 @@ bin <- function(x, bin, inverse = TRUE){
 		if(inverse){
 			x[feature] = (bin-bini)
 		}
-		
 	}
-	
 	return(x)
 }
 
