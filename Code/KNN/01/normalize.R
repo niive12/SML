@@ -1,5 +1,5 @@
 # normalize the data...
-
+source("entropy.R")
 
 normalize <- function(x){
 	return((x-min(x))/(max(x)-min(x)))
@@ -25,7 +25,7 @@ bin <- function(x, bin, inverse = TRUE){
 }
 
 
-normalizeData <- function(data, normMethod = "min-max", bins = 2, inverseBinning = TRUE){ # data must be a list with a trainSet adn testSet entry
+normalizeData <- function(data, normMethod = "min-max", bins = 2, inverseBinning = TRUE, ent_divs = 200){ # data must be a list with a trainSet adn testSet entry
 	trainS = matrix(,dim(data$trainSet)[1],dim(data$trainSet)[2])
 	testS = matrix(,dim(data$testSet)[1],dim(data$testSet)[2])
 	
@@ -56,6 +56,25 @@ normalizeData <- function(data, normMethod = "min-max", bins = 2, inverseBinning
 		}
 		for(i in 1:dim(data$testSet)[1]){
 			testS[i,] <- bin(data$testSet[i,], bins, inverseBinning)
+		}
+	}else if(normMethod == "entropy"){
+		for(PC in 1:dim(data$trainSet)[2]){
+			ent_div = entropy(data$trainSet[,PC], data$trainVali, divisions = ent_divs, classes = 10)$divider
+			
+			# train set
+			for(i in 1:dim(data$trainSet)[1]){
+				trainS[i,PC] = F
+				if(data$trainSet[i,PC] <= ent_div){
+					trainS[i,PC] = T
+				}
+			}
+			# test set
+			for(i in 1:dim(data$testSet)[1]){
+				testS[i,PC] = F
+				if(data$testSet[i,PC] <= ent_div){
+					testS[i,PC] = T
+				}
+			}
 		}
 	}
 	
@@ -283,3 +302,7 @@ cropDigit <- function(dataRow, charWidth, cropCords){
 # result <- cropDigit(image, 5, (list(xb = 2, yb = 3, xe = 4, ye = 5)))
 # print(result)
 
+# #  test of bin in normalizeData
+# testarray = c(0.1,0.8,0.1,1,0,0.9,0.1,0.6,0.4,0.55)
+# result <- bin(testarray,2, inverse = T)
+# print(result)
