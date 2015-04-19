@@ -32,3 +32,14 @@ The point of lowest entropy for a principle component was then used as the split
 This was done by setting everything below the splitting point to true and the rest false.
 This was then done for all principle components on both the test and train set. 
 The splitting point for the components in the test set were taken as the splitting point from the same component in the train set.
+
+The optimal decision decision point is shown along with the PC values for PC1 in figure \ref{fig:decision_point}. 
+Here it is clear that if the data is above the split then it can not be a 0.
+If the data is below, further investigation is needed.
+By removing all unlikely classes the true class must remain.
+
+\begin{figure}[H]
+\includegraphics[width = \textwidth]{graphics/decision_seperation}
+\caption{Decision point in relation to PC values}
+\label{fig:decision_point}
+\end{figure}

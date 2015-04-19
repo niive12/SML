@@ -11,7 +11,7 @@ library("parallel")
 startTimer <- proc.time() # used for timing
 
 nPC = 50
-ntrees = 10
+ntrials = 15
 
 train_size = 400
 test_size = 400
@@ -46,8 +46,7 @@ if(file.exists(fileName) && 0){
 # 		data <- pca_simplification(data, noPC=nPC)
 		
 		#create model
-		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=ntrees)
-		
+		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=ntrials)
 		result[1,person] = random_forrest_predict(data=data, model=model)$success
 		
 		timer <- (((proc.time() - startTime)[["user.self"]])*(noPeople-person)/person)
