@@ -1,4 +1,5 @@
-# seq(100,1000,100) = 6h40m, first 7 = 3h30m
+# seq(100,1000,100) = 6h40m, first 7 = 3h30m, ent div = 20
+# line = c(seq(5,95,5),seq(100,1000,50)), ent_divs = 200 = 12h10m
 
 library("randomForest")
 
@@ -7,8 +8,8 @@ source("load_people_data.R")
 source("pca_test.R")
 load = list(trainPartSize=400,testSize=400)
 pca = list(breakpoint = 1)
-norm = list(normMethod = "entropy",ent_divs = 20)
-data = prepareOneAloneNormPCA(3, 2, load, norm, pca , make_new = 0)
+norm = list(normMethod = "entropy",ent_divs = 200)
+data = prepareOneAloneNormPCA(3, 2, load, norm, pca , make_new = 1)
 
 #line = seq(5,15,5)
 line = c(seq(5,95,5),seq(100,1000,50))
