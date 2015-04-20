@@ -34,7 +34,7 @@ int main()
 {
 
     Int n = 4*2;
-    Doub rtol  = 0, atol = 1e-6, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 200.0;
+    Doub rtol  = 0, atol = 1e-6, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 500.0;
     VecDoub ystart(n);
     ystart[0] = 0; // x1
     ystart[1] = 152870; // y1
@@ -44,7 +44,7 @@ int main()
     ystart[5] = 0; // y1'
     ystart[6] = 1359122.8; // x2'
     ystart[7] = 0; // y2'
-    Output out(100);
+    Output out(-1);
     double g = 4.98e-10, M = 5.68e26, m1 = 9.2e18, m2 = m1;
     rhs d(g, M, m1, m2);
     Odeint< StepperStoerm<rhs> > ode(ystart, x1, x2, atol, rtol, h1, hmin, out, d);
@@ -63,10 +63,12 @@ int main()
         cout << out.xsave[i] << ", "
              << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << ", "
              << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << ", "
-             << theta1 << ", "
-             << theta2 << endl;
+             << abs(theta1-theta2) << endl;
 
     }
+
+    cout << "Number of iterations: " << out.count << endl;
+    cout << "Worst case error: " << out.count*atol << endl;
 
     return 0;
 }
