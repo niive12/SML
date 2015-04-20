@@ -1,0 +1,19 @@
+\section{Saturn's two Moons}
+In order to solve the problem of the orbit shift, the Stoerms method is used.
+The equations feed to the library are seen in equation \ref{eq:equations_saturn}.
+
+\begin{equation}
+\Large{
+\begin{array}{l}
+\frac{d^2x_1}{dt^2} = - \frac{M g x_1}{r_1^3} + \frac{m_2 g (x_2 - x_1)}{r_{12}^3}\\
+\frac{d^2y_1}{dt^2} = - \frac{M g y_1}{r_1^3} + \frac{m_2 g (y_2 - y_1)}{r_{12}^3}\\
+\frac{d^2x_2}{dt^2} = - \frac{M g x_2}{r_2^3} - \frac{m_1 g (x_2 - x_1)}{r_{12}^3}\\
+\frac{d^2y_2}{dt^2} = - \frac{M g x_2}{r_2^3} - \frac{m_1 g (y_2 - y_1)}{r_{12}^3}
+\end{array}
+}
+\label{eq:equations_saturn}
+\end{equation}
+
+
+
+
