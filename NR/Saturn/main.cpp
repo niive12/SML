@@ -28,12 +28,10 @@ struct rhs{
 	}
 };
 
-
-
 int main()
 {
 	Int n = 4*2;
-	Doub rtol  = 0, atol = 1e-6, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 500.0;
+	Doub rtol  = 0, atol = 3e-3, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 600.0;
 	VecDoub ystart(n);
 	ystart[0] = 0; // x1
 	ystart[1] = 152870; // y1
@@ -51,6 +49,11 @@ int main()
 
 	double ddf_x1, ddf_y1, ddf_x2, ddf_y2, theta1, theta2, theta_diff;
 
+	streambuf *coutbuf = std::cout.rdbuf();
+	//* write to data.csv
+	ofstream output_file("data.csv");
+	cout.rdbuf(output_file.rdbuf());
+	//  end write to data.csv */
 	for(int i = 0; i < out.count; i++){
 		ddf_x1 = out.ysave[0][i];
 		ddf_y1 = out.ysave[1][i];
@@ -59,19 +62,6 @@ int main()
 		theta1 = atan2(ddf_y1,ddf_x1);
 		theta2 = atan2(ddf_y2,ddf_x2);
 
-//        while(theta1 < -M_PI){
-//            theta1 += M_PI;
-//        }
-//        while(theta1 > M_PI){
-//            theta1 -= M_PI;
-//        }
-//        while(theta2 < -M_PI){
-//            theta2 += M_PI;
-//        }
-//        while(theta2 > M_PI){
-//            theta2 -= M_PI;
-//        }
-
 		theta_diff = (theta1 - theta2);
 		while(theta_diff < -M_PI){
 			theta_diff += 2*M_PI;
@@ -79,12 +69,14 @@ int main()
 		while(theta_diff > M_PI){
 			theta_diff -= 2*M_PI;
 		}
+		theta_diff = abs(theta_diff);
 		cout << out.xsave[i] << ", "
 			 << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << ", "
 			 << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << ", "
 			 << theta_diff << endl;
-
 	}
+
+	cout.rdbuf(coutbuf);
 
 	cout << "Number of iterations: " << out.count << endl;
 	cout << "Worst case error: " << out.count*atol << endl;
