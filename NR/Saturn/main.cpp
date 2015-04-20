@@ -50,20 +50,28 @@ int main()
     Odeint< StepperStoerm<rhs> > ode(ystart, x1, x2, atol, rtol, h1, hmin, out, d);
     ode.integrate();
 
-    double ddf_x1, ddf_y1, ddf_x2, ddf_y2, theta1, theta2;
+    double ddf_x1, ddf_y1, ddf_x2, ddf_y2, theta1, theta2, theta_diff;
 
     for(int i = 0; i < out.count; i++){
         ddf_x1 = out.ysave[0][i];
         ddf_y1 = out.ysave[1][i];
         ddf_x2 = out.ysave[2][i];
         ddf_y2 = out.ysave[3][i];
-        theta1 = atan(ddf_y1/ddf_x1);
-        theta2 = atan(ddf_y2/ddf_x2);
+        theta1 = atan2(ddf_y1,ddf_x1);
+        theta2 = atan2(ddf_y2,ddf_x2);
+
+        theta_diff = (theta1 - theta2);
+        while(theta_diff < 0){
+            theta_diff += M_PI;
+        }
+        while(theta_diff > M_PI){
+            theta_diff -= M_PI;
+        }
 
         cout << out.xsave[i] << ", "
              << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << ", "
              << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << ", "
-             << abs(theta1-theta2) << endl;
+             << theta_diff << endl;
 
     }
 
