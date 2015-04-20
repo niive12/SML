@@ -60,14 +60,26 @@ int main()
         theta1 = atan2(ddf_y1,ddf_x1);
         theta2 = atan2(ddf_y2,ddf_x2);
 
+//        while(theta1 < -M_PI){
+//            theta1 += M_PI;
+//        }
+//        while(theta1 > M_PI){
+//            theta1 -= M_PI;
+//        }
+//        while(theta2 < -M_PI){
+//            theta2 += M_PI;
+//        }
+//        while(theta2 > M_PI){
+//            theta2 -= M_PI;
+//        }
+
         theta_diff = (theta1 - theta2);
-        while(theta_diff < 0){
-            theta_diff += M_PI;
+        while(theta_diff < -M_PI){
+            theta_diff += 2*M_PI;
         }
         while(theta_diff > M_PI){
-            theta_diff -= M_PI;
+            theta_diff -= 2*M_PI;
         }
-
         cout << out.xsave[i] << ", "
              << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << ", "
              << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << ", "
