@@ -23,8 +23,8 @@ struct rhs{
 
         dydx[0] = -M*g*y[0]/pow(r1,3) + m2*g*(y[2] - y[0])/pow(r12,3);
         dydx[1] = -M*g*y[1]/pow(r1,3) + m2*g*(y[3] - y[1])/pow(r12,3);
-        dydx[2] = -M*g*y[3]/pow(r2,3) - m1*g*(y[2] - y[0])/pow(r12,3);
-        dydx[3] = -M*g*y[4]/pow(r2,3) - m1*g*(y[3] - y[1])/pow(r12,3);
+        dydx[2] = -M*g*y[2]/pow(r2,3) - m1*g*(y[2] - y[0])/pow(r12,3);
+        dydx[3] = -M*g*y[3]/pow(r2,3) - m1*g*(y[3] - y[1])/pow(r12,3);
     }
 
 //    void jacobian(Doub x, VecDoub_I &y, VecDoub_O &dfdx, MatDoub_O &dfdy){
