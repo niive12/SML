@@ -56,7 +56,7 @@ int main()
 //    Use the Odeint framework in NRcode and try out the StepperDopr5 and StepperRoss as the step functions.
 
     Int n = 4*2;
-    Doub rtol  = 0, atol = 10, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 1.0;
+    Doub rtol  = 0, atol = 1e-6, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 200.0;
     VecDoub ystart(n);
     ystart[0] = 0; // x1
     ystart[1] = 152870; // y1
