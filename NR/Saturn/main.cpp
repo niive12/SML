@@ -56,7 +56,7 @@ int main()
 //    Use the Odeint framework in NRcode and try out the StepperDopr5 and StepperRoss as the step functions.
 
     Int n = 4*2;
-    Doub rtol  = 0, atol = 10, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 1.0;
+    Doub rtol  = 0, atol = 10, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 5.0;
     VecDoub ystart(n);
     ystart[0] = 0; // x1
     ystart[1] = 152870; // y1
@@ -66,7 +66,7 @@ int main()
     ystart[5] = 0; // y1'
     ystart[6] = 1359122.8; // x2'
     ystart[7] = 0; // y2'
-    Output out(20);
+    Output out(100);
     double g = 4.98e-10, M = 5.68e26, m1 = 9.2e18, m2 = m1;
     rhs d(g, M, m1, m2);
     Odeint< StepperStoerm<rhs> > ode(ystart, x1, x2, atol, rtol, h1, hmin, out, d);
