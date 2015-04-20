@@ -56,7 +56,7 @@ int main()
 //    Use the Odeint framework in NRcode and try out the StepperDopr5 and StepperRoss as the step functions.
 
     Int n = 4*2;
-    Doub rtol  = 0, atol = 10, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 5.0;
+    Doub rtol  = 0, atol = 10, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 1.0;
     VecDoub ystart(n);
     ystart[0] = 0; // x1
     ystart[1] = 152870; // y1
@@ -72,17 +72,22 @@ int main()
     Odeint< StepperStoerm<rhs> > ode(ystart, x1, x2, atol, rtol, h1, hmin, out, d);
     ode.integrate();
 
-    double ddf_x1, ddf_y1, ddf_x2, ddf_y2;
+    double ddf_x1, ddf_y1, ddf_x2, ddf_y2, theta1, theta2;
 
     for(int i = 0; i < out.count; i++){
         ddf_x1 = out.ysave[0][i];
         ddf_y1 = out.ysave[1][i];
         ddf_x2 = out.ysave[2][i];
         ddf_y2 = out.ysave[3][i];
+        theta1 = atan(ddf_y1/ddf_x1);
+        theta2 = atan(ddf_y2/ddf_x2);
 
-        cout << out.xsave[i] << " "
-             << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << " "
-             << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << endl;
+        cout << out.xsave[i] << ", "
+             << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << ", "
+             << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << ", "
+             << theta1 << ", "
+             << theta2 << endl;
+
     }
 
 
