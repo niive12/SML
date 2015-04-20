@@ -26,20 +26,6 @@ struct rhs{
 		dydx[2] = -M*g*y[2]/pow(r2,3) - m1*g*(y[2] - y[0])/pow(r12,3);
 		dydx[3] = -M*g*y[3]/pow(r2,3) - m1*g*(y[3] - y[1])/pow(r12,3);
 	}
-
-//    void jacobian(Doub x, VecDoub_I &y, VecDoub_O &dfdx, MatDoub_O &dfdy){
-//        int n = y.size();
-//        // set dfdx zero
-//        for(int i = n; i < n; i++){
-//            dfdx[i] = 0;
-//        }
-//        // set dfdy
-//        dfdy[0][0] = y[1];
-//        dfdy[0][1] = y[0];
-//        dfdy[1][0] = -2*y[1];
-//        dfdy[1][1] = 0;
-//    }
-
 };
 
 
@@ -47,16 +33,8 @@ struct rhs{
 int main()
 {
 
-//    Numerically integrate the ODE system given by:
-//    y_1’(x)=y_1(x)y_2(x)
-//    y_2’(x)=-y_1(x)^2
-//    with starting condition:
-//    y_1(0)=y_2_(0) = 1
-//    integrate from x=0 to x=1 and print the number of calculations of the right side for a absolue max error of 10^-6, y_1(1) and y1(1)^2+y_2(1)^2
-//    Use the Odeint framework in NRcode and try out the StepperDopr5 and StepperRoss as the step functions.
-
 	Int n = 4*2;
-	Doub rtol  = 0, atol = 10, h1 = 1, hmin = 0.0, x1 = 7500.0, x2 = 8000.0;
+	Doub rtol  = 0, atol = 1e-6, h1 = 1, hmin = 0.0, x1 = 0.0, x2 = 435.0;
 	VecDoub ystart(n);
 	ystart[0] = 0; // x1
 	ystart[1] = 152870; // y1
@@ -85,12 +63,9 @@ int main()
 		cout << out.xsave[i] << ", "
 			 << sqrt(pow(ddf_x1,2) + pow(ddf_y1,2)) << ", "
 			 << sqrt(pow(ddf_x2,2) + pow(ddf_y2,2)) << ", "
-			 << theta1 << ", "
-			 << theta2 << endl;
-
+//			 << theta1 - theta2 << ", "
+			 << abs(theta2 - theta1) << endl;
 	}
-
-
 
 	return 0;
 }
