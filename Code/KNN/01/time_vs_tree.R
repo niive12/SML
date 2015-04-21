@@ -3,21 +3,25 @@ source("load_people_data.R")
 source("pca_test.R")
 source("normalize.R")
 
-fileName <- "time_vs_tree.RData"
+fileName <- "time_vs_tree_entropy.RData"
+# fileName <- "time_vs_tree.RData"
 
 ntrees = 1:30
+
+load_setting        = list(trainPartSize = 400, testSize = 400)
+# normalize_setting = list(normMethod = "z-score")
+normalize_setting = list(normMethod = "entropy")
+pca_setting         = list(noPC=50)
+
 
 if ( file.exists(fileName) && 1 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
 	time = array(0,length(ntrees))
-	success = array(0,length(ntrees))
-# 	data = prepareOne(group=3,member=1,trainPart=360,testPart=40) 
-	data = prepareOneAlone(3,2) #9 people vs 1 person             
-# 	data = prepareAllMixed(360,40) #90:10
-	data = normalizeData(data, "z-score")
-	data = pca_simplification(data,noPC=50)
+	success = array(0,length(ntrees))	
+	data = prepareOneAloneNormPCA(3,2,load_setting,normalize_setting,pca_setting)
+	
 	for(i in 1:length(ntrees) ){
 		time_tmp = proc.time()
 		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=ntrees[i])
@@ -30,10 +34,10 @@ if ( file.exists(fileName) && 1 ) {
 	save(success, time, file = fileName)
 }
 
-
 colors= c("black","blue")
 setEPS()
-postscript("../../../Report/graphics/tree_timing.eps",height = 4, width = 8)
+postscript("../../../Report/graphics/tree_timing_entropy.eps",height = 4, width = 8)
+# postscript("../../../Report/graphics/tree_timing.eps",height = 4, width = 8)
 	# add margin so we can see both labels
 	par(mar=c(5, 4, 4, 6) + 0.1)
 
