@@ -10,17 +10,20 @@ The number of trees was varied and the time measured.
 \label{fig:success_time_vs_trees_randomForest}
 \end{figure}
 
-As can be seen on figure \ref{fig:success_time_vs_trees_randomForest}, then the success rate increases drastically from 0 to 500 trees in the random forest where it settles around 67\%.
-The time increases linearly with the number of trees, but with some inconsistencies towards the end.
+As can be seen on figure \ref{fig:success_time_vs_trees_randomForest}, then the success rate increases drastically from 0 to 500 trees in the random forest where it settles around 64\% and 80\% for the entropy and z-score normalized data respectively.
+The time increases linearly with the number of trees, but with some inconsistencies, probably because of the computer scheduler taking time of for other times.
 
-From figure \ref{fig:success_time_vs_trees_randomForest} it was decided to use 200 trees for the optimum random forest.
+From figure \ref{fig:success_time_vs_trees_randomForest} it was decided to use 200 trees for the optimum random forest for both methods.
 Figure \ref{fig:success_randomForest} was generated using the 200 trees.
 Each point was computed using the a single person in the test set and independently the 14 other in the training set.
 
-% 0.37700 0.44475 0.35250 0.51550 0.42025 0.43425 0.45750 0.60900 0.63775 0.43525 0.46500 0.55750 0.54525 0.47625 0.29200
+% e 0.37425 0.4405 0.34075 0.52500 0.42350 0.4395 0.45675 0.60175 0.63925 0.44125 0.44650 0.539 0.5560 0.49575 0.28800
+% n 0.36400 0.6030 0.45450 0.64275 0.60675 0.6170 0.63025 0.79775 0.71775 0.63600 0.65225 0.762 0.6795 0.55875 0.41125
+% "mean e: 0.467183333333333"
+% "mean n: 0.6089"
 \begin{figure}[H]
 \centering
 \includegraphics[width = 0.95 \textwidth]{graphics/successRate_randomForest_comp}
-\caption{Success rate for the different people given they are not present in the data set. The mean success rate is 46.8\%.}
+\caption{Success rate for the different people given they are not present in the data set. The mean success rate is 46.7\% for the entropy normalized dataset and 60.9\% for the z-score normalized.}
 \label{fig:success_randomForest}
 \end{figure}

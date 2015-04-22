@@ -1,3 +1,4 @@
+# 17h
 library("randomForest")
 
 source("normalize.R")
@@ -15,7 +16,7 @@ res = matrix(,2,length(ppl))
 
 filename = "randomForest_comp.RData"
 
-if(T){
+if(F){
 	startTimer <- proc.time()
 	
 	for(person in 1:length(ppl)){
@@ -65,9 +66,9 @@ colors = rainbow(2)
 setEPS()
 postscript("successRate_randomForest_comp.eps",height = 6, width = 8)
 
-plot(1:length(ppl),res[1,], xaxt="n",type="b", xlab="Trees", ylab="Success Rate [%]", col = colors[1], ylim=c(min(res),max(res)))
+plot(1:length(ppl),res[1,], xaxt="n",type="b", xlab="Person", ylab="Success Rate [%]", col = colors[1], ylim=c(min(res),max(res)))
 lines(1:length(ppl),res[2,],type="b",lty=1, col=colors[2])
 axis(1, at=1:length(ppl), labels=x_lab)
-legend("topright",legend=c("Success Ent.","Success N."),pch=16:15,cex=0.8,col=colors)
+legend("topright",legend=c("Success Entropy","Success Z-score"),pch=16:15,cex=0.8,col=colors)
 
 q = dev.off()

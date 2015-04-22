@@ -1,5 +1,6 @@
 # seq(100,1000,100) = 6h40m, first 7 = 3h30m, ent div = 20
 # line = c(seq(5,95,5),seq(100,1000,50)), ent_divs = 200 = 12h10m
+# 29h
 
 library("randomForest")
 
