@@ -43,23 +43,23 @@ postscript("../../../Report/graphics/tree_timing_entropy.eps",height = 4, width 
 	par(mar=c(5, 4, 4, 6) + 0.1)
 
 	# plot time
-	plot(trials, time, pch=16, ylim=c(min(time),max(time)), col=colors[1],
+	plot(trials, success, pch=16, ylim=c(min(success),max(success)), col=colors[1],
 	axes=FALSE, type="o", xlab="", ylab="")
 	axis(2, ylim=c(0,1),col="black",las=1)  # las=1 makes horizontal labels
-	mtext("Time [s]",side=2,line=2.5)
+	mtext("Success",side=2,line=2.5)
 	box()
 
 	par(new=TRUE)
 
 	# plot success
-	plot(trials, success, pch=15, ylim=c(min(success),max(success)), col=colors[2],
+	plot(trials, time, pch=15, ylim=c(min(time),max(time)), col=colors[2],
 	axes=FALSE, type="o", xlab="", ylab="")
-	mtext("Success",side=4,col=colors[2],line=4) 
+	mtext("Time [s]",side=4,col=colors[2],line=4) 
 	axis(4, ylim=c(0,7000), col=colors[2],col.axis=colors[2],las=1)
 
 	# Draw the axis
 	axis(1,pretty(range(trials),10))
 	mtext("Trials",side=1,col="black",line=2.5)  
 
-	legend("bottomright",legend=c("Time","Success"),pch=16:15,cex=0.8,col=colors)
+	legend("bottomright",legend=c("Success","Time"),pch=16:15,cex=0.8,col=colors)
 quiet = dev.off()

@@ -5,7 +5,7 @@ The first 50 PCA values are used and by looking at the deviance for each split a
 
 \begin{figure}[h]
 \includegraphics[width = \textwidth]{graphics/tree_section}
-\caption{Small section of the tree}
+\caption[Visualization of a tree.]{Visualization of a small section of the tree.}
 \label{fig:tree_section}
 \end{figure}
 
@@ -13,8 +13,24 @@ Building a tree can be done using the ``C50'' library in R.
 The tree with the training data of 15 people (56000 cases) contains 6338 nodes.
 A small section of the tree is shown in figure \ref{fig:tree_section}.
 Each node shows which principal component and the split to which the decision is made.
-Each leaf shows the probability of a classification.\\
-The classifications is shown in table \ref{tb:tree_confus}.
+Each leaf shows the probability of a classification.
+
+\begin{figure}[H]
+% \includegraphics[width = \textwidth]{graphics/tree_timing}
+\includegraphics[width = \textwidth]{graphics/tree_timing_entropy}
+\caption[Performance of boosting the C50 algorithm.]{Performance of boosting the C50 algorithm. The test person is G3M2 and training data everyone else.}
+\label{fig:tree_timing}
+\end{figure}
+
+The ``C50'' function provides a boosting function.
+Boosting is a process in which the algorithm is training with the train data with multiple trials to increase performance.
+This is expected to take more time but improve performance.
+In figure \ref{fig:tree_timing} can the success be seen of multiple trials.
+Since the algorithm trains towards a good performance on the train data it can't improve beyond a certain point.
+The ideal number of boosting trails is set to 15.
+The timing is as expected linear dependent on the number of trials.
+
+The classifications for 15 trails is shown in table \ref{tb:tree_confus}. 
 
 \begin{table}[H]
     \centering
@@ -42,27 +58,13 @@ The classifications is shown in table \ref{tb:tree_confus}.
             \end{tabular}
         \end{subtable}
     \end{subtable}
-                \caption{Confusion table of decision tree}
-            \label{tb:tree_confus}
+    \caption{Confusion table of decision tree.}
+    \label{tb:tree_confus}
 \end{table}
 
-\begin{figure}[H]
-% \includegraphics[width = \textwidth]{graphics/tree_timing}
-\includegraphics[width = \textwidth]{graphics/tree_timing_entropy}
-\caption{Performance of boosting the C50 algorithm. The test person is G3M2 and training data everyone else.}
-\label{fig:tree_timing}
-\end{figure}
-
-The ``C50'' function provides a boosting function.
-Boosting is a process in which the algorithm is training with the train data with multiple trials to increase performance.
-This is expected to take more time but improve performance.
-In figure \ref{fig:tree_timing} can the success be seen of multiple trials.
-Since the algorithm trains towards a good performance on the train data it can be over-fitted as seen when the number of trails exceed 20. 
-The timing is as expected linear dependent on the number of trials.
-
-To test the overall performance each person was used as test data to see how they successfully the data could be classified.
-The training set consist of all people where the person in the test set is removed from the training set. 
-The data is normalized with z-score and entropy respectively before PCA and the first 50 PC is used. 
+To test the overall performance each person was used as test data to see how they successful the data could be classified.
+The training set consist of all people with the person in the test set is removed from the training set. 
+The data is normalized with z-score and entropy respectively before PCA and the first 50 PC is used to build the tree. 
 In figure \ref{fig:tree_success_all} is the success of all people shown.
 The trees are boosted with 15 trials.
 The entropy normalization gives worse results in all cases.

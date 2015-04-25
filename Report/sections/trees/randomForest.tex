@@ -1,6 +1,7 @@
 \subsection{Random Forests}
 
-A random forest was computed in figure \ref{fig:success_time_vs_trees_randomForest} using G3M2 data as test set and the remaining 14 students as train set.
+A random forest was computed in figure \ref{fig:success_time_vs_trees_randomForest} using G3M2 data as test set and the remaining 14 students as train set. 
+The data was normalized with z-score and entropy respectively and then PCA with all PC used.
 The number of trees was varied and the time measured.
 
 \begin{figure}[H]
@@ -11,7 +12,8 @@ The number of trees was varied and the time measured.
 \end{figure}
 
 As can be seen on figure \ref{fig:success_time_vs_trees_randomForest}, then the success rate increases drastically from 0 to 100 trees in the random forest and it settles around 64\% and 80\% for the entropy and z-score normalized data respectively.
-The time increases linearly with the number of trees, but with some inconsistencies, probably because of the computer scheduler taking time of for other tasks.
+The time increases linearly with the number of trees.
+% The time increases linearly with the number of trees, but with some inconsistencies, probably because of the computer scheduler taking time of for other tasks.
 
 From figure \ref{fig:success_time_vs_trees_randomForest} it was decided to use 200 trees for the optimum random forest for both methods.
 Figure \ref{fig:success_randomForest} was generated using the 200 trees.
@@ -24,6 +26,6 @@ Each point was computed using a single person in the test set and independently 
 \begin{figure}[H]
 \centering
 \includegraphics[width = 0.95 \textwidth]{graphics/successRate_randomForest_comp}
-\caption{Success rate for the different people given they are not present in the data set. The mean success rate is 46.7\% for the entropy normalized dataset and 60.9\% for the z-score normalized.}
+\caption[Success rate for Random Forest.]{Success rate for the different people given they are not present in the data set. The mean success rate is 46.7\% for the entropy normalized dataset and 60.9\% for the z-score normalized.}
 \label{fig:success_randomForest}
 \end{figure}
