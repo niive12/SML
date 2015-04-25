@@ -40,10 +40,10 @@ The classifications is shown in table \ref{tb:tree_confus}.
             \begin{tabular}{*{11}{c}}
                 \input{graphics/random_forrest_confusion}
             \end{tabular}
-            \caption{Confusion table of decision tree}
-            \label{tb:tree_confus}
         \end{subtable}
     \end{subtable}
+                \caption{Confusion table of decision tree}
+            \label{tb:tree_confus}
 \end{table}
 
 \begin{figure}[H]
@@ -60,8 +60,8 @@ In figure \ref{fig:tree_timing} can the success be seen of multiple trials.
 Since the algorithm trains towards a good performance on the train data it can be over-fitted as seen when the number of trails exceed 20. 
 The timing is as expected linear dependent on the number of trials.
 
-To test the overall performance each person was used as test data to see how they successful the data could be classified.
-The training set consist of all people with the person in the test set is removed from the training set. 
+To test the overall performance each person was used as test data to see how they successfully the data could be classified.
+The training set consist of all people where the person in the test set is removed from the training set. 
 The data is normalized with z-score and entropy respectively before PCA and the first 50 PC is used. 
 In figure \ref{fig:tree_success_all} is the success of all people shown.
 The trees are boosted with 15 trials.
