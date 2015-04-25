@@ -14,8 +14,6 @@ The equations feed to the library are seen in equation \ref{eq:equations_saturn}
 \label{eq:equations_saturn}
 \end{equation}
 
-The maximum error is calculated with the StepperStoerm algorithm in NR.
-Using that the number of iterations is counted to 3412. The worst case error is 10.236 km.
 The distance from the moon to Saturn can be seen in figure \ref{fig:distance}.
 The crossing point happens about 130 and 530 days.
 
@@ -23,17 +21,41 @@ The phase difference between the two moons is at it's lowest when the moons swap
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.9\textwidth]{graphics/angle}
+\includegraphics[width=\textwidth]{graphics/angle}
 \caption{Absolute phase difference between the two moons.}
 \label{fig:angle}
 \end{figure}
 
 \begin{figure}[h]
    \centering
-\includegraphics[width=0.9\textwidth]{graphics/distance}
+\includegraphics[width=\textwidth]{graphics/distance}
 \caption{Distance from the moons to Saturn}
 \label{fig:distance}
 \end{figure}
 
+The maximum error is predicted using the min step size and absolute error per step.
+This is done by using the equation \ref{eq:NoSteps}.
+Notations are borrowed from the NR library and book.
 
+\begin{equation}
+'Max.\ no.\ steps' = \frac{x_2 - x_1}{hmin}
+\label{eq:NoSteps}
+\end{equation}
+
+$hmin$ was set to 0.1 km to avoid too many function-computations.
+This gave a maximum number of steps to integrate the function of 5000.
+From here, equation \ref{eq:accuracy} can be used to decide the highest accuracy needed to gain a maximum error of 10km.
+
+\begin{equation}
+accuracy = atoll *\ 'Max.\ no.\ steps'
+\label{eq:accuracy}
+\end{equation}
+
+Using the numbers gained earlier the $atoll$, absolute error for one step, was decided to be $2\cdot10^{-3}$.
+
+The actual maximum error in the current run is calculated with the StepperStoerm algorithm in NR.
+Using that the actual number of iterations were 2931. The worst case error is 5.862 km.
+Changing a few lines in the NR library gained, the error was output from the step function and passed on to the integrate function.
+The single step error was then summed up and printed.
+This gave an error of 1.50603 km. 
 
