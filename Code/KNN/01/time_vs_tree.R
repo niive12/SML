@@ -7,7 +7,7 @@ source("normalize.R")
 fileName <- "time_vs_tree_entropy.RData"
 # fileName <- "time_vs_tree.RData"
 
-ntrees = 1:30
+trials = 1:30
 
 load_setting        = list(trainPartSize = 400, testSize = 400)
 # normalize_setting = list(normMethod = "z-score")
@@ -19,16 +19,16 @@ if ( file.exists(fileName) && 1 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
-	time = array(0,length(ntrees))
-	success = array(0,length(ntrees))	
+	time = array(0,length(trials))
+	success = array(0,length(trials))	
 	data = prepareOneAloneNormPCA(3,2,load_setting,normalize_setting,pca_setting)
 	
-	for(i in 1:length(ntrees) ){
+	for(i in 1:length(trials) ){
 		time_tmp = proc.time()
-		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=ntrees[i])
+		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=trials[i])
 		time_tmp = proc.time()-time_tmp
 		time[i] = time_tmp[["user.self"]]
-		print(c(ntrees[i], time[i]))
+		print(c(trials[i], time[i]))
 	
 		success[i] = random_forrest_predict(data=data, model=model)$success
 	}
@@ -43,7 +43,7 @@ postscript("../../../Report/graphics/tree_timing_entropy.eps",height = 4, width 
 	par(mar=c(5, 4, 4, 6) + 0.1)
 
 	# plot time
-	plot(ntrees, time, pch=16, ylim=c(min(time),max(time)), col=colors[1],
+	plot(trials, time, pch=16, ylim=c(min(time),max(time)), col=colors[1],
 	axes=FALSE, type="o", xlab="", ylab="")
 	axis(2, ylim=c(0,1),col="black",las=1)  # las=1 makes horizontal labels
 	mtext("Time [s]",side=2,line=2.5)
@@ -52,14 +52,14 @@ postscript("../../../Report/graphics/tree_timing_entropy.eps",height = 4, width 
 	par(new=TRUE)
 
 	# plot success
-	plot(ntrees, success, pch=15, ylim=c(min(success),max(success)), col=colors[2],
+	plot(trials, success, pch=15, ylim=c(min(success),max(success)), col=colors[2],
 	axes=FALSE, type="o", xlab="", ylab="")
 	mtext("Success",side=4,col=colors[2],line=4) 
 	axis(4, ylim=c(0,7000), col=colors[2],col.axis=colors[2],las=1)
 
 	# Draw the axis
-	axis(1,pretty(range(ntrees),10))
-	mtext("Trees",side=1,col="black",line=2.5)  
+	axis(1,pretty(range(trials),10))
+	mtext("Trials",side=1,col="black",line=2.5)  
 
 	legend("bottomright",legend=c("Time","Success"),pch=16:15,cex=0.8,col=colors)
 quiet = dev.off()
