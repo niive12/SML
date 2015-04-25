@@ -15,7 +15,7 @@ time = matrix(,2,length(line))
 
 filename = "rnadomForest_time.RData"
 
-if(T){
+if(F){
 	load = list(trainPartSize=400,testSize=400)
 	pca = list(breakpoint = 1)
 	norm_e = list(normMethod = "entropy",ent_divs = 200)
@@ -65,7 +65,7 @@ if(T){
 colors = rainbow(4)
 
 setEPS()
-postscript("successRate_randomForest.eps",height = 6, width = 8)
+postscript("successRate_randomForest.eps",height = 4, width = 8)
 
 par(mar=c(5, 4, 4, 6) + 0.1)
 

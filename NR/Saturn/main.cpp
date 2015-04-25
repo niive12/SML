@@ -31,7 +31,7 @@ struct rhs{
 int main()
 {
 	Int n = 4*2;
-    Doub rtol  = 0, atol = 3e-3, h1 = 0.1, hmin = 0.0, x1 = 0.0, x2 = 500.0;
+    Doub rtol  = 0, atol = 2e-3, h1 = 1, hmin = 0.1, x1 = 0.0, x2 = 500.0;
 	VecDoub ystart(n);
 	ystart[0] = 0; // x1
 	ystart[1] = 152870; // y1
