@@ -17,7 +17,21 @@ struct Rhs {
 };
 
 struct Load {
+    VecDoub y;
+    Load(){}
+    VecDoub operator()(const Doub x1, VecDoub_I &v){
+        y[0] = 0;
+        return y;
+    }
+};
 
+struct Score {
+    VecDoub f;
+    Score(){}
+    VecDoub operator()(const Doub xf, VecDoub_1 &y){
+        f[0] = y[0];
+        return f;
+    }
 };
 
 
