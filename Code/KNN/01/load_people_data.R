@@ -11,7 +11,7 @@ write.latex <- function(data, col, row, filename) {
 	colnames(data)[1] = paste(c("&",col[1]),collapse="")
 	rownames(data) = row;
 	rownames(data)[1] = paste(c("\\hline\n",row[1]),collapse="")
-	write.table(data, file=filename, append = FALSE, sep="\t& ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
+	write.table(data, file=filename, append = FALSE, sep=" & ", eol=" \\\\\n", col.names = TRUE, row.names = TRUE, quote = FALSE)
 }
 
 
