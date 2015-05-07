@@ -404,11 +404,12 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 
 prepareOneAloneNormPCA <- function(group, member, prepare_data_in, normalize_in, PCA_in , make_new = 0){
 	fileName = "onePerson_norm_pca_"
-	fileName = paste(c(fileName, "G", group, "M", member,"_",normalize_in$normMethod,"_",PCA_in,".RData"),collapse="")
+	fileName = paste(c(fileName, "G", group, "M", member,"_",normalize_in$normMethod,"_",PCA_in,"_train",prepare_data_in$trainPartSize,"_test", prepare_data_in$testSize,".RData"),collapse="")
 	if(file.exists(fileName) && !make_new ){
 		print(paste(c("loaded ",fileName, " to save time"),collapse=""))
 		load(fileName)
 	} else {
+		print(paste(c("creating Rdata ",fileName, "for future use"),collapse=""))
 		prepare_data_in$group  = group
 		prepare_data_in$member = member	
 		data = do.call(prepareOneAlone,prepare_data_in)

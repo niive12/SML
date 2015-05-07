@@ -23,6 +23,7 @@ pca_simplification <- function(data, breakpoint=1, noPC=0) {
 			NPC = 2
 		}
 	}
+	print(paste(c("selecting ", NPC, " PC out of ", dim(data.pca$x)[2]),collapse=""))
 	train_data = data.pca$x[,1:NPC]
 	test_data = ((data$testSet - data.pca$center) %*% data.pca$rotation)[,1:NPC]
 	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali,variance=data.pca$sdev^2))
