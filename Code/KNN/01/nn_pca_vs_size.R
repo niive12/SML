@@ -38,7 +38,7 @@ PC = seq(0,300,100)
 size <- seq(100,400,100)
 PC[1] = 5
 reload = 1
-if ( file.exists(fileName) && 0 ) {
+if ( file.exists(fileName) && 1 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else if ( file.exists(fileName) && 0 ) {

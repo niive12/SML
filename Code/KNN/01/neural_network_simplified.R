@@ -35,7 +35,6 @@ neural_network_predict <- function(model, data){
 	per = 0
 	for( i in 1:length(data$testVali)){
 		for( j in 1:noChars){
-# 			print(c(data$testSet[i,]))
 			value[j] = predict(model[[j]],data$testSet[i,])
 		}
 		result = which(max(value)==value)
