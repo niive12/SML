@@ -18,6 +18,7 @@ In the following section will the relationship with number of PC and the number 
 In figure \ref{fig:neural_network_visualised} is a small ANS shown.
 The thickness of the synapses indicates the weight.
 The black color indicates a positive weight and the grey color indicates a negative weights.
+
 It is important to notice that there is only a single output. 
 Testing a digit will only show if the entered number resembles the train data or not.
 In order to distinguish between multiple classes a model for each class is created.
@@ -25,6 +26,7 @@ Then the class with the highest resemblance is chosen.
 The data is separated so it becomes 1 when the class matches and 0 when it doesn't.
 To determine the class of a test digit each model is tested as shown in code segment \ref{code:nn_separation}.
 
+\clearpage
 \lstinputlisting[language = R,
 firstnumber = 36,
 firstline = 36, 
@@ -49,7 +51,7 @@ The time it took to create the 10 models is shown in figure \ref{fig:contour_nn_
 % The time it took to predict all 4000 data points is shown in figure \ref{fig:contour_nn_size_vs_pca_time_predict}.
 The biggest impact comes from number PC when building the model but the relationship is more linear when it comes to predicting.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \begin{subfigure}{0.49\textwidth}
     \centering
         \includegraphics[width=\textwidth]{graphics/contour_nn_size_vs_pca_model}

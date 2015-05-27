@@ -23,7 +23,6 @@ neural_network_simplification <- function(data, size=400) {
 		time = (proc.time()-time_start)[["user.self"]]
 		print(paste(c("model : ",i, " time spent so far: ",time, " seconds"),collapse=""))
 	}
-	print("friendship is magic")
 	return(model)
 }
 
