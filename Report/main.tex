@@ -40,7 +40,7 @@
 \usepackage{fullpage} % utilize paper space :)
 
 \usepackage{float} % for use of [H] in figure alignment
-\usepackage{subcaption}
+\usepackage{subcaption} % for use of subfigures
 \usepackage{tikz}
 
 \usepackage{hyperref}
@@ -57,7 +57,7 @@ pdfborder = {0 0 0}
 
 \title{Statistical Machine Learning\\Exercise 5\\{\large\emph{Group 3}}}
 \author{Nikolaj Iversen and Lukas Schwartz}
-\date{May 12$^{th}$, 2015}
+\date{July 9$^{th}$, 2015}
 \maketitle
 
 \vfill
@@ -74,27 +74,34 @@ pdfborder = {0 0 0}
 \newpage
 
 
-%\section{K-Nearest Neighbours}
+\section{K-Nearest Neighbours}
 
 % % % Part one
-% \input{sections/KNN_onePerson/theory}
+\input{sections/KNN_onePerson/theory}
 
-% %\input{sections/KNN_onePerson/implementation}
+% \input{sections/KNN_onePerson/implementation}
 
-% \input{sections/KNN_onePerson/personDependent}
+\input{sections/KNN_onePerson/personDependent}
 
-% \input{sections/KNN_onePerson/preprocessed}
+\input{sections/KNN_onePerson/preprocessed}
 
 %\section{K-NN on Big Data}
-%\input{sections/KNN_bigData/intro}
+\input{sections/KNN_bigData/intro}
 %% % Part two
-%\input{sections/KNN_bigData/rawKNN}
+\input{sections/KNN_bigData/rawKNN}
 %
-%\input{sections/KNN_bigData/PCA}
+\input{sections/KNN_bigData/PCA}
 %
-%\input{sections/KNN_bigData/normalization}
+\input{sections/KNN_bigData/normalization}
 %
-%\input{sections/KNN_bigData/Kmeans}
+\input{sections/KNN_bigData/Kmeans}
+
+\section{Decision Trees}
+
+\input{sections/trees/intro}
+\input{sections/trees/entropy}
+\input{sections/trees/decisionTree}
+\input{sections/trees/randomForest}
 
 %\section{Naive Bayes}
 %\input{sections/bayes/intro}
@@ -107,12 +114,12 @@ pdfborder = {0 0 0}
 %
 %\input{sections/bayes/kde}
 
-\section{Neural Networks and Support Vector Machines}
-\input{sections/NN_SVM/intro}
+% \section{Neural Networks and Support Vector Machines}
+% \input{sections/NN_SVM/intro}
 
-\input{sections/NN_SVM/NN}
+% \input{sections/NN_SVM/NN}
 
-\input{sections/NN_SVM/SVM}
+% \input{sections/NN_SVM/SVM}
 
 
 
