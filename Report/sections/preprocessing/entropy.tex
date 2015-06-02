@@ -8,7 +8,7 @@ Entropy(S) = \sum_{i = '0'}^{'9'} -p_i \cdot \log_2(p_i)
 \label{eq:entropy}
 \end{equation}
 
-To find the best decision point, it is wished that the entropy of the two resulting systems, when dividing one PC into two, is as low as possible.
+To find the best decision point, it is wanted that the entropy of the two resulting systems, when dividing one PC into two, is as low as possible.
 This can be represented as sum of entropy for our two resulting datasets, weighted by the relative size of such.
 This is given in equation \ref{eq:entropy_datasetdevision}.
 
@@ -34,7 +34,8 @@ This was then done for all principle components on both the test and train set.
 The splitting point for the components in the test set were taken as the splitting point from the same component in the train set.
 
 The optimal decision decision point is shown along with the PC values for PC1 in figure \ref{fig:decision_point}. 
-Here it is clear that if the data is above the split then it can not be a 0.
+The different data rows represent the ten different characters (from zero to nine).
+Here it is clear that if the data is above the split then it is highly unlikely to be a 0.
 If the data is below, further investigation is needed.
 By removing all unlikely classes the true class must remain.
 
@@ -43,3 +44,8 @@ By removing all unlikely classes the true class must remain.
 \caption{Decision point in relation to PC values.}
 \label{fig:decision_point}
 \end{figure}
+
+
+
+
+

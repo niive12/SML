@@ -4,6 +4,7 @@
 # variance + accumulated var for 20 first PC
 source("load_people_data.R")
 source("pca_test.R")
+source("normalize.R")
 
 x = 1:20
 
@@ -17,16 +18,19 @@ if ( file.exists(fileName) && 0 ) { #toggle wether we want new data or not
 	load(fileName)
 } else {
 	data = prepareOne(group=3,member=2,trainPart=360,testPart=40)
+	#data = normalizeData(data, normMethod = "z-score")
 	data = pca_simplification(data)
 	variance$one_person = data$variance[x]/sum(data$variance)
 	accumulated$one_person = cumsum(variance$one_person)
 
 	data = prepareOneAlone(3,2) #9 people vs 1 person
+	#data = normalizeData(data, normMethod = "z-score")
 	data = pca_simplification(data)
 	variance$all_one = data$variance[x]/sum(data$variance)
 	accumulated$all_one = cumsum(variance$all_one)
 
 	data = prepareAllMixed(360,40) #90:10
+	#data = normalizeData(data, normMethod = "z-score")
 	data = pca_simplification(data)
 	variance$all_mix = data$variance[x]/sum(data$variance)
 	accumulated$all_mix = cumsum(variance$all_mix)
