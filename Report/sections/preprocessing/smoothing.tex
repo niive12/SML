@@ -1,0 +1,28 @@
+\subsection{Smoothing}
+
+
+\begin{figure}[H]
+\centering
+\missingfigure{effect of smoothing on image}
+\end{figure}
+
+Applying a smoothing function can give the image an advantage when using the nearest neighbour analysis.
+By taking an average of the neighbouring pixels the lines in the digit should be wider and the digits should have a better chance of overlapping.
+The danger is that too much smoothing could make the whole image one colour and would completely destroy any chance of analysis.
+A Gaussian distribution (also referred to as a normal distribution) a naturally occurring distribution that happens when a random result occurs around a mean. 
+The $\sigma$ signifies the deviation of the distribution. 
+The 2D equation of a Gaussian distribution is shown in equation \ref{eq:gauss}. 
+
+\begin{equation}
+G(x,y) = \frac{1}{2\pi \sigma^2} e^{- \frac{x^2+y^2}{2\sigma^2}} \label{eq:gauss}
+\end{equation}
+
+Using the Gaussian filter to smooth an image will weigh the distance to the pixel.
+A small $\sigma$ will make a small deviation and thus heavily weigh the center pixel.
+The results of the filtering methods were also compared to the raw image with 100, 200 and 300 DPI.
+These results are compared with an averaging filter (avg) which takes the average of the four neighbouring pixels and a Gaussian filter (G) with different values for sigma.
+These tests were done 10 times, using cross validation, and the mean of each success rate is plotted in figure \ref{fig:smooth}. 
+Since the variance is too small to be seen in the figure the mean and variance is shown in table \ref{tb:smooth}.
+The averaging filter does not give a measurable different result from not using a filter.
+The Gaussian filter does improves the success rate for some values of sigma, but a larger $\sigma$ makes it worse.
+

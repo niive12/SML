@@ -4,6 +4,9 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
+\usepackage{todonotes}
+\newcommand{\missingequation}[1]{\todo[inline, color = yellow]{Missing equation: #1}}
+
 \usepackage{color}
 \usepackage{listings}
 \renewcommand\lstlistingname{Code Segment}
@@ -78,39 +81,38 @@ pdfborder = {0 0 0}
 \newpage
 
 \section{Preprocessing}
+\input{sections/preprocessing/intro}
 
-\subsection{Smoothing}
-
-\subsection{Z-Score}
-
-\subsection{Principle Component Analysis}
-
-\subsection{Entropy}
+\input{sections/preprocessing/smoothing}
+\input{sections/preprocessing/zscore}
+\input{sections/preprocessing/pca}
+\input{sections/preprocessing/entropy}
 
 
 \section{K-NN}
+\input{sections/knn_final/intro}
 
-\subsection{Theory}
-
-\subsection{Parameter Tuning}
-
-\subsection{Conclusion}
+\input{sections/knn_final/theory}
+\input{sections/knn_final/parameters}
+\input{sections/knn_final/conc}
 
 
 \section{Trees}
+\input{sections/trees_final/intro}
 
-\subsection{Theory}
-
-\subsection{Parameter Tuning}
-
-\subsection{Conclusion}
+\input{sections/trees_final/theory}
+\input{sections/trees_final/parameters}
+\input{sections/trees_final/conc}
 
 
 \section{Algorithm Comparison}
+\input{sections/algorithm_comparison/intro}
 
 
-\section{Conclusion}
+\input{sections/conclusion}
 
+
+\newpage
 
 
 \section{K-Nearest Neighbours}

@@ -1,0 +1,68 @@
+\subsection{Principle Component Analysis}
+The Principle Components Analysis (PCA) is an tool that can be used to describe the variance in a data set.
+
+PCA aims to reduce the number of dimension used to represent the features of the data.
+This is done by finding the eigenvectors and eigenvalues to the training set and removing some of the components representing the least variance in the data set.
+Thus efficiently reducing the dimensions, but still keeping the most significant knowledge about the features.
+
+By selecting the most significant principle components (PC) the data set can be systematically reduced with minimal changes to performance.
+In figure \ref{fig:variance} is the variance and accumulated variance shown for the first 20 PC. 
+It is seen that the first PC is the most significant and the variance converges towards zero with more PC.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.70\textwidth}
+\centering
+\includegraphics[width=\textwidth]{graphics/pca_acc_variance}
+\caption{Accumulated variance}
+\label{fig:pca_accumulated_var}
+\end{subfigure}\\[-1cm]
+\begin{subfigure}{0.70\textwidth}
+\centering
+\includegraphics[width=\textwidth]{graphics/pca_variance}
+\caption{Variance}
+\label{fig:pca_accumulated_var}
+\end{subfigure}
+\caption[PCA variance]{Variance over the first 20 principle components.
+The data was run on Group 3 member 2's data on 100 DPI. }
+\label{fig:variance}
+\end{figure}
+% Figure \ref{fig:contour_KvsPCA_G3M2vsRest} shows a contour plot of how well Group 3 Member 2's  handwriting was predicted successfully for $K$ and the total variance represented of the PC's varying between one and 20 and 0.5 and 1 respectively.
+
+
+Calculating with less data will result in a faster computation time.
+Choosing too few PC means there is no features left to compare.
+To see how the performance and the timing scales both are shown in figure \ref{fig:pca_timing_lukas} and \ref{fig:pca_timing_nikolaj}. K was chosen to be 10.
+In figure \ref{fig:pca_timing_lukas} the performance seems to be the same regardless of how many PC is chosen. As long as there are more than 60 the performance will be the same.
+On the test done on Group member 1 the performance is worse which means the digits are less uniform. 
+Here the success rate has a peak with a low set of attributes so there must be some confusion that gets sorted out. 
+Both test were run with 100 DPI. The percentage of successful predictions is also measured with the same data.
+The timing was measured on the same computer so the difference should not be very large. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width =0.8 \textwidth]{graphics/pca_timing}
+\caption[Timing of PCA]{Timing of running the PCA with different principle components. 
+The data was run on Group 3 member 2's data. 
+}
+\label{fig:pca_timing_lukas}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width =0.8 \textwidth]{graphics/pca_timing_nikolaj}
+\caption[Timing of PCA]{Timing of running the PCA with different principle components. 
+The data was run on Group 3 member 1's data}
+\label{fig:pca_timing_nikolaj}
+\end{figure}
+
+To get a closer look at how the PCA performs the data from G3M2 was tested against the rest of the class. 
+The K was chosen to be 10. 
+The data is shown in figure \ref{fig:pca_success}.
+The performance is getting worse as more features are considered.
+
+\begin{figure}[H]
+\centering
+\missingfigure{pca variance (acc. + non) when using zscore before}
+\end{figure}
+
+
