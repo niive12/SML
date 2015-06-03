@@ -4,36 +4,34 @@ Smoothing is applied to an image in order to reduce the noise in the image such 
 A wide range of kernels can be used for smoothing, but in this report only the Gaussian kernel is considered.
 Furthermore, the kernels considered here all have a sum of one, such that the brightness of the image is unchanged.
 
-
 When applying a smoothing filer, the neighbouring pixels to the smoothed are added a contribution from the smoothed.
 The process of smoothing hence widens the digits, as seen in figure \ref{fig:effect_smooth}, and this should give a better chance of two characters overlapping.
 The danger is that too much smoothing blurs the whole image and hence remove the features in the data that is used to compare and identify the characters.
 
 \begin{figure}[H]
 \centering
-	\begin{subfigure}[b]{0.45\textwidth}
-	\missingfigure{effect of smoothing on image nothing}
+	\begin{subfigure}[b]{0.2\textwidth}
+	\includegraphics[width=\textwidth]{graphics/smooth_none}
+	\caption{Raw image.}
 	\end{subfigure}
 	\qquad
-	\begin{subfigure}[b]{0.45\textwidth}
-	\missingfigure{effect of smoothing on image a little}
-	\end{subfigure}
-%\end{figure}
-%\begin{figure}[H]
-%\centering
-%\ContinuedFloat
-	\begin{subfigure}[b]{0.45\textwidth}
-	\missingfigure{effect of smoothing on image a bit more}
+	\begin{subfigure}[b]{0.2\textwidth}
+         \includegraphics[width=\textwidth]{graphics/smooth_05_5}
+         \caption{\(\sigma = 0.5\).}
 	\end{subfigure}
 	\qquad
-	\begin{subfigure}[b]{0.45\textwidth}
-	\missingfigure{effect of smoothing on image and way too much!}
+	\begin{subfigure}[b]{0.2\textwidth}
+         \includegraphics[width=\textwidth]{graphics/smooth_1_5}
+         \caption{\(\sigma = 1\).}
 	\end{subfigure}
-\caption{Illustration of Gaussian smoothing.}
+	\qquad
+	\begin{subfigure}[b]{0.2\textwidth}
+         \includegraphics[width=\textwidth]{graphics/smooth_2_5}
+         \caption{\(\sigma = 2\).}
+	\end{subfigure}
+\caption{Illustration of Gaussian smoothing. All kernels are 5x5.}
 \label{fig:effect_smooth}
 \end{figure}
-
-
 
 A Gaussian distribution (also referred to as a normal distribution) is a naturally occurring distribution which is found when a random result occurs around a mean. 
 The $\sigma$ signifies the deviation of the distribution. 

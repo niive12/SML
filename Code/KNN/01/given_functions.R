@@ -16,7 +16,7 @@ smoothImage <- function(grayImg){
 	kernel <- kernel/5
 	
 	#using r library for smoothing
-	smoothed <- filter(grayImg, kernel, method="convolution", sides=2)
+	smoothed <- filter2(grayImg, kernel)
 	
 	return(smoothed)
 }
@@ -32,8 +32,7 @@ gaussianSmoothImage <- function(grayImg, sigma, size){
 		}
 	}
 	kernel = kernel * 1/sum(kernel)
-	print("hello")
-	smoothed <- filter(grayImg, kernel, method="convolution", sides=2)
+	smoothed <- filter2(grayImg, kernel)
 	return(smoothed)
 }
 
@@ -92,7 +91,6 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr, smooth="none", sigm
 			b <-ciffers[[i]][,,3]
 			gray[[i]] <- (r*0.3+g*0.6+b*0.1)
 		}
-		
 		#   #smooth images
 		if(smooth == "average" ){
 			for(i in 1:5) {

@@ -105,7 +105,7 @@ prepareOne <- function(group, member, trainPart,testPart, DPI = 100 , filter = "
 		print("Loading data...")
 		personData <- list(1);
 		
-		personData[[1]] = loadSinglePersonsData(DPI,group,member, filter, sigma=sigma, size=size, make_new=make_new)
+		personData[[1]] = loadSinglePersonsData(DPI,group,member, smooth=filter, sigma=sigma, size=size, make_new=make_new)
 		maxCipherSize = dim(personData[[1]][[1]])[2]
 		
 		dataResult = list(cipherSize=maxCipherSize, data=personData)
@@ -176,7 +176,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 		
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size)
+		dataResult = loadAllPeople(DPI, filter=filter, peopleToLoad, sigma=sigma, size=size)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
