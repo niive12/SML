@@ -35,9 +35,11 @@ getPeople <- function(){
 	p13 = c(6, 1)
 	p14 = c(6, 2)
 	p15 = c(7, 1)
-# 	p16 = c(7, 2) # not at all
+ 	p16 = c(7, 2) # not at all
 	p17 = c(7, 3)
-	all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p11, p12, p13, p15, p17)
+	p18 = c(8, 1)
+	p19 = c(8, 2)
+	all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19)
 # 	all = list(p14, p6)
 # all = list(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)
 	# test_people  = c(p6, p7)
@@ -451,3 +453,9 @@ prepareOneAloneNormPCA <- function(group, member, prepare_data_in, normalize_in,
 # }
 # 
 # print(per/length(haha$testVali))
+
+# -- test run load ppl --
+# for(ppl in 1:length(getPeople())){
+# 	print(ppl)
+# 	data = prepareOne(getPeople()[[ppl]][1], getPeople()[[ppl]][2],360,40)
+# }
