@@ -178,7 +178,7 @@ prepareAllMixed <- function(trainPart,testPart, DPI = 100 , filter = "none", peo
 		
 		# load the data
 		print("Loading data...")
-		dataResult = loadAllPeople(DPI, filter=filter, peopleToLoad, sigma=sigma, size=size)
+		dataResult = loadAllPeople(DPI, filter=filter, peopleToLoad, sigma=sigma, size=size, make_new = make_new)
 		print("Data loaded.")
 		data <- dataResult$data
 		maxCipher <- dataResult$cipherSize
@@ -332,7 +332,7 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 	
 	# load the data
 	print("Loading data...")
-	dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size)
+	dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size,make_new = make_new)
 	print("Data loaded.")
 	data <- dataResult$data
 	maxCipher <- dataResult$cipherSize
