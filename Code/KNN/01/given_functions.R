@@ -21,6 +21,10 @@ smoothImage <- function(grayImg){
 	return(smoothed)
 }
 gaussianSmoothImage <- function(grayImg, sigma, size){
+	if(size %% 2 == 1 ){
+		e <- simpleError(paste(c("Bad input. Must be odd kernel size"),collapse=""))
+		stop(e)
+	}
 	kernel <- matrix(1,     # the data elements 
 					 size,  # number of rows 
 					 size)  # number of columns

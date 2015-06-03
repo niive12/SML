@@ -1,5 +1,11 @@
 \subsection{Decision Trees}
 
+- what are decision trees
+- limiting pruning (confidence factor) control=C5.0Control(CF= seq(0,1,0.1))
+- Must have at least minimum number of cases to use as decision split. C5.0Control(minCases=2:10)
+- winnow algo \(\sum_{i=1}^{n} w_i x_i > \Theta\), C5.0Control(winnow = TRUE)
+
+
 The idea of a decision tree is to split the classifications into a set of decisions.
 The first 50 PCA values are used and by looking at the deviance for each split a tree can be created.
 
