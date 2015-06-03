@@ -1,7 +1,7 @@
 source("load_people_data.R")
 source("pca_test.R")
 source("entropy.R")
-data = prepareOne(group=3,member=1,trainPart=360,testPart=40)
+data = prepareOne(group=3,member=2,trainPart=360,testPart=40)
 size = length(data$trainVali)/10
 data = pca_simplification(data,noPC=50)
 
