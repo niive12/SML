@@ -1,6 +1,6 @@
 library("C50")
 
-random_forrest_predict <- function(model, data){
+tree_predict <- function(model, data){
 	# summary( model )
 
 	predictions = predict(model, data$testSet)

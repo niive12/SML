@@ -50,7 +50,7 @@ if(file.exists(fileName) && 1){
 		
 		#create model
 		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=ntrials)
-		result[1,person] = random_forrest_predict(data=data, model=model)$success
+		result[1,person] = tree_predict(data=data, model=model)$success
 		
 		timer <- (((proc.time() - startTime)[["user.self"]])*(noPeople-person)/person)
 		print(result[1,person])
@@ -78,7 +78,7 @@ if(file.exists(fileName2) && 1){
 		
 		#create model
 		model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=ntrials)
-		result_b[1,person] = random_forrest_predict(data=data, model=model)$success
+		result_b[1,person] = tree_predict(data=data, model=model)$success
 		
 		timer <- (((proc.time() - startTime)[["user.self"]])*(noPeople-person)/person)
 		print(result_b[1,person])

@@ -30,7 +30,7 @@ if ( file.exists(fileName) && 1 ) {
 		time[i] = time_tmp[["user.self"]]
 		print(c(trials[i], time[i]))
 	
-		success[i] = random_forrest_predict(data=data, model=model)$success
+		success[i] = tree_predict(data=data, model=model)$success
 	}
 	save(success, time, file = fileName)
 }

@@ -21,7 +21,7 @@ smoothImage <- function(grayImg){
 	return(smoothed)
 }
 gaussianSmoothImage <- function(grayImg, sigma, size){
-	if(size %% 2 == 1 ){
+	if(size %% 2 == 0 ){
 		e <- simpleError(paste(c("Bad input. Must be odd kernel size"),collapse=""))
 		stop(e)
 	}

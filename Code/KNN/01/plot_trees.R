@@ -20,7 +20,6 @@ if ( file.exists(fileName) && 1 ) {
 
 	# trainClassF ~ ., data = as.data.frame(trainingMod)
 	# model = tree(data$trainVali ~ ., as.data.frame(data$trainSet) )
-	# model = C5.0(data$trainVali, as.data.frame(data$trainSet) )
 # 	summary(model)
 
 	save(model, data, file=fileName)
@@ -32,6 +31,6 @@ plot(model,subtree = 18)
 q = dev.off()
 print("plottet")
 
-res = random_forrest_predict(data=data, model=model)
-write.latex(res$confusion_matrix, 0:9, 0:9, "../../../Report/graphics/random_forrest_confusion.tex")
+res = tree_predict(data=data, model=model)
+write.latex(res$confusion_matrix, 0:9, 0:9, "../../../Report/graphics/tree_confusion.tex")
 print(res$success)
