@@ -1,12 +1,14 @@
 \subsection{Parameter Tuning}
+The parameter tuning is performed using the dataset of G3M2.
+This was done because using a single persons dataset alone creates a clearer change in performance when comparing the scores.
+The dataset was split in a $90\%/10\%$ split for training and test respectively.
 
-using datasets: all mixed 5 + 5
 
 \subsubsection{Raw Performance}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.9 \textwidth]{graphics/knn_raw_success}
+\includegraphics[width = 1 \textwidth]{graphics/knn_raw_success}
 \caption{Success for K-NN with no preprocessing used.}
 \end{figure}
 
@@ -15,7 +17,8 @@ using datasets: all mixed 5 + 5
 
 \begin{figure}[H]
 \centering
-\missingfigure{cont. sigma vs size}
+\includegraphics[width = 1 \textwidth]{graphics/knn_smooth_cont}
+\caption{Success for K-NN with no preprocessing used.}
 \end{figure}
 
 
@@ -23,15 +26,18 @@ using datasets: all mixed 5 + 5
 
 \begin{figure}[H]
 \centering
-\missingfigure{sigma/size vs PC or success vs PC if best smoothing distinct}
+\includegraphics[width = 1 \textwidth]{graphics/knn_pc}
+\caption{Success for K-NN for varying numbers of PC and sigma.}
 \end{figure}
 
 
 \subsubsection{Z-Score}
 
 \begin{figure}[H]
-\centering
-\missingfigure{success for raw, pre zs, post zs and both}
+\includegraphics[width = 1 \textwidth]{graphics/knn_zscore}
+\caption{Success for the K-NN algorithm for different preprocessing schemes.
+Where $S$ is smoothing, $ZS$ is z-score.
+The preprocessing schemes are named in the same order as applied.}
 \end{figure}
 
 
