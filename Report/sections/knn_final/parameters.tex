@@ -18,7 +18,7 @@ The dataset was split in a $90\%/10\%$ split for training and test respectively.
 \begin{figure}[H]
 \centering
 \includegraphics[width = 1 \textwidth]{graphics/knn_smooth_cont}
-\caption{Success for K-NN with no preprocessing used.}
+\caption{Success for K-NN when the image is smoothed using a Gaussian filter with different kernel sizes and sigma values.}
 \end{figure}
 
 
@@ -34,11 +34,26 @@ The dataset was split in a $90\%/10\%$ split for training and test respectively.
 \subsubsection{Z-Score}
 
 \begin{figure}[H]
-\includegraphics[width = 1 \textwidth]{graphics/knn_zscore}
+\includegraphics[width = 1 \textwidth]{graphics/knn_zscore_1}
 \caption{Success for the K-NN algorithm for different preprocessing schemes.
 Where $S$ is smoothing, $ZS$ is z-score.
 The preprocessing schemes are named in the same order as applied.}
 \end{figure}
+
+\begin{figure}[H]
+%\includegraphics[width = 1 \textwidth]{graphics/knn_zscore_2}
+\caption{Success for the K-NN algorithm for different preprocessing schemes.
+Where $S$ is smoothing, $ZS$ is z-score.
+The preprocessing schemes are named in the same order as applied.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width = 1 \textwidth]{graphics/knn_zscore_3}
+\caption{Success for the K-NN algorithm for different preprocessing schemes.
+Where $S$ is smoothing, $ZS$ is z-score.
+The preprocessing schemes are named in the same order as applied.}
+\end{figure}
+
 
 
 \subsubsection{Performance}

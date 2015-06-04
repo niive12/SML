@@ -12,8 +12,8 @@ trainSetSize = 360
 # smoothing test
 if(T){
 	s_k = 1
-	data_sigma = c(seq(0.1,2,0.05))
-	data_size = c(seq(3,7,2))
+	data_sigma = c(seq(0.1,2,0.1))
+	data_size = c(seq(3,15,2))
 	smooth_knn_success = matrix(0,length(data_size),length(data_sigma))
 	
 	for(f_size in 1:length(data_size)){
