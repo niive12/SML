@@ -323,7 +323,7 @@ prepareOneAlone <- function(group, member, trainPartSize=400, testSize=200, DPI=
 }
 
 
-prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , filter = "none", peopleToLoad = getPeople(), sigma =0.5, size =5){
+prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100,  make_new=0, filter = "none", peopleToLoad = getPeople(), sigma =0.5, size =5){
 	
 	if(split > 1){
 		e <- simpleError("Bad input. Too high split (> 1).")
@@ -332,7 +332,7 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 	
 	# load the data
 	print("Loading data...")
-	dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size,make_new = make_new)
+	dataResult = loadAllPeople(DPI, filter, peopleToLoad, sigma=sigma, size=size, make_new = make_new)
 	print("Data loaded.")
 	data <- dataResult$data
 	maxCipher <- dataResult$cipherSize
@@ -362,6 +362,7 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 	test_frame <- c(rep.int(FALSE,trainPart),rep.int(TRUE,testPart))
 	
 	# make the different sets
+	finalData = list()
 	startTime <- proc.time() # used for timing
 	print("Preparing training and test sets...")
 	for(run in 1:crossValRuns){
@@ -385,7 +386,7 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100 , 
 		test_frame[] <- tempFrame[]
 		
 		# save the data
-		finalData <- list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual)
+		finalData[[run]] <- (list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual))
 		fileName <- paste(c("crossVal_DPI",DPI,"_",split,"_FILTER",filter,"_",run,".RData"),collapse="")
 		save(finalData, file = fileName)
 		

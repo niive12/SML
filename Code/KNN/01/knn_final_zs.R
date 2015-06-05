@@ -7,7 +7,7 @@ source("normalize.R")
 
 
 
-mode = 3 # 1 = one, 2 = all mixed, 3 = 1 v All
+mode = 2 # 1 = one, 2 = all mixed, 3 = 1 v All
 # 50 test 100 train, one alone
 # 100 test 50 trin, all mixed
 
@@ -25,8 +25,8 @@ if(mode == 1){
 filename = paste(c("KNN_final_zscore_", mode, ".RData"), collapse = "")
 graphname = paste(c("../../../Report/graphics/knn_zscore_", mode, ".eps"), collapse = "")
 
-# pca test,, comp sigma vs PC
-if(T){
+# pca test, comp sigma vs PC
+if(F){
 	s_k = 1
 	s_size = 5
 	s_sigma = 0.9
