@@ -1,9 +1,9 @@
 \subsection{Theory}
 
-The entropy is calculated for all data points an order for the decisions must be found.
+The entropy is calculated for all components.
 If a single decision can give information about a class or the removal of a class it is considered to be a high information gain.
 Thus such a decision must be taken at the root of the tree.
-But since the data provided to the tree cannot be 100\% of future all data to ever come, as it is with random input such as handwriting, every split carries a certain confidence.
+Since the train data provided to the tree is only a subset of all the data the tree will classify, as it is with random inputs such as handwriting, every split carries a certain confidence in its classification.
 
 \begin{figure}[h]
 \includegraphics[width = \textwidth]{graphics/tree_section}
@@ -28,9 +28,12 @@ A way to improve the decision tree is to remove nodes which is deemed to not be 
 This is called pruning, borrowing the vocabulary of gardening.
 There are several ways to prune a tree.
 The ``C5.0'' function can prune by increasing the confidence factor. 
-The default is 25\% and thus a leaf with 1/4 confidence is allowed node 22 in figure \ref{fig:tree_section}.
-If this number were increased the node would disappear.
-This will lead to three sub nodes, differentiating the data.
+The default is 25\% and thus the leaf node 22 in figure \ref{fig:tree_section} with 1/4 confidence is kept.
+If the confidence of a node would fall below the confidence factor used for pruning, the leaf would be converted into a node with two leafs.
+This will make it possible to make better decisions based on the data input to the tree.
+\todo[inline]{changed the line above, so check it, and make the line below clearer. Isn't what you call a node a leaf and vice versa? 
+Do you mean that the second way is to increase the number of "leafs" connected to the node such that you have two or more threshold for the data? 
+Such that you have say x < 0.5, 0.5 < y < 1, 1 < z where z, y and z are the new nodes? }
 Another pruning option is to increase the minimum number of nodes in a leaf. 
 This will remove the noise created by a few selection of digits which creates a new split.
 The default minimum number of nodes is 2.

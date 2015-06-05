@@ -26,6 +26,7 @@ To find a baseline of the prepossessing impact a test on the raw data was perfor
 The minimum number of nodes was increased to see its effect on the performance on the tree.
 The results of this test can be seen in figure \ref{fig:tree_raw}. 
 The optimal minimum number of nodes were found to be 7 and thus used in the following tests.
+\todo[inline]{cases or nodes? cases in figure and nodes in text? keep the same naming convention.}
 
 \begin{figure}[H]
 \centering
@@ -38,13 +39,14 @@ The optimal minimum number of nodes were found to be 7 and thus used in the foll
 \subsubsection{Smoothing}
 
 Smoothing of the image was done with the Gaussian smoothing filter as discussed in section \ref{sec:smoothing}.
-The tree was built with the minimum number of 
+The tree was built with the minimum number of 7 cases.
 The success rate of the decision tree with the filter is shown in figure \ref{fig:tree_smooth}.
 To find the optimal kernel size and deviance, the effects on both were plotted.
 A large kernel size does not impact the low deviance. The optimal kernel size were found at    7
 while the optimal deviance was found at                                                        0.9.
 
 \todo[inline]{Add labels to tree smooth contour plot}
+\todo[inline]{Lukas: try to make new graph with red dot on best spot. File: final\_tree\_tests.R}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/tree_smooth}
@@ -62,7 +64,7 @@ The optimal number of principle components was chosen as 130.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/tree_pca}
-\caption{sigma/size vs PC or success vs PC if best smoothing distinct}
+\caption{Sigma/size vs PC or success vs PC if best smoothing distinct.}
 \end{figure}
 
 
@@ -77,7 +79,7 @@ In figure \ref{fig:tree_total} the success rate with the different methods is ap
 \centering
 % \missingfigure{}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total}
-\caption{success for raw, pre zs, post zs and both}
+\caption{Success for raw, pre zs, post zs and both.}
 \label{fig:tree_total}
 \end{figure}
 
@@ -89,7 +91,7 @@ While the overall performance has gone down the impact of each method is similar
 \centering
 % \missingfigure{}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total_mixed}
-\caption{success for raw, pre zs, post zs and both}
+\caption{Success for raw, pre zs, post zs and both.}
 \label{fig:tree_total_mixed}
 \end{figure}
 
@@ -116,7 +118,7 @@ Because the optimal decision path is unknown until every decision split is made,
 While the performance can only be measured on the data available (the training data) the model can be fitted to perform well on the errors in the training data and thus potentially decrease the performance on the test data.
 This is called overfitting. 
 In figure \ref{fig:tree_overfitting} the boosting of the training set and the test set can be seen.
-It can be seen that after a few trials the model is has a 100\% success rate on the training data.
+It can be seen that after a few boosts the model gains a 100\% success rate on the training data.
 Therefore it cannot know what to improve upon and the performance cannot be better on the test data.
 
 \begin{figure}[H]
@@ -129,7 +131,7 @@ When the performance on the train data hits 100\% the performance on the test da
 
 The ``C50'' function provides a boosting function.
 In figure \ref{fig:tree_timing} can the success be seen of multiple trials.
-Since the algorithm trains towards a good performance on the train data it can't improve beyond a certain point.
+Since the algorithm trains towards a good performance on the train data it can not improve beyond a certain point.
 The ideal number of boosting trails is set to 15.
 The timing is as expected linear dependent on the number of trials.
 
@@ -159,7 +161,7 @@ In figure \ref{fig:tree_pca_boost_timing} is the time it took to build the tree 
 \begin{figure}[h]
 \missingfigure{}
 % \includegraphics[width=\textwidth]{graphics/tree_pca_boost_timing}
-\caption{Time of boosting the tree vs number of PC used. Measured in seconds}
+\caption{Time of boosting the tree vs number of PC used. The time measured in seconds.}
 \label{fig:tree_pca_boost_timing}
 \end{figure}
 
@@ -176,7 +178,7 @@ Trials      & 5      \\
 sigma       & 0.9    \\
 kernel size & 7      \\
 \end{tabular}
-\caption{Optimal Parameters for decision tree..}
+\caption{Optimal Parameters for decision tree.}
 \label{tb:tree_simply_the_best_parameters}
 \end{table}
 
@@ -185,7 +187,7 @@ In table \ref{tb:tree_simply_the_best_parameters} is the optimal parameters show
 These parameters are applied to the prepossessing and tree function.
 To test these against the data 20 peoples data have been mixed.
 90\% of the data was used to train the tree and 10\% were used to test the performance.
-This was tested 10 times so all data was used for testing at one test. 
+This was done running 10 cross-referencing tests. 
 The results can be seen in figure \ref{fig:tree_performance_mixed}.
 To see how each digit was detected a confusion table is shown in figure \ref{fig:tree_confus_mixed}. 
 Here it is seen that \textbf{9 is detected as a 4 and 8 is detected as a 3 or 5}. 
