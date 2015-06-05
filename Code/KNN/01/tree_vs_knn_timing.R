@@ -46,7 +46,7 @@ counts = t(counts)
 print(counts)
 
 setEPS()
-postscript("foo.eps",height = 4, width = 8)
+postscript("../../../Report/graphics/algo_compare_timing.eps",height = 4, width = 8)
 barplot(counts, main="knn vs tree timing",
   xlab="time in seconds", col=colors,
   ylim=c(0,150),
