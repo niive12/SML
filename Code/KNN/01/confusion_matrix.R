@@ -1,3 +1,5 @@
+# columns are actual and hence sum = 1
+# rows are predicted
 confusion_matrix <- function(input, print_as_procent=T, filename="confusion.eps"){
 	colnames(input) = 0:9;
 	rownames(input) = 0:9;
@@ -27,7 +29,7 @@ confusion_matrix <- function(input, print_as_procent=T, filename="confusion.eps"
 		,notecex=2
 		,notecol="black"
 		,cellnote=input)
-	mtext("Actual Class", side=2, line=2,cex=2)
-	mtext("Predicted Class", side=3, line=-2, cex=2)
+	mtext("Predicted Class", side=2, line=2,cex=2)
+	mtext("Actual Class", side=3, line=-2, cex=2)
 	q = dev.off()
 }

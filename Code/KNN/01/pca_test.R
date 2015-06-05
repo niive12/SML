@@ -6,6 +6,10 @@ pca_simplification <- function(data, breakpoint=1, noPC=0) {
 		e <- simpleError(paste(c("Bad input. Too high breakpoint: ",breakpoint, " > 1."),collapse=""))
 		stop(e)
 	}
+	if(noPC == 1){
+		e <- simpleError(paste(c("Bad input. noPC cannot be: ",noPC),collapse=""))
+		stop(e)
+	}
 	
 	data.pca = prcomp(na.pass(data$trainSet), center=TRUE, scale=FALSE)
 	
