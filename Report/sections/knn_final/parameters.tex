@@ -45,7 +45,7 @@ This sigma and kernel size will hence be the one used onwards in this section wh
 
 The PCA was computed on the same dataset as in section \ref{sec:knn_smooth}.
 The test where done on both the dataset with and without smoothing.
-The result of plotting the number of PC versus the success is seen in figure \ref{fig:plot_pca_knn}.
+The result of plotting the number of PC versus the success and time taken to perform K-NN is seen on figure \ref{fig:plot_pca_knn}.
 
 \begin{figure}[H]
 \centering
@@ -54,9 +54,25 @@ The result of plotting the number of PC versus the success is seen in figure \re
 \label{fig:plot_pca_knn}
 \end{figure}
 
+
+%Calculating with less data will result in a faster computation time.
+%However, choosing too few PC results too few features left to compare.
+%To see how the performance and the timing scales both are shown in figure \ref{fig:pca_timing_lukas} and \ref{fig:pca_timing_nikolaj}. K was chosen to be 10.
+%In figure \ref{fig:pca_timing_lukas} the performance seems to be the same regardless of how many PC is chosen. As long as there are more than 60 the performance will be the same.
+%On the test done on Group member 1 the performance is worse which means the digits are less uniform. 
+%Here the success rate has a peak with a low set of attributes so there must be some confusion that gets sorted out. 
+%Both test were run with 100 DPI. The percentage of successful predictions is also measured with the same data.
+%The timing was measured on the same computer so the difference should not be very large. 
+
+%To get a closer look at how the PCA performs the data from G3M2 was tested against the rest of the class. 
+%The K was chosen to be 10. 
+%The data is shown in figure \ref{fig:pca_success}.
+%The performance is getting worse as more features are considered.
+
+
 From figure \ref{fig:plot_pca_knn}, it was decided to use 40 PC.
 This point was chosen because it efficiently reduces the dimensions of the dataset, but also has a descend success rate for the K-NN both with and without smoothing.
-Furthermore the elbow-point is passed and no significant gain is gathered from taking more PC.
+Furthermore the elbow-point is passed and no significant gain is gathered from taking more PC, compared to the timing advantage.
 
 
 
@@ -117,12 +133,15 @@ This was chosen as it gives the highest success of all the schemes including PCA
 To test the overall performance with the final parameters, both confusion tables and success using K-NN with the beforehand decided preprocessing was computed.
 Both the hard problem and the easy problem was computed.
 
-The easy 
+The easy problem is the one in which the data from the different people is divided into a 90\%/10\% split, training and test respectively.
+The test and training sets of each person are then combined.
+This was done for ten cross-validation runs.
+The result of such procedure can be seen in figure \ref{fig:knn_succ_final_easy}, where the success for the ten runs is shown in a boxplot, and figure \ref{fig:knn_conf_final_easy} shows the overall confusion matrix for all ten runs combined.
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.7 \textwidth]{graphics/knn_confusion_bestparam_easy}
+\includegraphics[width = 0.65 \textwidth]{graphics/knn_confusion_bestparam_easy}
 \caption{Confusion table of the best parameter setting, for the easy problem with ten cross referencing runs.}
 \label{fig:knn_conf_final_easy}
 \end{figure}
@@ -130,7 +149,7 @@ The easy
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.7 \textwidth]{graphics/knn_final_full_easy}
+\includegraphics[width = 0.9 \textwidth]{graphics/knn_final_full_easy}
 \caption{Success for the easy problem using ten cross referencing runs.}
 \label{fig:knn_succ_final_easy}
 \end{figure}
@@ -143,7 +162,7 @@ The success of such a process is seen in figure \ref{fig:knn_succ_final_hard} an
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.7 \textwidth]{graphics/knn_confusion_bestparam_hard}
+\includegraphics[width = 0.65 \textwidth]{graphics/knn_confusion_bestparam_hard}
 \caption{Confusion with all the best parameters for the full dataset difficult problem with the confusion tables for the different runs combined.}
 \label{fig:knn_conf_final_hard}
 \end{figure}
@@ -151,44 +170,14 @@ The success of such a process is seen in figure \ref{fig:knn_succ_final_hard} an
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.95 \textwidth]{graphics/knn_final_full_hard}
+\includegraphics[width = 0.9 \textwidth]{graphics/knn_final_full_hard}
 \caption{Success for the hard problem for each person.
-The y-axis represents the "Group:Member" number used as the test set.}
+The y-axis values represents the "Group:Member" number used as the test set.}
 \label{fig:knn_succ_final_hard}
 \end{figure}
 
+With a mean of 70.99\% and variance of  1.18\%, then the hard problem clearly performs worse than the easy problem with 85.07\% mean and 0.04\% variance.
+The general tendency is that the greatest error comes from the '3' and '5' often being detected as '8', and the '4' being classified as a '9'.
+These two errors account for 5.7\% and 3.3\% of the error in hard and easy problem respectively, and is hence more than 1/6 in the two classification problems.
+This is, however, expected as the characters of confusion have great similarity compared to any other class in the dataset.
 
-
-
-
-\subsubsection{PCA}
-
-Calculating with less data will result in a faster computation time.
-However, choosing too few PC results too few features left to compare.
-To see how the performance and the timing scales both are shown in figure \ref{fig:pca_timing_lukas} and \ref{fig:pca_timing_nikolaj}. K was chosen to be 10.
-In figure \ref{fig:pca_timing_lukas} the performance seems to be the same regardless of how many PC is chosen. As long as there are more than 60 the performance will be the same.
-On the test done on Group member 1 the performance is worse which means the digits are less uniform. 
-Here the success rate has a peak with a low set of attributes so there must be some confusion that gets sorted out. 
-Both test were run with 100 DPI. The percentage of successful predictions is also measured with the same data.
-The timing was measured on the same computer so the difference should not be very large. 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width =0.8 \textwidth]{graphics/pca_timing}
-\caption[Timing of PCA]{Timing of running the PCA with different principle components. 
-The data was run on Group 3 member 2's data. 
-}
-\label{fig:pca_timing_lukas}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width =0.8 \textwidth]{graphics/pca_timing_nikolaj}
-\caption[Timing of PCA]{Timing of running the PCA with different principle components. 
-The data was run on Group 3 member 1's data}
-\label{fig:pca_timing_nikolaj}
-\end{figure}
-
-To get a closer look at how the PCA performs the data from G3M2 was tested against the rest of the class. 
-The K was chosen to be 10. 
-The data is shown in figure \ref{fig:pca_success}.
-The performance is getting worse as more features are considered.
