@@ -32,7 +32,10 @@ if(T){
 			x_p = point %% length(data_size)
 			y_p = ceiling(point/length(data_size))
 			
-			filled.contour(y = data_sigma, x = data_size, smooth_knn_success, col=colorpanel(20, "black", "white"), levels=seq(min(smooth_knn_success), max(smooth_knn_success), length.out= 21), locator={points(x = data_size[x_p],y = data_sigma[y_p], col = "red")})
+			filled.contour(y = data_sigma, x = data_size, smooth_knn_success, 
+						   col=colorpanel(20, "black", "white"), 
+						   levels=seq(min(smooth_knn_success), max(smooth_knn_success), length.out= 21), 
+						   locator={points(x = data_size[x_p],y = data_sigma[y_p], col = "red")})
 			title(main = NULL, xlab = "Filter Size", ylab = "Sigma")
 			quiet = dev.off()
 
