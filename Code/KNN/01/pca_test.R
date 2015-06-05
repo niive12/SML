@@ -29,6 +29,18 @@ pca_simplification <- function(data, breakpoint=1, noPC=0) {
 	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali,variance=data.pca$sdev^2))
 }
 
+
+
+subset_pca <- function(data, data.pca,noPC=400){
+	len = dim(data$trainSet)[2]
+	if(len < noPC){
+		noPC = len
+	}
+	train_data = data.pca$x[,1:noPC]
+	test_data = ((data$testSet - data.pca$center) %*% data.pca$rotation)[,1:noPC]
+	return(list(trainSet=train_data, testSet=test_data,trainVali=data$trainVali,testVali=data$testVali,variance=data.pca$sdev^2))
+}
+
 run_knn <- function(data,K) {
 	res = knn(data$trainSet, data$testSet, data$trainVali, k = K)
 

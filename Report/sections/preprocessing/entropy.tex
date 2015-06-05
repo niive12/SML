@@ -1,6 +1,7 @@
 \subsection{Entropy}
-To compute the optimum decision point for the individual principle components, the entropy method is used.
-The entropy of the PC's with our ten ciphers is given by equation \ref{eq:entropy}.
+
+The entropy is a measure of uncertainty in a probability distribution.
+The entropy of the components with the ten ciphers is given by equation \ref{eq:entropy}.
 
 \begin{equation}
 Entropy(S) = \sum_{i = '0'}^{'9'} -p_i \cdot \log_2(p_i) 
@@ -8,8 +9,9 @@ Entropy(S) = \sum_{i = '0'}^{'9'} -p_i \cdot \log_2(p_i)
 \label{eq:entropy}
 \end{equation}
 
-To find the best decision point, it is wanted that the entropy of the two resulting systems, when dividing one PC into two, is as low as possible.
-This can be represented as sum of entropy for our two resulting datasets, weighted by the relative size of such.
+The best decision point is when the entropy is as low as possible, thus giving the highest information gain.
+% To find the best decision point, it is wanted that the entropy of the two resulting systems, when dividing one PC into two, is as low as possible.
+This can be represented as sum of entropy for the two resulting datasets, weighted by the relative size.
 This is given in equation \ref{eq:entropy_datasetdevision}.
 
 \begin{eqnarray}
@@ -22,30 +24,26 @@ When using equation \ref{eq:entropy_datasetdevision} on the first five principle
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.95 \textwidth]{graphics/entropy_pc}
+\includegraphics[width = 0.9 \textwidth]{graphics/entropy_pc}
 \caption[Variation of the entropy]{Figure showing the variation of the entropy of the dataset when the decision point varies. Computed using equation \ref{eq:entropy_datasetdevision}. The data of the first five principle component.}
 \label{fig:entropy_pc5}
 \end{figure}
 
-
-The point of lowest entropy for a principle component was then used as the splitting point to convert the data into binary.
-This was done by setting everything below the splitting point to true and the rest false.
-This was then done for all principle components on both the test and train set. 
-The splitting point for the components in the test set were taken as the splitting point from the same component in the train set.
+% The point of lowest entropy for a principle component was then used as the splitting point to convert the data into binary.
+% This was done by setting everything below the splitting point to true and the rest false.
+% This was then done for all principle components on both the test and train set. 
+% The splitting point for the components in the test set were taken as the splitting point from the same component in the train set.
 
 The optimal decision decision point is shown along with the PC values for PC1 in figure \ref{fig:decision_point}. 
 The different data rows represent the ten different characters (from zero to nine).
-Here it is clear that if the data is above the split then it is highly unlikely to be a 0.
+Here it is clear that if the data is above the split then it is unlikely to be a 0.
 If the data is below, further investigation is needed.
 By removing all unlikely classes the true class must remain.
 
 \begin{figure}[H]
-\includegraphics[width = \textwidth]{graphics/decision_seperation}
+\centering
+\includegraphics[width = 0.88\textwidth]{graphics/decision_seperation}
 \caption{Decision point in relation to PC values.}
 \label{fig:decision_point}
 \end{figure}
-
-
-
-
 

@@ -1,18 +1,5 @@
 \subsection{Decision Trees}
 
-- what are decision trees
-- limiting pruning (confidence factor) control=C5.0Control(CF= seq(0,1,0.1))
-- Must have at least minimum number of cases to use as decision split. C5.0Control(minCases=2:10)
-- winnow algo \(\sum_{i=1}^{n} w_i x_i > \Theta\), C5.0Control(winnow = TRUE)
-
-The idea of a decision tree is to split the classifications into a set of decisions.
-The first 50 PCA values are used and by looking at the deviance for each split a tree can be created.
-
-winow = good,
-CF  = little to no difference
-minum cases = use as example
-
-
 \begin{figure}[h]
 \includegraphics[width = \textwidth]{graphics/tree_section}
 \caption[Visualization of a tree.]{Visualization of a small section of the tree.}
@@ -24,13 +11,6 @@ The tree with the training data of 15 people (56000 cases) contains 6338 nodes.
 A small section of the tree is shown in figure \ref{fig:tree_section}.
 Each node shows which principal component and the split to which the decision is made.
 Each leaf shows the probability of a classification.
-
-\begin{figure}[H]
-% \includegraphics[width = \textwidth]{graphics/tree_timing}
-\includegraphics[width = \textwidth]{graphics/tree_timing_entropy}
-\caption[Performance of boosting the C50 algorithm.]{Performance of boosting the C50 algorithm. The test person is G3M2 and training data everyone else.}
-\label{fig:tree_timing}
-\end{figure}
 
 The ``C50'' function provides a boosting function.
 Boosting is a process in which the algorithm is training with the train data with multiple trials to increase performance.

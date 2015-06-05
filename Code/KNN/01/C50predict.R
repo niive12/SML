@@ -24,3 +24,24 @@ tree_predict <- function(model, data){
 
 	return(list(confusion_matrix = confus, success = per, var=variance))
 }
+
+tree_predict_train <- function(model, data){
+	predictions = predict(model, data$trainSet)
+	per = 0
+	for(i in 1:length(data$trainVali)){
+		if(predictions[i] == data$trainVali[i]){
+			per = per + 1
+		} 
+	}
+	per = per/length(data$trainVali)
+	return(per)
+}
+
+prepare_data_for_tree <- function(data){
+	len = dim(data$trainSet)[2]
+	names = array("a",len)
+	for ( i in 1:len) { names[i] = paste(c("PC",i),collapse="") }
+	colnames(data$trainSet) = names
+	colnames(data$testSet) = names
+	return(data)
+}
