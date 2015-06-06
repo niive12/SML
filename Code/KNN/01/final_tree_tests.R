@@ -484,11 +484,11 @@ if( new_t_all == 1){
 if( new_pca_vs_boost == 1){
 	fileName <- "tree_pca_vs_boost.RData"
 
-	if ( file.exists(fileName) && 1 ) {
+	if ( file.exists(fileName) && 0 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
-		pca = seq(10,350,10)
+		pca = c(10,seq(20,400,20))
 		trials = seq(1,30,2)
 		time_pca_boost    = matrix(0,length(pca),length(trials))
 		success_pca_boost = matrix(0,length(pca),length(trials))
