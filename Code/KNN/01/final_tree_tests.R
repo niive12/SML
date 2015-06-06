@@ -6,7 +6,6 @@ library("gplots")
 library("graphics")
 source("confusion_matrix.R")
 
-<<<<<<< HEAD
 new_raw             = 0
 new_smooth          = 0 #add labels
 new_pca             = 0 #without smoothing
@@ -14,15 +13,6 @@ new_total           = 0
 new_t_mix           = 0
 new_t_all           = 0
 new_pca_vs_boost    = 1
-=======
-new_raw    = 0
-new_smooth = 1 #add labels
-new_pca    = 0 #without smoothing
-new_total  = 0
-new_t_mix  = 0
-new_t_all  = 0
-new_pca_vs_boost = 0
->>>>>>> 5856d7e0bf2677dea69ee9772fa26386732ca2f6
 new_performance_mix = 0
 new_performance_all = 0
 
@@ -504,7 +494,7 @@ if( new_pca_vs_boost == 1){
 		success_pca_boost = matrix(0,length(pca),length(trials))
 		
 		static_data = prepareOne(3,2,360,40, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
-		static_data = normalizeData(static_data, "z-score")
+# 		static_data = normalizeData(static_data, "z-score")
 		data.pca = prcomp(na.pass(static_data$trainSet), center=TRUE, scale=FALSE)
 		
 		for(n in 1:length(pca) ){
@@ -518,7 +508,7 @@ if( new_pca_vs_boost == 1){
 				time_pca_boost[n,i] = (proc.time()-tmp_time_predict)[["user.self"]]
 				
 				success_pca_boost[n,i] = tree_predict(data=data, model=model)$success
-				print(c(success_pca_boost[n,i],time_pca_boost[n,i],(n*length(trials)+i)/(length(trials)*length(pca))))
+				print(c(success_pca_boost[n,i],time_pca_boost[n,i],((n-1)*length(trials)+i)/(length(trials)*length(pca))))
 				save(pca,trials,success_pca_boost,time_pca_boost,file=fileName)
 			}
 		}
