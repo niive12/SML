@@ -53,10 +53,12 @@ while the optimal deviance was found at                                         
 
 \subsubsection{Principle Component Analysis}
 
-To find the optimal number of principle components to use in a decision tree both the smoothed data and raw data was tested.
+To find the optimal number of principle components to use in a decision tree 
+% both 
+the smoothed data 
+% and raw data 
+was tested.
 The optimal number of principle components was chosen as 130.
-
-\todo[inline]{Test without smoothing and plot both}
 
 \begin{figure}[H]
 \centering
@@ -182,29 +184,39 @@ kernel size & 7      \\
 
 
 In table \ref{tb:tree_simply_the_best_parameters} is the optimal parameters shown.
-These parameters are applied to the prepossessing and tree function.
+These parameters are applied to the prepossessing and tree function. 
+This data set is referred to as the prepared data set.
 To test these against the data 20 peoples data have been mixed.
 90\% of the data was used to train the tree and 10\% were used to test the performance.
 This was done running 10 cross-referencing tests. 
+To compare the results with the smoothed data and no prepossessing the same training set was used.
+Here the number of boosting trials was set at 7. 
+This data set is referred to as the smoothed data set.
 The results can be seen in figure \ref{fig:tree_performance_mixed}.
 To see how each digit was detected a confusion table is shown in figure \ref{fig:tree_confus_mixed}. 
-Here it is seen that \textbf{9 is detected as a 4 and 8 is detected as a 3 or 5}. 
-The best performance is on digits \textbf{7 and 1} which leaves the least amount of ink on the paper.
+Here it is seen that while 8 has a high correct detection rate, outliers of other numbers is more likely to be classified as an 8.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{graphics/tree_performance_mix}
+\includegraphics[width=\textwidth]{graphics/tree_performance_mix_combined}
 \caption{Success rate with all the best parameters for the full dataset easy problem.}
 \label{fig:tree_performance_mixed}
 \end{figure}
 
 \begin{figure}[H]
 \centering
+\begin{subfigure}{0.49\textwidth}
 \includegraphics[width=\textwidth]{graphics/tree_confusion_mix}
-\caption{Confusion with all the best parameters for the full dataset easy problem}
+\caption{Confusion matrix of the prepared data set.}
 \label{fig:tree_confus_mixed}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\includegraphics[width=\textwidth]{graphics/tree_confusion_mix2}
+\caption{Confusion matrix of the smooth data set.}
+\label{fig:tree_confus_mixed_smooth}
+\end{subfigure}
+\caption{Confusion with all the best parameters for the full dataset on the easy problem.}
 \end{figure}
-
 
 To find the person with the worst handwriting the data set was constructed of all people with one person removed from the training set.
 That person was used as test data to see how that person performed.
@@ -213,14 +225,25 @@ In figure \ref{fig:tree_confus_all} is the average confusion table for all peopl
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{graphics/tree_performance_all}
-\caption{Confusion with all the best parameters for the full dataset hard problem.}
+\includegraphics[width=0.8\textwidth]{graphics/tree_performance_all}
+\caption{Confusion with all the best parameters for the full dataset on the hard problem.}
 \label{fig:tree_performance_all}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\textwidth]{graphics/tree_confusion_all}
+\includegraphics[width=0.45\textwidth]{graphics/tree_confusion_all}
 \caption{Confusion with all the best parameters for the full dataset hard problem}
 \label{fig:tree_confus_all}
+\end{figure}
+
+To compare the timing performance of the two methods the time it takes to build the two models were measured.
+In figure \ref{fig:tree_time_distribution} is the time distribution of both models shown.
+As both methods apply a smoothing filter before loading the data this is removed from the time budget as a prepossessing method.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{graphics/tree_prepared_vs_smooth_timing}
+\caption{Time distribution of the prepared data and the smoothed data.}
+\label{fig:tree_time_distribution}
 \end{figure}
