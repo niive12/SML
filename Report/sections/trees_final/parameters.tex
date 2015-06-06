@@ -76,7 +76,7 @@ In figure \ref{fig:tree_total} the success rate with the different methods is ap
 
 \begin{figure}[H]
 \centering
-% \missingfigure{}
+% \missingfigure{qwe}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total}
 \caption{Success for raw, pre zs, post zs and both.}
 \label{fig:tree_total}
@@ -88,7 +88,7 @@ While the overall performance has gone down the impact of each method is similar
 
 \begin{figure}[H]
 \centering
-% \missingfigure{}
+% \missingfigure{qwe}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total_mixed}
 \caption{Success for raw, pre zs, post zs and both.}
 \label{fig:tree_total_mixed}
@@ -104,7 +104,7 @@ Normalizing the data after the PCA gave a better performance on the test with th
 
 \begin{figure}[H]
 \centering
-% \missingfigure{}
+% \missingfigure{qwe}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total_all}
 \caption{success for raw, pre zs, post zs and both}
 \label{fig:tree_total_all}
@@ -144,25 +144,28 @@ The timing is as expected linear dependent on the number of trials.
 
 Since the performance increases with the timing it could be expected to improve the performance of a reduced data set.
 In figure \ref{fig:tree_pca_boost} is the performance shown with an increasing number of trials and an increasing number of PC.
-Since a full data set is having 400 PC on the data it can be seen that \textbf{a combination of 130 PC and 5 trials} gives the best result.
-\todo[inline]{update numbers when you have the figure}
 
-\begin{figure}[h]
-\missingfigure{}
-% \includegraphics[width=\textwidth]{graphics/tree_pca_boost}
+It can be seen that a combination of 75 PC and 24 trials gives the best result.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.7\textwidth}
+\centering
+\includegraphics[width=\textwidth]{graphics/tree_pca_vs_boost_success}
 \caption{Success of boosting the tree vs number of PC used.}
 \label{fig:tree_pca_boost}
+\end{subfigure}
+\begin{subfigure}{0.70\textwidth}
+\includegraphics[width=\textwidth]{graphics/tree_pca_vs_boost_time}
+\caption{Time of boosting the tree vs number of PC used. The time measured in seconds.}
+\label{fig:tree_pca_boost_timing}
+\end{subfigure}
+\caption{Time and success when boosting and reducing the tree using PCA.}
 \end{figure}
 
 To find the optimal balance between reducing the dataset with PCA and optimizing the performance with boosting the timing of the functions were measured.
 In figure \ref{fig:tree_pca_boost_timing} is the time it took to build the tree shown.
 
-\begin{figure}[h]
-\missingfigure{}
-% \includegraphics[width=\textwidth]{graphics/tree_pca_boost_timing}
-\caption{Time of boosting the tree vs number of PC used. The time measured in seconds.}
-\label{fig:tree_pca_boost_timing}
-\end{figure}
 
 
 \subsubsection{Performance}
@@ -172,8 +175,8 @@ In figure \ref{fig:tree_pca_boost_timing} is the time it took to build the tree 
 \begin{tabular}{lr}
 min. nodes  & 7      \\
 z-score     & before \\
-PC          & 130    \\
-Trials      & 5      \\
+PC          & 75     \\
+Trials      & 24     \\
 sigma       & 0.9    \\
 kernel size & 7      \\
 \end{tabular}
@@ -194,14 +197,14 @@ The best performance is on digits \textbf{7 and 1} which leaves the least amount
 
 \begin{figure}[H]
 \centering
-\missingfigure{}
-\caption{Confusion with all the best parameters for the full dataset easy problem.}
+\includegraphics[width=\textwidth]{graphics/tree_performance_mix}
+\caption{Success rate with all the best parameters for the full dataset easy problem.}
 \label{fig:tree_performance_mixed}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\missingfigure{}
+\includegraphics[width=\textwidth]{graphics/tree_confusion_mix}
 \caption{Confusion with all the best parameters for the full dataset easy problem}
 \label{fig:tree_confus_mixed}
 \end{figure}
@@ -214,14 +217,14 @@ In figure \ref{fig:tree_confus_all} is the average confusion table for all peopl
 
 \begin{figure}[H]
 \centering
-\missingfigure{}
+\includegraphics[width=\textwidth]{graphics/tree_performance_all}
 \caption{Confusion with all the best parameters for the full dataset hard problem.}
 \label{fig:tree_performance_all}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\missingfigure{}
+\includegraphics[width=0.65\textwidth]{graphics/tree_confusion_all}
 \caption{Confusion with all the best parameters for the full dataset hard problem}
 \label{fig:tree_confus_all}
 \end{figure}

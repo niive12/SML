@@ -12,7 +12,7 @@ trials = seq(2,100,1)
 pca_setting         = list(noPC=50)
 
 
-if ( file.exists(fileName) && 1 ) {
+if ( file.exists(fileName) && 0 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 	success = success_test

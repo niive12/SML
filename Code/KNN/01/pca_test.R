@@ -37,6 +37,7 @@ pca_simplification <- function(data, breakpoint=1, noPC=0) {
 
 subset_pca <- function(data, data.pca,noPC=400){
 	len = dim(data$trainSet)[2]
+	print(len)
 	if(len < noPC){
 		noPC = len
 	}

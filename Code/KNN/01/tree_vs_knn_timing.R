@@ -35,7 +35,7 @@ if ( file.exists(fileName) && 0 ) {
 	classification_time_start = proc.time()
 		knn_success = run_knn(data=data_knn, K=1)$success
 	classification_time_knn = (proc.time() - classification_time_start)[["user.self"]]
-	save(data,model,pre_process_time,training_time_tree,classification_time_tree,classification_time_knn,tree_success,knn_success,file=fileName)
+	save(data,model,pre_process_time_knn, pre_process_time_tree,training_time_tree,classification_time_tree,classification_time_knn,tree_success,knn_success,file=fileName)
 }
 
 colors = rainbow(3);
