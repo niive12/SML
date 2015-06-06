@@ -6,6 +6,7 @@ library("gplots")
 library("graphics")
 source("confusion_matrix.R")
 
+<<<<<<< HEAD
 new_raw             = 0
 new_smooth          = 0 #add labels
 new_pca             = 0 #without smoothing
@@ -13,6 +14,15 @@ new_total           = 0
 new_t_mix           = 0
 new_t_all           = 0
 new_pca_vs_boost    = 1
+=======
+new_raw    = 0
+new_smooth = 1 #add labels
+new_pca    = 0 #without smoothing
+new_total  = 0
+new_t_mix  = 0
+new_t_all  = 0
+new_pca_vs_boost = 0
+>>>>>>> 5856d7e0bf2677dea69ee9772fa26386732ca2f6
 new_performance_mix = 0
 new_performance_all = 0
 
@@ -59,10 +69,10 @@ if( new_smooth == 1){
 		load(fileName)
 	} else {
 		sigma = seq(0.1,2,0.1)
-		size = seq(3,15,2)
-		tree_smooth = matrix(0,length(sigma),length(size))
+		k_size = seq(3,15,2)
+		tree_smooth = matrix(0,length(sigma),length(k_size))
 		for(smooth_sigma in 1:length(sigma) ){
-			for(kernel_size in 1:length(size) ){
+			for(kernel_size in 1:length(k_size) ){
 				data = prepareOne(group=3, member=2, trainPart=360,testPart=40, DPI = 100 , filter = "gaussian", make_new=1, sigma =sigma[smooth_sigma], size =size[kernel_size])
 				data = pca_simplification(data,noPC=400)
 
@@ -72,22 +82,23 @@ if( new_smooth == 1){
 
 				print(tree_smooth)
 				tree_smooth[smooth_sigma,kernel_size] = tree_predict(data=data, model=model)$success
-				save(sigma,size,tree_smooth,file=fileName)
+				save(sigma,k_size,tree_smooth,file=fileName)
 			}
 		}
 	}
 	# find max
 	point = which.max(t(tree_smooth))
-	x_p = point %% length(sigma)
-	y_p = ceiling(point/length(sigma))
-	
-	print(c(point,x_p,y_p,dim(tree_smooth)))
-	
+	x_p = point %% length(k_size)
+	y_p = ceiling(point/length(k_size))
+# 	print(c(point,x_p,y_p,dim(tree_smooth),sigma[y_p],k_size[x_p]))
+# print(t(tree_smooth))	
+
 	setEPS()
 	postscript("../../../Report/graphics/tree_smooth.eps",height = 6, width = 8)
-	filled.contour(y = sigma, x = size,t(tree_smooth), col=colorpanel(20, "black", "white"), levels=seq(min(tree_smooth), max(tree_smooth), length.out= 21),
-	xlab="Kernel Size",ylab="Deviance",
-	locator={points(y = sigma[y_p], x = size[x_p], col = "red")}
+	filled.contour(y = sigma, x = k_size, t(tree_smooth), col=colorpanel(20, "black", "white"), 
+					levels=seq(min(tree_smooth), max(tree_smooth), length.out= 21), 
+					xlab="Kernel Size",ylab="Deviance",
+					locator={points(y = sigma[y_p], x = k_size[x_p], col = "red")}
 	)
 	text(size[x_p],sigma[y_p],tree_smooth[point])
 	q = dev.off()

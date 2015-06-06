@@ -69,7 +69,7 @@ setEPS()
 postscript("../../../Report/graphics/knn_final_full_hard.eps",height = 6, width = 8)
 plot(1:noPeople,success_hard, xaxt="n",type="b",xlab="Person",ylab="Success Rate") 
 abline(h=mean(success_hard), col = "red")
-axis(1, at=1:noPeople, labels=x_lab)
+axis(1, at=1:noPeople, labels=x_lab, las = 2)
 dev.off()
 
 #plot easy

@@ -6,7 +6,7 @@ source("pca_test.R")
 source("normalize.R")
 
 pc_plot = 2
-classes = c(6,2) # 6,9 and 10 interresting for 2
+classes = c(5,7) 
 datasetsize = 5
 N = 10
 
@@ -32,9 +32,8 @@ while(data$testVali[l] != classes[2]){
 cord = c(data$testSet[l,1], data$testSet[l,2])
 
 setEPS()
-postscript("knn_vis.eps",height = 6, width = 8)
-
-plot(cord[1], cord[2], xlab = "PC 1", ylab = "PC 2", col = "black", xlim = limitx, ylim = limity)
+postscript("../../../Report/graphics/knn_vis.eps",height = 6, width = 8)
+plot(cord[1], cord[2], xlab = "PC 1", ylab = "PC 2", col = "black", xlim = limitx, ylim = limity, asp = 1)
 
 closest = matrix(Inf, N, 1)
 
@@ -44,23 +43,23 @@ for(i in 1:length(data$trainSet[,1])){
 	for(j in 1:length(classes)){
 		if(classes[j] == classification){
 			points(data$trainSet[i,1], data$trainSet[i,2], col = coloooor[j])		
-			d = dist(rbind(c(data$trainSet[i,1], data$trainSet[i,2]), cord))
-			f = 1
-			while(closest[f] > d && f <= N){
-				if(f == 1){
+			d = sqrt((data$trainSet[i,1] - cord[1])^2 +  (data$trainSet[i,2] - cord[2])^2)
+			f = N
+			while(closest[f] > d && f > 0){
+				if(f == N){
 					closest[f] = d	
 				}
 				else{
-					closest[f - 1] = closest[f]
+					closest[f + 1] = closest[f]
 					closest[f] = d
 				}
-				f = f+1
+				f = f-1
 			}
 		}
 	}
 }
 
-symbols(x = cord[1], y = cord[2], circles = closest[1], add = T, inches = F)
+symbols(x = cord[1], y = cord[2], circles = closest[10], add = T, inches = F)
 dev.off()
 
 # plot
