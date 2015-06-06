@@ -4,14 +4,15 @@ source("pca_test.R")   #pca_simplification
 source("normalize.R")  #normalize
 library("gplots")
 library("graphics")
+source("confusion_matrix.R")
 
-new_raw    = 0
-new_smooth = 1 #add labels
-new_pca    = 0 #without smoothing
-new_total  = 0
-new_t_mix  = 0
-new_t_all  = 0
-new_pca_vs_boost = 1
+new_raw             = 0
+new_smooth          = 0 #add labels
+new_pca             = 0 #without smoothing
+new_total           = 0
+new_t_mix           = 0
+new_t_all           = 0
+new_pca_vs_boost    = 1
 new_performance_mix = 0
 new_performance_all = 0
 
@@ -88,10 +89,9 @@ if( new_smooth == 1){
 	xlab="Kernel Size",ylab="Deviance",
 	locator={points(y = sigma[y_p], x = size[x_p], col = "red")}
 	)
-# 	text(size[x_p],sigma[y_p],tree_smooth[point])
+	text(size[x_p],sigma[y_p],tree_smooth[point])
 	q = dev.off()
 }
-
 best_kernel_size = 7
 best_sigma       = 0.9
 if( new_pca == 1){
@@ -480,12 +480,10 @@ if( new_t_all == 1){
 	abline(h=mean(result) ,ylim=ylimits)
 	q = dev.off()
 }
-
-
 if( new_pca_vs_boost == 1){
 	fileName <- "tree_pca_vs_boost.RData"
 
-	if ( file.exists(fileName) && 0 ) {
+	if ( file.exists(fileName) && 1 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -493,9 +491,6 @@ if( new_pca_vs_boost == 1){
 		trials = seq(1,30,2)
 		time_pca_boost    = matrix(0,length(pca),length(trials))
 		success_pca_boost = matrix(0,length(pca),length(trials))
-		sigma = seq(0.1,2,0.1)
-		size = seq(3,15,2)
-		tree_smooth = matrix(0,length(pca),length(size))
 		
 		static_data = prepareOne(3,2,360,40, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
 		static_data = normalizeData(static_data, "z-score")
@@ -518,32 +513,110 @@ if( new_pca_vs_boost == 1){
 		}
 	}
 	# find max
-	point = which.max(t(success_>pca_boost))
+	new_success = matrix(0,length(pca),length(trials))
+	new_success[5:10,] = success_pca_boost[5:10,]
+	point = which.max(new_success)
 	x_p = point %% length(pca)
 	y_p = ceiling(point/length(pca))
 	
 	print(c(point,x_p,y_p,success_pca_boost[point]))
 	
 	setEPS()
-	postscript("../../../Report/graphics/tree_pca_vs_boost.eps",height = 6, width = 8)
-	filled.contour(y = pca, x = trials,t(success_pca_boost), col=colorpanel(20, "black", "white"), levels=seq(min(success_pca_boost), max(success_pca_boost), length.out= 21),
-	locator={points(y = pca[y_p], x = trials[x_p], col = "red")}
+	postscript("../../../Report/graphics/tree_pca_vs_boost_success.eps",height = 6, width = 8)
+	filled.contour(y = trials, x = pca,success_pca_boost, col=colorpanel(20, "black", "white"), levels=seq(min(success_pca_boost), max(success_pca_boost), length.out= 21),
+	locator={points(y = trials[y_p], x = pca[x_p], col = "red")},
+	xlab="PC",ylab="Trials"
 	)
-	text(trials[x_p],pca[y_p],success_pca_boost[point])
+	text(pca[x_p],trials[y_p],success_pca_boost[point])
 	q = dev.off()
-	
-	# find min
-	point = which.min(t(time_pca_boost))
-	x_p = point %% length(pca)
-	y_p = ceiling(point/length(pca))
-	
-	print(c(point,x_p,y_p,time_pca_boost[point]))
 	
 	setEPS()
-	postscript("../../../Report/graphics/tree_pca_vs_boost.eps",height = 6, width = 8)
-	filled.contour(y = pca, x = trials,t(time_pca_boost), col=colorpanel(20, "white", "black"), levels=seq(min(time_pca_boost), max(time_pca_boost), length.out= 21),
-	locator={points(y = pca[y_p], x = trials[x_p], col = "red")}
+	postscript("../../../Report/graphics/tree_pca_vs_boost_time.eps",height = 6, width = 8)
+	filled.contour(y = trials, x = pca,time_pca_boost, col=colorpanel(20, "white", "black"), levels=seq(min(time_pca_boost), max(time_pca_boost), length.out= 21),
+	xlab="PC",ylab="Trials"
 	)
-	text(trials[x_p],pca[y_p],time_pca_boost[point])
 	q = dev.off()
 }
+
+best_trials = 24
+best_PC     = 75
+if( new_performance_all == 1){
+	fileName <- "tree_performance_all.RData"
+	if ( file.exists(fileName) && 1 ) {
+		print(paste(c("test data exists in ", fileName),collapse=""))
+		load(fileName)
+	} else {
+		people = getPeople()
+		confus = matrix(0,10,10)
+		success = array(0,length(people))
+		load(fileName)
+		for(person in 6:length(people) ){
+			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
+			data = normalizeData(data, "z-score")
+			data = pca_simplification(data,noPC=best_PC)
+			data = prepare_data_for_tree(data)
+			
+			model = C50::C5.0(data$trainSet, as.factor(data$trainVali),trials=best_trials
+			,control=C5.0Control(minCases=best_min_cases)
+			)
+			
+			result = tree_predict(data=data, model=model)
+			success[person] = result$success
+			confus = confus + result$confusion_matrix
+			save(success,confus,people,file=fileName)
+		}
+	}
+	x_lab <- 1:length(people)
+	for(i in 1:length(people) ){
+		x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
+	}
+	
+	setEPS()
+	postscript("../../../Report/graphics/tree_performance_all.eps",height = 6, width = 8)
+	plot(1:length(people),success, xaxt="n",type="b",xlab="Person",ylab="Success Rate") 
+	abline(h=mean(success), col = "red")
+	axis(1, at=1:length(people), labels=x_lab, las=2)
+	dev.off()
+	
+	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_all.eps")
+	print(paste(c("Mean / Var of the hard: ", mean(success), " / ", var(success)), collapse = ""))
+}
+
+if( new_performance_mix == 1){
+	fileName <- "tree_performance_mix.RData"
+	if ( file.exists(fileName) && 0 ) {
+		print(paste(c("test data exists in ", fileName),collapse=""))
+		load(fileName)
+	} else {
+		people = getPeople()
+		confus = matrix(0,10,10)
+		success = array(0,length(people))
+		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
+		
+# 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
+		for(cross_validation in 1:10 ){
+			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
+			data = pca_simplification(data,noPC=best_PC)
+			data = prepare_data_for_tree(data)
+			
+			model = C50::C5.0(data$trainSet, as.factor(data$trainVali),trials=best_trials
+			,control=C5.0Control(minCases=best_min_cases)
+			)
+			
+			result = tree_predict(data=data, model=model)
+			success[cross_validation] = result$success
+			confus = confus + result$confusion_matrix
+			save(success,confus,people,file=fileName)
+		}
+	}
+	
+	setEPS()
+	postscript("../../../Report/graphics/tree_performance_mix.eps",height = 4, width = 8)
+	par(mar=c(1, 4, 4, 1) + 0.1)
+	boxplot(success,ylab="Success Rate", outline = FALSE) 
+	dev.off()
+
+	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_mix.eps")
+	print(paste(c("Mean / Var of the easy: ", mean(success), " / ", var(success)), collapse = ""))
+}
+

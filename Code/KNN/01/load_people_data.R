@@ -387,8 +387,6 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100,  
 		
 		# save the data
 		finalData[[run]] <- (list(trainSet=train,testSet=test,trainVali=train_actual,testVali=test_actual))
-		fileName <- paste(c("crossVal_DPI",DPI,"_",split,"_FILTER",filter,"_",run,".RData"),collapse="")
-		save(finalData, file = fileName)
 		
 		# timer :D
 		if(run != crossValRuns){
@@ -397,6 +395,8 @@ prepareAllMixedCrossVal <- function(split = 0.9, crossValRuns = 10, DPI = 100,  
 		}
 		
 	}
+	fileName <- paste(c("crossVal_DPI",DPI,"_",split,"_FILTER",filter,"_",run,".RData"),collapse="")
+	save(finalData, file = fileName)
 	
 	print("Preparation and saving of training and test set done.")
 	# prepare the test and training set
