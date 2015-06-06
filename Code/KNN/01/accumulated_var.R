@@ -18,19 +18,19 @@ if ( file.exists(fileName) && 0 ) { #toggle wether we want new data or not
 	load(fileName)
 } else {
 	data = prepareOne(group=3,member=2,trainPart=360,testPart=40)
-	#data = normalizeData(data, normMethod = "z-score")
+	data = normalizeData(data, normMethod = "z-score")
 	data = pca_simplification(data)
 	variance$one_person = data$variance[x]/sum(data$variance)
 	accumulated$one_person = cumsum(variance$one_person)
 
 	data = prepareOneAlone(3,2) #9 people vs 1 person
-	#data = normalizeData(data, normMethod = "z-score")
+	data = normalizeData(data, normMethod = "z-score")
 	data = pca_simplification(data)
 	variance$all_one = data$variance[x]/sum(data$variance)
 	accumulated$all_one = cumsum(variance$all_one)
 
 	data = prepareAllMixed(360,40) #90:10
-	#data = normalizeData(data, normMethod = "z-score")
+	data = normalizeData(data, normMethod = "z-score")
 	data = pca_simplification(data)
 	variance$all_mix = data$variance[x]/sum(data$variance)
 	accumulated$all_mix = cumsum(variance$all_mix)
@@ -39,11 +39,12 @@ if ( file.exists(fileName) && 0 ) { #toggle wether we want new data or not
 
 colors= c("black","blue","purple")
 setEPS()
-postscript("../../../Report/graphics/pca_variance.eps",height = 4, width = 8)
+postscript("../../../Report/graphics/pca_variance_zs.eps",height = 3, width = 6)
 
 for(d in 1:3){
 	if(d == 1) {
-		plot(x,variance[[d]],type="b",xlab="PC",ylab="variance",ylim=(c(0,max(variance))),col=colors[d])
+		par(mar = c(3.8,3.8,0.5,3.8))
+		plot(x,variance[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(variance))),col=colors[d])
 	} else {
 		lines(x,variance[[d]],type="b",lty=d, col=colors[d])
 	}
@@ -52,11 +53,13 @@ legend("topright",NULL,c("one_person","all vs one","all mixed"),cex=0.8,col=colo
 quiet = dev.off()
 
 setEPS()
-postscript("../../../Report/graphics/pca_acc_variance.eps",height = 4, width = 8)
+par(mar = c(0,0,0,0))
+postscript("../../../Report/graphics/pca_acc_variance_zs.eps",height = 3, width = 6)
 
 for(d in 1:3){
 	if(d == 1) {
-		plot(x,accumulated[[d]],type="b",xlab="PC",ylab="variance",ylim=(c(0,max(accumulated))),col=colors[d])
+		par(mar = c(3.8,3.8,0.5,3.8))
+		plot(x,accumulated[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(accumulated))),col=colors[d])
 	} else {
 		lines(x,accumulated[[d]],type="b",lty=d, col=colors[d])
 	}
