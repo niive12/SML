@@ -17,7 +17,7 @@ It is seen that the first PC is the most significant and the variance converges 
 \includegraphics[width=\textwidth]{graphics/pca_acc_variance}
 \caption{Accumulated variance.}
 \label{fig:pca_accumulated_var}
-\end{subfigure}\\[-1cm]
+\end{subfigure}
 \end{figure}
 \begin{figure}[H]
 \centering
@@ -48,7 +48,11 @@ This is illustrated on figure \ref{fig:variance_zscore}.
 \includegraphics[width=\textwidth]{graphics/pca_acc_variance_zs}
 \caption{Accumulated variance.}
 \label{fig:pca_accumulated_var_zscore}
-\end{subfigure}\\[-1cm]
+\end{subfigure}
+\end{figure}
+\begin{figure}[H]
+\centering
+\ContinuedFloat
 \begin{subfigure}{0.70\textwidth}
 \centering
 \includegraphics[width=\textwidth]{graphics/pca_variance_zs}
@@ -59,9 +63,6 @@ This is illustrated on figure \ref{fig:variance_zscore}.
 The data was run on Group 3 member 2's data on 100 DPI. }
 \label{fig:variance_zscore}
 \end{figure}
-
-\todo[inline]{Remove padding in these files. It looks like caption a is the title of figure b.}
-
 
 The effect of using z-score can be seen in figure \ref{fig:variance_zscore}.
 It is clear that the variance of the first PC in figure \ref{fig:pca_var} is considerably higher than that of figure \ref{fig:pca_var_zscore} for all three tests.
