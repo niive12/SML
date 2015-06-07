@@ -12,9 +12,9 @@ new_pca              = 0 #without smoothing
 new_total            = 0
 new_t_mix            = 0
 new_t_all            = 0
-new_pca_vs_boost     = 0
+new_pca_vs_boost     = 1
 new_performance_mix  = 0
-new_performance_all  = 1
+new_performance_all  = 0
 new_performance_mix2 = 0
 new_performance_all2 = 0
 
