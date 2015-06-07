@@ -488,6 +488,9 @@ if( new_pca_vs_boost == 1){
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
+		if(file.exists(fileName)){
+			load(fileName)
+		}
 		pca = c(10,seq(20,400,20))
 		trials = seq(1,30,2)
 		time_pca_boost    = matrix(0,length(pca),length(trials))
@@ -497,7 +500,7 @@ if( new_pca_vs_boost == 1){
 		static_data = normalizeData(static_data, "z-score")
 		data.pca = prcomp(na.pass(static_data$trainSet), center=TRUE, scale=FALSE)
 		
-		for(n in 1:length(pca) ){
+		for(n in length(pca)-1:length(pca) ){
 			data = subset_pca(static_data,data.pca,noPC=pca[n])
 			for(i in 1:length(trials) ){
 				
