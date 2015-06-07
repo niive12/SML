@@ -13,10 +13,10 @@ new_total            = 0
 new_t_mix            = 0
 new_t_all            = 0
 new_pca_vs_boost     = 0
-new_performance_mix  = 0
-new_performance_all  = 0
-new_performance_mix2 = 0
-new_performance_all2 = 1
+new_performance_all  = 0 #prepared data tree
+new_performance_mix  = 0 
+new_performance_all2 = 0 #smooth tree
+new_performance_mix2 = 1
 
 colors = rainbow(6)
 
@@ -607,7 +607,6 @@ if( new_performance_mix == 1){
 		confus = matrix(0,10,10)
 		success = array(0,length(people))
 		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
-		
 # 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
 		for(cross_validation in 1:10 ){
 			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
@@ -626,19 +625,21 @@ if( new_performance_mix == 1){
 			setEPS()
 			postscript("../../../Report/graphics/tree_performance_mix.eps",height = 4, width = 8)
 			par(mar=c(1, 4, 4, 1) + 0.1)
-			boxplot(success,ylab="Success Rate", outline = FALSE) 
+			boxplot(success[1:10],ylab="Success Rate", outline = FALSE) 
 			dev.off()
+			rm(data)
+			rm(model)
 		}
 	}
-	
+	print(success)
 	setEPS()
 	postscript("../../../Report/graphics/tree_performance_mix.eps",height = 4, width = 8)
 	par(mar=c(1, 4, 4, 1) + 0.1)
-	boxplot(success,ylab="Success Rate", outline = FALSE) 
+	boxplot(success[1:10],ylab="Success Rate", outline = FALSE) 
 	dev.off()
 
 	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_mix.eps")
-	print(paste(c("Mean / Var of the easy: ", mean(success), " / ", var(success)), collapse = ""))
+	print(paste(c("Mean / Var of the easy: ", mean(success[1:10]), " / ", var(success[1:10])), collapse = ""))
 }
 
 best_trials = 7
@@ -646,7 +647,7 @@ if( new_performance_all2 == 1){
 	fileName <- "tree_performance_all2.RData"
 
 	
-	if ( file.exists(fileName) && 1 ) {
+	if ( file.exists(fileName) && 0 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -659,7 +660,8 @@ if( new_performance_all2 == 1){
 			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 		}
 
-		for(person in 1:length(people) ){
+		load(fileName)
+		for(person in 8:length(people) ){
 			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 # 			data = normalizeData(data, "z-score")
 # 			data = pca_simplification(data,noPC=best_PC)
@@ -694,20 +696,19 @@ if( new_performance_all2 == 1){
 
 if( new_performance_mix2 == 1){
 	fileName <- "tree_performance_mix2.RData"
-	if ( file.exists(fileName) && 1 ) {
+	if ( file.exists(fileName) && 0 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
 		people = getPeople()
 		confus = matrix(0,10,10)
-		success = array(0,length(people))
-		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
+		success = array(0,10)
 		
 # 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
 		for(cross_validation in 1:10 ){
-			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
-			data = pca_simplification(data,noPC=best_PC)
-			data = prepare_data_for_tree(data)
+			load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
+			data = prepare_data_for_tree(finalData[[cross_validation]])
+			rm(finalData)
 			
 			model = C50::C5.0(data$trainSet, as.factor(data$trainVali),trials=best_trials
 			,control=C5.0Control(minCases=best_min_cases)
@@ -723,6 +724,9 @@ if( new_performance_mix2 == 1){
 			par(mar=c(1, 4, 4, 1) + 0.1)
 			boxplot(success,ylab="Success Rate", outline = FALSE) 
 			dev.off()
+			
+			rm(data)
+			rm(model)
 		}
 	}
 	
