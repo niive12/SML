@@ -6,15 +6,17 @@ library("gplots")
 library("graphics")
 source("confusion_matrix.R")
 
-new_raw             = 0
-new_smooth          = 0 #add labels
-new_pca             = 0 #without smoothing
-new_total           = 0
-new_t_mix           = 0
-new_t_all           = 0
-new_pca_vs_boost    = 1
-new_performance_mix = 0
-new_performance_all = 0
+new_raw              = 0
+new_smooth           = 0 #add labels
+new_pca              = 0 #without smoothing
+new_total            = 0
+new_t_mix            = 0
+new_t_all            = 0
+new_pca_vs_boost     = 0
+new_performance_mix  = 0
+new_performance_all  = 1
+new_performance_mix2 = 0
+new_performance_all2 = 0
 
 colors = rainbow(6)
 
@@ -497,7 +499,7 @@ if( new_pca_vs_boost == 1){
 		success_pca_boost = matrix(0,length(pca),length(trials))
 		
 		static_data = prepareOne(3,2,360,40, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
-		static_data = normalizeData(static_data, "z-score")
+# 		static_data = normalizeData(static_data, "z-score")
 		data.pca = prcomp(na.pass(static_data$trainSet), center=TRUE, scale=FALSE)
 		
 		for(n in length(pca)-1:length(pca) ){
@@ -511,7 +513,7 @@ if( new_pca_vs_boost == 1){
 				time_pca_boost[n,i] = (proc.time()-tmp_time_predict)[["user.self"]]
 				
 				success_pca_boost[n,i] = tree_predict(data=data, model=model)$success
-				print(c(success_pca_boost[n,i],time_pca_boost[n,i],(n*length(trials)+i)/(length(trials)*length(pca))))
+				print(c(success_pca_boost[n,i],time_pca_boost[n,i],((n-1)*length(trials)+i)/(length(trials)*length(pca))))
 				save(pca,trials,success_pca_boost,time_pca_boost,file=fileName)
 			}
 		}
@@ -546,16 +548,22 @@ best_trials = 24
 best_PC     = 75
 if( new_performance_all == 1){
 	fileName <- "tree_performance_all.RData"
-	if ( file.exists(fileName) && 1 ) {
+	if ( file.exists(fileName) && 0 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
 		people = getPeople()
 		confus = matrix(0,10,10)
 		success = array(0,length(people))
+		
+		x_lab <- 1:length(people)
+		for(i in 1:length(people) ){
+			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
+		}
+		
 		load(fileName)
-		for(person in 6:length(people) ){
-			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
+		for(person in 13:length(people) ){
+			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 			data = normalizeData(data, "z-score")
 			data = pca_simplification(data,noPC=best_PC)
 			data = prepare_data_for_tree(data)
@@ -567,7 +575,14 @@ if( new_performance_all == 1){
 			result = tree_predict(data=data, model=model)
 			success[person] = result$success
 			confus = confus + result$confusion_matrix
-			save(success,confus,people,file=fileName)
+			save(x_lab,success,confus,people,file=fileName)
+			
+			setEPS()
+			postscript("../../../Report/graphics/tree_performance_all.eps",height = 6, width = 8)
+			plot(1:length(people),success, xaxt="n",type="b",xlab="Person",ylab="Success Rate") 
+			abline(h=mean(success), col = "red")
+			axis(1, at=1:length(people), labels=x_lab, las=2)
+			dev.off()
 		}
 	}
 	x_lab <- 1:length(people)
@@ -588,7 +603,7 @@ if( new_performance_all == 1){
 
 if( new_performance_mix == 1){
 	fileName <- "tree_performance_mix.RData"
-	if ( file.exists(fileName) && 0 ) {
+	if ( file.exists(fileName) && 1 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -611,6 +626,12 @@ if( new_performance_mix == 1){
 			success[cross_validation] = result$success
 			confus = confus + result$confusion_matrix
 			save(success,confus,people,file=fileName)
+			
+			setEPS()
+			postscript("../../../Report/graphics/tree_performance_mix.eps",height = 4, width = 8)
+			par(mar=c(1, 4, 4, 1) + 0.1)
+			boxplot(success,ylab="Success Rate", outline = FALSE) 
+			dev.off()
 		}
 	}
 	
@@ -621,6 +642,101 @@ if( new_performance_mix == 1){
 	dev.off()
 
 	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_mix.eps")
+	print(paste(c("Mean / Var of the easy: ", mean(success), " / ", var(success)), collapse = ""))
+}
+
+best_trials = 7
+if( new_performance_all2 == 1){
+	fileName <- "tree_performance_all2.RData"
+
+	
+	if ( file.exists(fileName) && 1 ) {
+		print(paste(c("test data exists in ", fileName),collapse=""))
+		load(fileName)
+	} else {
+		people = getPeople()
+		confus = matrix(0,10,10)
+		success = array(0,length(people))
+		
+		x_lab <- 1:length(people)
+		for(i in 1:length(people) ){
+			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
+		}
+
+		for(person in 1:length(people) ){
+			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
+# 			data = normalizeData(data, "z-score")
+# 			data = pca_simplification(data,noPC=best_PC)
+			data = prepare_data_for_tree(data)
+			
+			model = C50::C5.0(data$trainSet, as.factor(data$trainVali), trials=best_trials,control=C5.0Control(minCases=best_min_cases))
+			
+			result = tree_predict(data=data, model=model)
+			success[person] = result$success
+			confus = confus + result$confusion_matrix
+			save(x_lab, success,confus,people,file=fileName)
+			
+			setEPS()
+			postscript("../../../Report/graphics/tree_performance_all2.eps",height = 6, width = 8)
+			plot(1:length(people),success, xaxt="n",type="b",xlab="Person",ylab="Success Rate") 
+			abline(h=mean(success), col = "red")
+			axis(1, at=1:length(people), labels=x_lab, las=2)
+			dev.off()
+		}
+	}
+	
+	setEPS()
+	postscript("../../../Report/graphics/tree_performance_all2.eps",height = 6, width = 8)
+	plot(1:length(people),success, xaxt="n",type="b",xlab="Person",ylab="Success Rate") 
+	abline(h=mean(success), col = "red")
+	axis(1, at=1:length(people), labels=x_lab, las=2)
+	dev.off()
+	
+	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_all2.eps")
+	print(paste(c("Mean / Var of the hard: ", mean(success), " / ", var(success)), collapse = ""))
+}
+
+if( new_performance_mix2 == 1){
+	fileName <- "tree_performance_mix2.RData"
+	if ( file.exists(fileName) && 1 ) {
+		print(paste(c("test data exists in ", fileName),collapse=""))
+		load(fileName)
+	} else {
+		people = getPeople()
+		confus = matrix(0,10,10)
+		success = array(0,length(people))
+		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
+		
+# 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
+		for(cross_validation in 1:10 ){
+			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
+			data = pca_simplification(data,noPC=best_PC)
+			data = prepare_data_for_tree(data)
+			
+			model = C50::C5.0(data$trainSet, as.factor(data$trainVali),trials=best_trials
+			,control=C5.0Control(minCases=best_min_cases)
+			)
+			
+			result = tree_predict(data=data, model=model)
+			success[cross_validation] = result$success
+			confus = confus + result$confusion_matrix
+			save(success,confus,people,file=fileName)
+			
+			setEPS()
+			postscript("../../../Report/graphics/tree_performance_mix2.eps",height = 4, width = 8)
+			par(mar=c(1, 4, 4, 1) + 0.1)
+			boxplot(success,ylab="Success Rate", outline = FALSE) 
+			dev.off()
+		}
+	}
+	
+	setEPS()
+	postscript("../../../Report/graphics/tree_performance_mix2.eps",height = 4, width = 8)
+	par(mar=c(1, 4, 4, 1) + 0.1)
+	boxplot(success,ylab="Success Rate", outline = FALSE) 
+	dev.off()
+
+	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_mix2.eps")
 	print(paste(c("Mean / Var of the easy: ", mean(success), " / ", var(success)), collapse = ""))
 }
 

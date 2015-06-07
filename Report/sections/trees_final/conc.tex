@@ -1,9 +1,14 @@
 \subsection{Conclusion}
-It can be found that the optimal preprossing of the data for decision trees is
-smoothing, then
-z-score, then
-PCA with 130 chosen components,
-Boosting with 7 trials, and removal of leaves with less than 7 digits.
+% It can be found that the optimal preprossing of the data for decision trees is
+% smoothing, then
+% z-score, then
+% PCA with 130 chosen components,
+% Boosting with 7 trials, and removal of leaves with less than 7 digits.
+
+It is found that the optimal preprossing is to smooth the data. 
+This removes small variations in placement of digits.
+Boosting the tree is shown to be a powerful method and both problems were tested with a boosting of 7 trials.
+The optimal pruning method has been shown to be with removal of sub trees that classify cases of less than 7 digits.
 
 G2M1
 has been found to have the worst handwriting when comparing the data of all people.

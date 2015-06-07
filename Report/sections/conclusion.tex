@@ -1,3 +1,29 @@
 \section{Conclusion}
 
+The effects of preprocessing the data for the K-NN and decision tree algorithms have been evaluated.
+It was found that the optimal preprocessing for K-NN was to combine a smoothing filter, z-score normalization and reducing the dataset with PCA.
+
+The same methods of preprocessing the data was evaluated for decision trees. 
+Here it was found that boosting the decision tree could not make up for removing dimensions with PCA.
+Smoothing the data before building the tree was found to be the best method.
+Boosting the tree improved performance and showed no signs of overfitting.
+
+The methods were compared. 
+Building a decision tree takes more preparation than a direct comparison but results in a faster classification.
+The direct comparison showed to give more successful classifications.
+When building a method for classification of unknown data the decision tree is the best option.
+Because the algorithm scales with large datasets it makes it possible to quickly assess which classification is most likely.
+Looking at each decision can give the reader an idea of why one classification were chosen over another.
+In digit recognition this is useful as there is no need for a rationalization for why a '1' was chosen over a '7'. 
+Decision trees does handle noisy data and by pruning the tree for unlikely classifications a certain control over the random data can be enforced.
+
+It was concluded that decision trees were the best method for classifying the data. 
+
 \subsection{Worst Handwriting}
+
+When comparing the different people in the hard problem a difference in successful detections were observed.
+It has been concluded that the person with the lowest score has the ``worst'' handwriting as the test data is the furthest from the training data.
+The consensus of handwriting is thus used as the estimator of a ``good'' handwriting and thus ignoring a case where a minority holds a better penmanship.
+From figure \ref{fig:success_comparison_hard} it was concluded that 
+G3M2
+has the worst handwriting as it was the person with the lowest correctly classified digits on both methods.

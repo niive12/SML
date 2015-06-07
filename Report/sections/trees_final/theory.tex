@@ -28,13 +28,12 @@ A way to improve the decision tree is to remove nodes which is deemed to not be 
 This is called pruning, borrowing the vocabulary of gardening.
 There are several ways to prune a tree.
 The ``C5.0'' function can prune by increasing the confidence factor. 
-The default is 25\% and thus the leaf node 22 in figure \ref{fig:tree_section} with 1/4 confidence is kept.
-If the confidence of a node would fall below the confidence factor used for pruning, the leaf would be converted into a node with two leafs.
+The default is 25\% and thus the leaf (node 22) in figure \ref{fig:tree_section} with 1/4 confidence is kept.
+If the confidence of a node would fall below the confidence factor used for pruning, node 19 would be removed and restructured.
 This will make it possible to make better decisions based on the data input to the tree.
-\todo[inline]{changed the line above, so check it, and make the line below clearer. Isn't what you call a node a leaf and vice versa? 
-Do you mean that the second way is to increase the number of "leafs" connected to the node such that you have two or more threshold for the data? 
-Such that you have say x < 0.5, 0.5 < y < 1, 1 < z where z, y and z are the new nodes? }
-Another pruning option is to increase the minimum number of nodes in a leaf. 
+Too much pruning would lead to a simple tree that is unable to classify correctly.
+
+Another pruning option is to increase the minimum number of cases in a leaf. 
 This will remove the noise created by a few selection of digits which creates a new split.
-The default minimum number of nodes is 2.
-Having this number too high will cause the confidence to go down as digits are lumped together. 
+The default minimum number of cases is 2.
+Having this number too high will cause the confidence to go down as more digits are lumped together. 
