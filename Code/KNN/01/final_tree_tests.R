@@ -16,7 +16,7 @@ new_pca_vs_boost     = 1
 new_performance_mix  = 0
 new_performance_all  = 0
 new_performance_mix2 = 0
-new_performance_all2 = 0
+new_performance_all2 = 1
 
 colors = rainbow(6)
 
@@ -548,7 +548,7 @@ best_trials = 24
 best_PC     = 75
 if( new_performance_all == 1){
 	fileName <- "tree_performance_all.RData"
-	if ( file.exists(fileName) && 0 ) {
+	if ( file.exists(fileName) && 1 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -561,8 +561,7 @@ if( new_performance_all == 1){
 			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 		}
 		
-		load(fileName)
-		for(person in 13:length(people) ){
+		for(person in 1:length(people) ){
 			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 			data = normalizeData(data, "z-score")
 			data = pca_simplification(data,noPC=best_PC)
