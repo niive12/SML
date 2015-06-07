@@ -12,7 +12,7 @@ new_pca              = 0 #without smoothing
 new_total            = 0
 new_t_mix            = 0
 new_t_all            = 0
-new_pca_vs_boost     = 1
+new_pca_vs_boost     = 0
 new_performance_mix  = 0
 new_performance_all  = 0
 new_performance_mix2 = 0
@@ -490,13 +490,13 @@ if( new_pca_vs_boost == 1){
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
-		if(file.exists(fileName)){
-			load(fileName)
-		}
 		pca = c(10,seq(20,400,20))
 		trials = seq(1,30,2)
 		time_pca_boost    = matrix(0,length(pca),length(trials))
 		success_pca_boost = matrix(0,length(pca),length(trials))
+		if(file.exists(fileName)){
+			load(fileName)
+		}
 		
 		static_data = prepareOne(3,2,360,40, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
 # 		static_data = normalizeData(static_data, "z-score")
@@ -548,7 +548,7 @@ best_trials = 24
 best_PC     = 75
 if( new_performance_all == 1){
 	fileName <- "tree_performance_all.RData"
-	if ( file.exists(fileName) && 1 ) {
+	if ( file.exists(fileName) && 0 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -561,7 +561,8 @@ if( new_performance_all == 1){
 			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 		}
 		
-		for(person in 1:length(people) ){
+		load(fileName)
+		for(person in 13:length(people) ){
 			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 			data = normalizeData(data, "z-score")
 			data = pca_simplification(data,noPC=best_PC)
@@ -662,7 +663,7 @@ if( new_performance_all2 == 1){
 			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 		}
 
-		for(person in 1:length(people) ){
+		for(person in length(people):10 ){
 			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 # 			data = normalizeData(data, "z-score")
 # 			data = pca_simplification(data,noPC=best_PC)
@@ -682,6 +683,7 @@ if( new_performance_all2 == 1){
 			axis(1, at=1:length(people), labels=x_lab, las=2)
 			dev.off()
 		}
+	print(success)
 	}
 	
 	setEPS()
