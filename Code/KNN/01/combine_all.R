@@ -6,7 +6,7 @@ success_s[1:10] = success[1:10]
 b = c(0.59850, 0.81900, 0.86525, 0.84750, 0.77025, 0.49975, 0.87900, 0.56250,
 0.81900, 0.66875)
 success_s[11:20] = b
-
+confus_s = confus
 print(success_p)
 print(success_s)
 
@@ -20,3 +20,7 @@ abline(h=mean(success_s), col = colors[2],lty="dashed")
 legend("bottomright",pch=c(16,16),legend=c("prepared","smoothed"),cex=0.8,col=colors)
 axis(1, at=1:length(people), labels=x_lab, las=2)
 dev.off()
+
+load("tree_performance_all2_lukas.RData")
+confus_s = confus_s + confus
+confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_all2.eps")
