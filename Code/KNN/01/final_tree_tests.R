@@ -13,10 +13,10 @@ new_total            = 0
 new_t_mix            = 0
 new_t_all            = 0
 new_pca_vs_boost     = 0
-new_performance_all  = 0 #prepared data tree
-new_performance_mix  = 0 
-new_performance_all2 = 0 #smooth tree
-new_performance_mix2 = 1
+new_performance_mix  = 0
+new_performance_all  = 0
+new_performance_mix2 = 0
+new_performance_all2 = 1
 
 colors = rainbow(6)
 
@@ -494,12 +494,15 @@ if( new_pca_vs_boost == 1){
 		trials = seq(1,30,2)
 		time_pca_boost    = matrix(0,length(pca),length(trials))
 		success_pca_boost = matrix(0,length(pca),length(trials))
+		if(file.exists(fileName)){
+			load(fileName)
+		}
 		
 		static_data = prepareOne(3,2,360,40, DPI = 100 , filter = "gaussian", make_new=1, sigma =best_sigma, size=best_kernel_size)
 # 		static_data = normalizeData(static_data, "z-score")
 		data.pca = prcomp(na.pass(static_data$trainSet), center=TRUE, scale=FALSE)
 		
-		for(n in 1:length(pca) ){
+		for(n in length(pca)-1:length(pca) ){
 			data = subset_pca(static_data,data.pca,noPC=pca[n])
 			for(i in 1:length(trials) ){
 				
@@ -545,7 +548,7 @@ best_trials = 24
 best_PC     = 75
 if( new_performance_all == 1){
 	fileName <- "tree_performance_all.RData"
-	if ( file.exists(fileName) && 1 ) {
+	if ( file.exists(fileName) && 0 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -558,7 +561,8 @@ if( new_performance_all == 1){
 			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 		}
 		
-		for(person in 1:length(people) ){
+		load(fileName)
+		for(person in 13:length(people) ){
 			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 			data = normalizeData(data, "z-score")
 			data = pca_simplification(data,noPC=best_PC)
@@ -607,6 +611,7 @@ if( new_performance_mix == 1){
 		confus = matrix(0,10,10)
 		success = array(0,length(people))
 		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
+		
 # 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
 		for(cross_validation in 1:10 ){
 			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
@@ -625,21 +630,19 @@ if( new_performance_mix == 1){
 			setEPS()
 			postscript("../../../Report/graphics/tree_performance_mix.eps",height = 4, width = 8)
 			par(mar=c(1, 4, 4, 1) + 0.1)
-			boxplot(success[1:10],ylab="Success Rate", outline = FALSE) 
+			boxplot(success,ylab="Success Rate", outline = FALSE) 
 			dev.off()
-			rm(data)
-			rm(model)
 		}
 	}
-	print(success)
+	
 	setEPS()
 	postscript("../../../Report/graphics/tree_performance_mix.eps",height = 4, width = 8)
 	par(mar=c(1, 4, 4, 1) + 0.1)
-	boxplot(success[1:10],ylab="Success Rate", outline = FALSE) 
+	boxplot(success,ylab="Success Rate", outline = FALSE) 
 	dev.off()
 
 	confusion_matrix(confus, filename="../../../Report/graphics/tree_confusion_mix.eps")
-	print(paste(c("Mean / Var of the easy: ", mean(success[1:10]), " / ", var(success[1:10])), collapse = ""))
+	print(paste(c("Mean / Var of the easy: ", mean(success), " / ", var(success)), collapse = ""))
 }
 
 best_trials = 7
@@ -647,7 +650,7 @@ if( new_performance_all2 == 1){
 	fileName <- "tree_performance_all2.RData"
 
 	
-	if ( file.exists(fileName) && 0 ) {
+	if ( file.exists(fileName) && 1 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -660,8 +663,7 @@ if( new_performance_all2 == 1){
 			x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 		}
 
-		load(fileName)
-		for(person in 8:length(people) ){
+		for(person in length(people):10 ){
 			data = prepareOneAlone(people[[person]][1], people[[person]][2],400,400, DPI = 100 , filter = "gaussian", make_new=0, sigma =best_sigma, size=best_kernel_size)
 # 			data = normalizeData(data, "z-score")
 # 			data = pca_simplification(data,noPC=best_PC)
@@ -681,6 +683,7 @@ if( new_performance_all2 == 1){
 			axis(1, at=1:length(people), labels=x_lab, las=2)
 			dev.off()
 		}
+	print(success)
 	}
 	
 	setEPS()
@@ -702,14 +705,15 @@ if( new_performance_mix2 == 1){
 	} else {
 		people = getPeople()
 		confus = matrix(0,10,10)
-		success = array(0,10)
+		success = array(0,length(people))
+		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
 		
 # 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
 		load(fileName)
 		for(cross_validation in 1:10 ){
-			load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
-			data = prepare_data_for_tree(finalData[[cross_validation]])
-			rm(finalData)
+			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
+			data = pca_simplification(data,noPC=best_PC)
+			data = prepare_data_for_tree(data)
 			
 			model = C50::C5.0(data$trainSet, as.factor(data$trainVali),trials=best_trials
 			,control=C5.0Control(minCases=best_min_cases)
