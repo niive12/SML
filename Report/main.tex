@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper, twoside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -41,8 +41,6 @@
 \usepackage{graphicx}
 \usepackage{epstopdf} % for eps file
 
-\usepackage{fullpage} % utilize paper space :)
-
 \usepackage{float} % for use of [H] in figure alignment
 \usepackage{subcaption} % for use of subfigures
 \usepackage{tikz}
@@ -60,7 +58,20 @@ pdfborder = {0 0 0}
 \DeclareMathSizes{12}{14}{10}{10} % increase math font size
 
 
+% margins (every second left/right shifted, adjusted for dubbleprint)
+\usepackage[top=1.4in, bottom=1.4in, left=1.3in, right=1.3in]{geometry}
+\setlength{\parindent}{0pt} %no indent after equations or fig. - has to be after TOC
+
+%\setlength{\textheight}{22cm}
+
+% page counting, header/footer
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+
 \begin{document}
+\pagenumbering{gobble}
+\raggedbottom
 
 \title{K-NN and Trees\\Statistical Machine Learning\\{\large\emph{Group 3}}}
 \author{Nikolaj Iversen and Lukas Schwartz}
@@ -74,11 +85,30 @@ pdfborder = {0 0 0}
 
 \newpage
 
+\ 
+\newpage
+\addtolength{\evensidemargin}{-0.7cm}
+\addtolength{\oddsidemargin}{0.7cm}
 
 \input{sections/acknowledgement}
 
 
 \newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\addtolength{\evensidemargin}{1.4cm}
+\addtolength{\oddsidemargin}{-1.4cm}
+\pagestyle{fancy}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+\fancyhf{}
+\lfoot{\sectionmark}
+\rfoot[\footnotesize Page \thepage\ of \pageref{LastPage}]{}
+\cfoot{}
+\lfoot[]{\footnotesize Page \thepage\ of \pageref{LastPage}}
+\fancyhead[RE,LO]{\textit{ \nouppercase{\rightmark}} }
+
+
 
 \setcounter{tocdepth}{2}
 \tableofcontents
