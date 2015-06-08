@@ -18,10 +18,12 @@ In figure \ref{fig:algo_compare_timing} is the timing of classification compared
 400 digits of each class were classified using 19 peoples data as training.
 Here it is clear that K-NN takes more time to classify the digits.
 The tree removes half of the potential comparisons with each decision split which makes it scale well on large datasets.
+The 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{graphics/algo_compare_timing}
+\caption{Classification timing of the two models.}
 \label{fig:algo_compare_timing}
 \end{figure}
 % tree_vs_knn_timing.R

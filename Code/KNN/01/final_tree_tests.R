@@ -12,11 +12,11 @@ new_pca              = 0 #without smoothing
 new_total            = 0
 new_t_mix            = 0
 new_t_all            = 0
-new_pca_vs_boost     = 0
+new_pca_vs_boost     = 1
 new_performance_mix  = 0
 new_performance_all  = 0
 new_performance_mix2 = 0
-new_performance_all2 = 1
+new_performance_all2 = 0
 
 colors = rainbow(6)
 
@@ -486,7 +486,7 @@ if( new_t_all == 1){
 if( new_pca_vs_boost == 1){
 	fileName <- "tree_pca_vs_boost.RData"
 
-	if ( file.exists(fileName) && 0 ) {
+	if ( file.exists(fileName) && 1 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -520,7 +520,7 @@ if( new_pca_vs_boost == 1){
 	}
 	# find max
 	new_success = matrix(0,length(pca),length(trials))
-	new_success[5:10,] = success_pca_boost[5:10,]
+	new_success[5:10,1:13] = success_pca_boost[5:10,1:13]
 	point = which.max(new_success)
 	x_p = point %% length(pca)
 	y_p = ceiling(point/length(pca))

@@ -235,15 +235,28 @@ In figure \ref{fig:tree_confus_all} is the average confusion table for all peopl
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.45\textwidth]{graphics/tree_confusion_all}
-\includegraphics[width=0.45\textwidth]{graphics/tree_confusion_all2}
-\caption{Confusion with all the best parameters for the full dataset hard problem}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{graphics/tree_confusion_all}
+\caption{Prepared data set.}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{graphics/tree_confusion_all2}
+\caption{Smoothed data set.}
+\end{subfigure}
+\caption{Confusion matrix for the hard problem}
 \label{fig:tree_confus_all}
 \end{figure}
 
 To compare the timing performance of the two methods the time it takes to build the two models were measured.
 In figure \ref{fig:tree_time_distribution} is the time distribution of both models shown.
 As both methods apply a smoothing filter before loading the data this is removed from the time budget as a prepossessing method.
+It is seen that the model for the prepared data set is build faster.
+Prepossessing is thus a worthwhile optimization when training on a machine with limited resources.
+As building a model is only needed once this is seen as less significant than the success rate of the model.
+It was measured to take 3056.21 seconds to build the model on the smoothed data set and 2007.00 seconds on the prepared data set.
+% 3056.21 s
+% 2007.00
+% 1942.54 s + 64.46 s
 
 \begin{figure}[H]
 \centering
