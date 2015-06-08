@@ -5,7 +5,7 @@ source("C50predict.R")
 
 fileName <- "tree_vs_knn_time.RData"
 
-if ( file.exists(fileName) && 0 ) {
+if ( file.exists(fileName) && 1 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
@@ -54,16 +54,17 @@ counts = matrix(c(pre_process,classification),2,2)
 counts = t(counts)
 print(counts)
 
-# setEPS()
-# postscript("../../../Report/graphics/algo_compare_timing.eps",height = 4, width = 8)
-# barplot(counts, main="KNN vs Tree Timing",
-#   ylab="Time [s]", col=colors,
-#   xlab = "Method Applied",
-#   ylim=c(0,max(sum(counts[,1]),sum(counts[,2]))),
-#   legend = colnames(results),
-#   args.legend = list(x = "topright")
-#   )
-# axis(1, at=1:2, labels=c("KNN","Tree"), las = 1)
-# q = dev.off()
-# # 
+setEPS()
+postscript("../../../Report/graphics/algo_compare_timing.eps",height = 4, width = 8)
+something = barplot(counts, main="KNN vs Tree Timing",
+  ylab="Time [s]", col=colors,
+  xlab = "Method Applied",
+  ylim=c(0,max(sum(counts[,1]),sum(counts[,2]))),
+  legend = colnames(results),
+  args.legend = list(x = "topright")
+  )
+axis(1, at=something, labels=c("KNN","Tree"), las = 1)
+q = dev.off()
 # 
+# 
+print(counts)

@@ -86,3 +86,4 @@ confusion_matrix(confus_hard, filename="../../../Report/graphics/knn_confusion_b
 print(paste(c("Mean / Var of the hard: ", mean(success_hard), " / ", var(success_hard)), collapse = ""))
 print(paste(c("Mean / Var of the easy: ", mean(success_easy), " / ", var(success_easy)), collapse = ""))
 
+print(success_hard)
