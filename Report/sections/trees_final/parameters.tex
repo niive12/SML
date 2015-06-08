@@ -30,7 +30,7 @@ The optimal minimum number of cases were found to be 7 and thus used in the foll
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/tree_raw}
-\caption{Raw performance of decision tree. Minimum number of cases used to make a decision. }%Tested with person 3.2 using a 90/10 split}
+\caption[Success for decision tree with no prepossessing used.]{Raw performance of decision tree. Minimum number of cases used to make a decision. }%Tested with person 3.2 using a 90/10 split}
 \label{fig:tree_raw}
 \end{figure}
 
@@ -47,7 +47,7 @@ A large kernel size does not impact the low variance. The optimal kernel size we
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/tree_smooth}
-\caption{Gaussian smoothing on image as pre-processing. Kernel size vs $\sigma$. }%Tested with person 3.2 using a 90/10 split}
+\caption[Success for decision tree with smoothing.]{Gaussian smoothing on image as pre-processing. Kernel size vs $\sigma$. }%Tested with person 3.2 using a 90/10 split}
 \label{fig:tree_smooth}
 \end{figure}
 
@@ -63,7 +63,7 @@ The optimal number of principle components was chosen as 130.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/tree_pca}
-\caption{Sigma/size vs PC or success vs PC if best smoothing distinct.}
+\caption[Success for decision tree with smoothing and PCA.]{Sigma/size vs PC or success vs PC if best smoothing distinct.}
 \end{figure}
 
 
@@ -76,9 +76,10 @@ In figure \ref{fig:tree_total} the success rate with the different methods is ap
 
 \begin{figure}[H]
 \centering
-% \missingfigure{qwe}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total}
-\caption{Success for raw, pre zs, post zs and both.}
+\caption[Success for decision tree with different applied methods. Simplified problem.]{
+Successful detections for decision trees with raw data, z-score applied before PCA, after and both.
+Tested with on the simplified problem.}
 \label{fig:tree_total}
 \end{figure}
 
@@ -88,9 +89,10 @@ While the overall performance has gone down the impact of each method is similar
 
 \begin{figure}[H]
 \centering
-% \missingfigure{qwe}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total_mixed}
-\caption{Success for raw, pre zs, post zs and both.}
+\caption[Success for decision tree with different applied methods. Easy problem.]{
+Successful detections for decision trees with raw data, z-score applied before PCA, after and both.
+Tested with on the easy problem.}
 \label{fig:tree_total_mixed}
 \end{figure}
 
@@ -99,14 +101,17 @@ Of each member was 50 digits chosen.
 G3M2 was taken out of the training data and used to test the methods.
 From these tests it can be concluded that simply smoothing the data gives the best result.
 Applying PCA will decrease the performance although applying Z-Score on the data before improves the PCA.
-Therefore the optimal prepossessing must be smoothing the data, normalizing with Z-Score and reduce the data set with PCA.
+Applying PCA will decrease the time it takes to build the model so the trade off must be investigated.
+The optimal prepossessing must be smoothing the data, normalizing with Z-Score and reduce the data set with PCA.
 Normalizing the data after the PCA gave a better performance on the test with the mixed data but the two other tests showed the opposite.
+Thus a method with prepossessing will be tested against a model with only smoothing.
 
 \begin{figure}[H]
 \centering
-% \missingfigure{qwe}
 \includegraphics[width=0.7\textwidth]{graphics/tree_total_all}
-\caption{success for raw, pre zs, post zs and both}
+\caption[Success for decision tree with different applied methods. Hard problem.]{
+Successful detections for decision trees with raw data, z-score applied before PCA, after and both.
+Tested with on the hard problem.}
 \label{fig:tree_total_all}
 \end{figure}
 
@@ -122,9 +127,8 @@ Therefore it cannot know what to improve upon and the performance cannot be bett
 
 \begin{figure}[H]
 \includegraphics[width = \textwidth]{graphics/tree_boost_overfitting}
-\caption[Boosting decision tree]{Performance of boosting the C50 algorithm. 
-The tree is trained on the data from person G3M2. 
-When the performance on the train data hits 100\% the performance on the test data fluctuates. }
+\caption[Success for decision tree with boosting.]{Performance of boosting the C50 algorithm. 
+The tree is trained on the data from person G3M2. }
 \label{fig:tree_overfitting}
 \end{figure}
 
@@ -133,12 +137,11 @@ In figure \ref{fig:tree_timing} can the success be seen of multiple trials.
 Since the algorithm trains towards a good performance on the train data it can not improve beyond a certain point.
 The ideal number of boosting trails is set to 7.
 The timing is as expected linear dependent on the number of trials.
+When the performance on the train data hits 100\% the performance on the test data fluctuates. 
 
 \begin{figure}[H]
-% \includegraphics[width = \textwidth]{graphics/tree_timing}
-% \includegraphics[width = \textwidth]{graphics/tree_timing_entropy}
 \includegraphics[width = \textwidth]{graphics/tree_timing_one}
-\caption[Timing of the boosting function.]{Timing of the boosting function.}
+\caption[Timing for decision tree with boosting.]{Timing of the boosting function.}
 \label{fig:tree_timing}
 \end{figure}
 
@@ -159,7 +162,8 @@ It can be seen that a combination of 75 PC and 24 trials gives the best result.
         \caption{Time of boosting the tree.}
         \label{fig:tree_pca_boost_timing}
     \end{subfigure}
-\caption{Number of PC used vs boosting trials on decision tree.}
+\caption[Time and success for decision tree with boosting and PCA.]{
+Time and success for decision tree with boosting and PCA. Number of PC used vs boosting trials on decision tree.}
 \label{fig:tree_pca_boost}
 \end{figure}
 
@@ -181,7 +185,7 @@ It was measured to take 3056.21 seconds to build the model on the smoothed data 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{graphics/algo_compare_timing_tree}
-\caption{Time distribution of the prepared data and the smoothed data.}
+\caption[Time distribution for decision tree.]{Time distribution of the prepared data and the smoothed data.}
 \label{fig:tree_time_distribution}
 \end{figure}
 
@@ -218,8 +222,7 @@ Here it is seen that while 8 has a high correct detection rate, outliers of othe
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{graphics/tree_performance_mix_combined}
-% \includegraphics[width=0.49\textwidth]{graphics/tree_performance_mix2}
-\caption{Success rate with all the best parameters for the full dataset easy problem.}
+\caption[Success for decision tree on the easy problem.]{Success rate with all the best parameters for the full dataset easy problem.}
 \label{fig:tree_performance_mixed}
 \end{figure}
 
@@ -227,7 +230,7 @@ Here it is seen that while 8 has a high correct detection rate, outliers of othe
 \centering
 \begin{subfigure}{0.49\textwidth}
 \includegraphics[width=\textwidth]{graphics/tree_confusion_mix}
-\caption{Confusion matrix of the prepared data set.}
+\caption{Confusion table of the prepared data set.}
 \label{fig:tree_confus_mixed}
 \end{subfigure}
 \begin{subfigure}{0.49\textwidth}
@@ -235,7 +238,7 @@ Here it is seen that while 8 has a high correct detection rate, outliers of othe
 \caption{Confusion matrix of the smooth data set.}
 \label{fig:tree_confus_mixed_smooth}
 \end{subfigure}
-\caption{Confusion with all the best parameters for the full dataset on the easy problem.}
+\caption[Confusion table for decision tree on the easy problem.]{Confusion table for the full data set on the easy problem.}
 \end{figure}
 
 To find the person with the worst handwriting the data set was constructed of all people with one person removed from the training set.
@@ -248,9 +251,7 @@ In figure \ref{fig:tree_confus_all} is the average confusion table for all peopl
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{graphics/tree_performance_all_combined}
-% \includegraphics[width=0.47\textwidth]{graphics/tree_performance_all}
-% \includegraphics[width=0.47\textwidth]{graphics/tree_performance_all2}
-\caption{Confusion with all the best parameters for the full dataset on the hard problem.}
+\caption[Success for decision tree on the hard problem.]{Confusion with all the best parameters for the full dataset on the hard problem.}
 \label{fig:tree_performance_all}
 \end{figure}
 
@@ -264,6 +265,6 @@ In figure \ref{fig:tree_confus_all} is the average confusion table for all peopl
 \includegraphics[width=\textwidth]{graphics/tree_confusion_all2}
 \caption{Smoothed data set.}
 \end{subfigure}
-\caption{Confusion matrix for the hard problem}
+\caption[Confusion table for decision tree on the hard problem.]{Confusion table for the hard problem.}
 \label{fig:tree_confus_all}
 \end{figure}
