@@ -147,15 +147,16 @@ When the performance on the train data hits 100\% the performance on the test da
 
 Since the performance increases with the timing it could be expected to improve the performance of a reduced data set.
 In figure \ref{fig:tree_pca_boost} is the performance shown with an increasing number of trials and an increasing number of PC.
+Figure \ref{fig:tree_pca_boost_timing} shows the time it takes to build the tree and figure \ref{fig:tree_pca_boost_success} shows the success.
 
-It can be seen that a combination of 75 PC and 24 trials gives the best result.
+It can from figure \ref{fig:tree_pca_boost} be seen that a combination of 75 PC and 24 trials gives the best result.
 
 \begin{figure}[H]
 \centering
     \begin{subfigure}[t]{0.49\textwidth}
         \includegraphics[width=\textwidth]{graphics/tree_pca_vs_boost_success}
         \caption{Success of boosting the tree.}
-        \label{fig:tree_pca_boost}
+        \label{fig:tree_pca_boost_success}
     \end{subfigure}
     \begin{subfigure}[t]{0.49\textwidth}
         \includegraphics[width=\textwidth]{graphics/tree_pca_vs_boost_time}
@@ -167,8 +168,8 @@ Time and success for decision tree with boosting and PCA. Number of PC used vs b
 \label{fig:tree_pca_boost}
 \end{figure}
 
-To find the optimal balance between reducing the dataset with PCA and optimizing the performance with boosting the timing of the functions were measured.
-In figure \ref{fig:tree_pca_boost_timing} is the time it took to build the tree shown.
+%To find the optimal balance between reducing the dataset with PCA and optimizing the performance with boosting the timing of the functions were measured.
+%In figure \ref{fig:tree_pca_boost_timing} is the time it took to build the tree shown.
 
 \subsection{Timing}
 To compare the timing performance of the two methods the time it takes to build the two models were measured.
@@ -205,7 +206,7 @@ kernel size & 7      \\
 \label{tb:tree_simply_the_best_parameters}
 \end{table}
 
-In table \ref{tb:tree_simply_the_best_parameters} is the optimal parameters shown.
+In table \ref{tb:tree_simply_the_best_parameters} are the optimal parameters shown.
 These parameters are applied to the prepossessing and tree function. 
 This data set is referred to as the prepared data set.
 To test these against the data 20 peoples data have been mixed.
