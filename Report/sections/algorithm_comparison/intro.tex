@@ -17,7 +17,12 @@ In figure \ref{fig:algo_compare_timing} is the timing of classification compared
 400 digits of each class were classified using 19 peoples data as training.
 Here it is clear that K-NN takes more time to classify the digits.
 The tree removes half of the potential comparisons with each decision split which makes it scale well on large datasets.
-The 
+It is noteworthy that several cases in the amplify the results from the K-NN test.
+Thus cases like G1M1,G2M2 and G7M3, which has a worse than average detection gets worse result than K-NN 
+and cases where the performance is better than the average gets a even better detection rate.
+This is suspected to be a result of overfitting the model to people with a ``good'' handwriting.
+An outlier is G7M1 who has an above average performance in K-NN and gets a much worse performance and G1M3 who gets a better performance.
+
 
 \begin{figure}[H]
 \centering
@@ -31,6 +36,15 @@ The
 The performance of a classification method is measured in the success rate on the test data.
 In figure \ref{fig:success_comparison_hard} is the algorithms success rate of the hard problem shown.
 It can be seen that K-NN algorithm has a better overall performance.
+On the easy problem the K-NN gave a mean success rate of 
+85.07\% with a variance of 3.59
+where the decision tree gave a mean success rate of
+86.14\% with a variance of 4.96. 
+On the hard problem the K-NN gave a mean success rate of 
+70.99\% with a variance of 118.00
+where the decision tree gave a mean success rate of
+72.95\% with a variance of 177.48, 
+making decision trees better at classifications on both problems.
 
 \begin{figure}[H]
 \centering
