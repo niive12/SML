@@ -10,7 +10,7 @@ trainSetSize = 360
 
 
 # smoothing test
-if(T){
+if(F){
 	s_k = 1
 	data_sigma = c(seq(0.1,2,0.1))
 	data_size = c(seq(3,15,2))
@@ -54,7 +54,13 @@ point = which.max(smooth_knn_success)
 x_p = point %% length(data_size)
 y_p = ceiling(point/length(data_size))
 			
-filled.contour(y = data_sigma, x = data_size, smooth_knn_success, col=colorpanel(20, "black", "white"), levels=seq(min(smooth_knn_success), max(smooth_knn_success), length.out= 21), locator={points(x = data_size[x_p],y = data_sigma[y_p], col = "red")})
+filled.contour(y = data_sigma, x = data_size, smooth_knn_success,
+			   col=colorpanel(20, "black", "white"), levels=seq(min(smooth_knn_success), max(smooth_knn_success), length.out= 21), 
+			   locator={
+			   	points(x = data_size[x_p],y = data_sigma[y_p], col = "red"); 
+			   	text(data_size[x_p], data_sigma[y_p],round(smooth_knn_success[point],2), pos = 4)
+			   }
+			   )
 title(main = NULL, xlab = "Filter Size", ylab = "Sigma")
 quiet = dev.off()
 

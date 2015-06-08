@@ -1,7 +1,20 @@
 \section*{Abstract}
+This report considers the problem of handwritten digit recognition.
+The data of in total twenty people are used to test and compare the performance of the K-NN and Decision Trees for the given problem.
 
+Data preprocessing is considered first and how to optimize the result for the two algorithms separately.
+This is completed to achieve the best possible results concerning both time consumption and success rate of the algorithms.
+The methods used for preprocessing are smoothing, z-score and principle component analysis (PCA).
+
+Hereafter, the two algorithms are compared to and the worst handwritten dataset is found.
+This was found testing each datasets success rate using the remaining datasets.
+
+It was from these test found that the K-NN algorithm performs best when applying PCA to the smoothed and z-score normalized data.
+Furthermore the decision trees perform the best when using data which only has been smoothed.
+It is also found that the worst handwriting belonged to the dataset G2M1.
 
 
 \section*{Acknowledgement}
 This piece is written as a report by Nikolaj Iversen and Lukas Schwartz.
-...
+The report was split such that Nikolaj was mainly in charge of the concerning decision trees (section \ref{sec:tree}) and Lukas that of K-NN (section \ref{sec:KNN}).
+Other tasks where split as seemed fit or written in collaboration.
