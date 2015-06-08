@@ -133,8 +133,10 @@ To decide further which of the methods to use, then the timing of two best metho
 
 \subsection{Timing}
 
-To test the performance of the two best methods, measured in success, these were timed to find the time they take to compute.
-Figure \ref{fig:knn_timing_comp} shows the result of such.
+The two best methods where found to be the raw dataset with smoothing and z-score only and the dataset with smoothing, z-score and PCA applied.
+To find the best of the two, the computation time is considered.
+The time taken the compute the preprocessing and classification of the test data was hence measured.
+Figure \ref{fig:knn_timing_comp} shows the result of the timing.
 
 The dataset used is one in which the dataset of G3M2 is used as the test set and the remaining 19 peoples dataset is contained in the training set.
 
@@ -147,7 +149,7 @@ The dataset used is one in which the dataset of G3M2 is used as the test set and
 \end{figure}
 
 The timing was computed for both the preprocessing of the testing set and the thereafter following classification using the data generated.
-As seen on figure \ref{fig:knn_timing_comp} then the data preprocessed with PCA is more than 100 times faster than the data which was only smoothed and normalized.
+As seen on figure \ref{fig:knn_timing_comp} then the data preprocessed with PCA is 100 times faster than the data which was only smoothed and normalized.
 It was therefore decided to use the reduced dataset to reduce the time taken to compute the classifications.
 
 
