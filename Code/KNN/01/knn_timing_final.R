@@ -10,6 +10,9 @@ if ( file.exists(fileName) && 0 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
+	if(file.exists(fileName)){
+		load(fileName)
+	}
 	data_knn_s = prepareOneAlone(3,2,trainPartSize=400, testSize=400, filter = "gaussian", size = 5, sigma = 0.9, make_new = 0)
 	data_knn_c = data_knn_s
 	
@@ -23,18 +26,19 @@ if ( file.exists(fileName) && 0 ) {
 	#pca
 	data.pca = prcomp(na.pass(data_knn_c$trainSet), center=TRUE, scale=FALSE)
 	data_knn_c$trainSet = data.pca$x[,1:40]
+	trainS = matrix(,dim(data_knn_c$trainSet)[1],dim(data_knn_c$trainSet)[2])
 	#z-score
 	for(i in 1:dim(data_knn_c$trainSet)[1]){
 		trainS[i,] = scale(data_knn_c$trainSet[i,], scale = TRUE)
 	}
 	data_knn_c$trainSet = trainS
 	
-	trainS = matrix(,dim(data_knn_s$trainSet)[1],dim(data_knn_s$trainSet)[2])
-	#z-score
-	for(i in 1:dim(data_knn_s$trainSet)[1]){
-		trainS[i,] = scale(data_knn_s$trainSet[i,], scale = TRUE)
-	}
-	data_knn_s$trainSet = trainS
+# 	trainS = matrix(,dim(data_knn_s$trainSet)[1],dim(data_knn_s$trainSet)[2])
+# 	#z-score
+# 	for(i in 1:dim(data_knn_s$trainSet)[1]){
+# 		trainS[i,] = scale(data_knn_s$trainSet[i,], scale = TRUE)
+# 	}
+# 	data_knn_s$trainSet = trainS
 	
 	
 	
@@ -49,6 +53,7 @@ if ( file.exists(fileName) && 0 ) {
 	data_knn_c$testSet = testS
 	data_knn_c$testSet = ((data_knn_c$testSet - data.pca$center) %*% data.pca$rotation)[,1:40]
 	#zscore
+	testS = matrix(,dim(data_knn_c$testSet)[1],dim(data_knn_c$testSet)[2])
 	for(i in 1:dim(data_knn_c$testSet)[1]){
 		testS[i,] = scale(data_knn_c$testSet[i,], scale = TRUE)
 	}
@@ -58,19 +63,19 @@ if ( file.exists(fileName) && 0 ) {
 	testS = matrix(,dim(data_knn_s$testSet)[1],dim(data_knn_s$testSet)[2])
 	
 	# s
-	pre_process_time_start_knn = proc.time()
-	#z-score
-	for(i in 1:dim(data_knn_s$testSet)[1]){
-		testS[i,] = scale(data_knn_s$testSet[i,], scale = TRUE)
-	}
-	data_knn_s$testSet = testS
-	pre_process_time_knn_s = (proc.time() - pre_process_time_start_knn)[["user.self"]]
+# 	pre_process_time_start_knn = proc.time()
+# 	#z-score
+# 	for(i in 1:dim(data_knn_s$testSet)[1]){
+# 		testS[i,] = scale(data_knn_s$testSet[i,], scale = TRUE)
+# 	}
+# 	data_knn_s$testSet = testS
+# 	pre_process_time_knn_s = (proc.time() - pre_process_time_start_knn)[["user.self"]]
 	
 	
 	
-	classification_time_start = proc.time()
-	knn_success_s = run_knn(data_knn_s, 1)$success
-	classification_time_knn_s = (proc.time() - classification_time_start)[["user.self"]]
+# 	classification_time_start = proc.time()
+# 	knn_success_s = run_knn(data_knn_s, 1)$success
+# 	classification_time_knn_s = (proc.time() - classification_time_start)[["user.self"]]
 
 	
 	
