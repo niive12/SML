@@ -83,7 +83,7 @@ dev.off()
 confusion_matrix(confus_easy, filename="../../../Report/graphics/knn_confusion_bestparam_easy.eps")
 confusion_matrix(confus_hard, filename="../../../Report/graphics/knn_confusion_bestparam_hard.eps")
 
-print(paste(c("Mean / Var of the hard: ", mean(success_hard), " / ", var(success_hard)), collapse = ""))
-print(paste(c("Mean / Var of the easy: ", mean(success_easy), " / ", var(success_easy)), collapse = ""))
+print(paste(c("Mean / Var of the hard: ", mean(success_hard*100), " / ", var(success_hard*100)), collapse = ""))
+print(paste(c("Mean / Var of the easy: ", mean(success_easy*100), " / ", var(success_easy*100)), collapse = ""))
 
 print(success_hard)
