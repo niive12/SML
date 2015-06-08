@@ -527,18 +527,23 @@ if( new_pca_vs_boost == 1){
 	
 	print(c(point,x_p,y_p,success_pca_boost[point]))
 	
+	scale = 0.9
 	setEPS()
-	postscript("../../../Report/graphics/tree_pca_vs_boost_success.eps",height = 6, width = 8)
+	postscript("../../../Report/graphics/tree_pca_vs_boost_success.eps",height = 6*scale, width = 8*scale)
 	filled.contour(y = trials, x = pca,success_pca_boost, col=colorpanel(20, "black", "white"), levels=seq(min(success_pca_boost), max(success_pca_boost), length.out= 21),
-	locator={points(y = trials[y_p], x = pca[x_p], col = "red")},
+	locator={
+		points(y = trials[y_p], x = pca[x_p], col = "red");
+		text(pca[x_p],trials[y_p],round(success_pca_boost[point],2), pos = 4)
+		
+		},
 	xlab="PC",ylab="Trials"
 	)
-	text(pca[x_p],trials[y_p],success_pca_boost[point])
 	q = dev.off()
 	
 	setEPS()
-	postscript("../../../Report/graphics/tree_pca_vs_boost_time.eps",height = 6, width = 8)
-	filled.contour(y = trials, x = pca,time_pca_boost, col=colorpanel(20, "white", "black"), levels=seq(min(time_pca_boost), max(time_pca_boost), length.out= 21),
+	postscript("../../../Report/graphics/tree_pca_vs_boost_time.eps",height = 6*scale, width = 8*scale)
+	filled.contour(y = trials, x = pca,time_pca_boost, 
+				   col=colorpanel(20, "white", "black"), levels=seq(min(time_pca_boost), max(time_pca_boost), length.out= 21),
 	xlab="PC",ylab="Trials"
 	)
 	q = dev.off()
