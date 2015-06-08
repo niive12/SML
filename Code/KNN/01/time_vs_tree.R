@@ -12,7 +12,7 @@ trials = seq(2,100,1)
 pca_setting         = list(noPC=50)
 
 
-if ( file.exists(fileName) && 0 ) {
+if ( file.exists(fileName) && 1 ) {
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 	success = success_test
@@ -52,7 +52,7 @@ postscript("../../../Report/graphics/tree_timing_one.eps",height = 4, width = 8)
 	plot(trials, success, pch=16, ylim=c(min(success),max(success)), col=colors[1],
 	axes=FALSE, type="o", xlab="", ylab="")
 	axis(2, ylim=c(0,1),col="black",las=1)  # las=1 makes horizontal labels
-	mtext("Success",side=2,line=2.5)
+	mtext("Success",side=2,line=3)
 	box()
 
 	par(new=TRUE)
@@ -60,7 +60,7 @@ postscript("../../../Report/graphics/tree_timing_one.eps",height = 4, width = 8)
 	# plot success
 	plot(trials, time, pch=15, ylim=c(min(time),max(time)), col=colors[2],
 	axes=FALSE, type="o", xlab="", ylab="")
-	mtext("Time [s]",side=4,col=colors[2],line=4) 
+	mtext("Time [s]",side=4,col=colors[2],line=3) 
 	axis(4, ylim=c(0,7000), col=colors[2],col.axis=colors[2],las=1)
 
 	# Draw the axis

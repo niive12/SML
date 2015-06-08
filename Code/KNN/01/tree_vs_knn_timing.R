@@ -12,20 +12,42 @@ if ( file.exists(fileName) && 1 ) {
 	data_knn = prepareOneAlone(3,2,trainPartSize=400, testSize=400, filter = "gaussian", size = 7, sigma = 0.9, make_new = 1)
 	data_tree = prepareOneAlone(3,2,trainPartSize=400, testSize=400, filter = "gaussian", size = 5, sigma = 0.9, make_new = 1)
 	
+	#z-score
+	for(i in 1:dim(data_knn$trainSet)[1]){
+		trainS[i,] = scale(data_knn$trainSet[i,], scale = TRUE)
+	}
+	data_knn$trainSet = trainS
+	#pca
+	data.pca = prcomp(na.pass(data_knn$trainSet), center=TRUE, scale=FALSE)
+	data_knn$trainSet = data.pca$x[,1:40]
+	#z-score
+	for(i in 1:dim(data_knn$trainSet)[1]){
+		trainS[i,] = scale(data_knn$trainSet[i,], scale = TRUE)
+	}
+	data_knn$trainSet = trainS
 	pre_process_time_start_knn = proc.time()
-		data_knn = normalizeData(data_knn, "z-score")
-		data_knn = pca_simplification(data_knn,noPC=40)
-		data_knn = normalizeData(data_knn, "z-score")
+		#z-score
+		for(i in 1:dim(data$testSet)[1]){
+			testS[i,] = scale(data_knn$testSet[i,], scale = TRUE)
+		}
+		data_knn$testSet = testS
+		#pca
+		data_knn$testSet = ((data_knn$testSet - data.pca$center) %*% data.pca$rotation)[,1:40]
+		#z-score
+		for(i in 1:dim(data$testSet)[1]){
+			testS[i,] = scale(data_knn$testSet[i,], scale = TRUE)
+		}
+		data_knn$testSet = testS
 	pre_process_time_knn = (proc.time() - pre_process_time_start_knn)[["user.self"]]
 	
 	pre_process_time_start_tree = proc.time()
-	data_tree = normalizeData(data_tree, "z-score")
-	data_tree = pca_simplification(data_tree,noPC=75)
+# 	data_tree = normalizeData(data_tree, "z-score")
+# 	data_tree = pca_simplification(data_tree,noPC=75)
 	pre_process_time_tree = (proc.time() - pre_process_time_start_tree)[["user.self"]]
 	
 	
 	training_time_start = proc.time()
-		model = C50::C5.0(data_tree$trainSet, as.factor(data_tree$trainVali), trials = 24, control = C5.0Control(minCases = 7))
+		model = C50::C5.0(data_tree$trainSet, as.factor(data_tree$trainVali), trials = 7, control = C5.0Control(minCases = 7))
 	training_time_tree = (proc.time() - training_time_start)[["user.self"]]
 	
 	classification_time_start = proc.time()
