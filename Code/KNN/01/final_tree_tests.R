@@ -696,7 +696,7 @@ if( new_performance_all2 == 1){
 
 if( new_performance_mix2 == 1){
 	fileName <- "tree_performance_mix2.RData"
-	if ( file.exists(fileName) && 0 ) {
+	if ( file.exists(fileName) && 1 ) {
 		print(paste(c("test data exists in ", fileName),collapse=""))
 		load(fileName)
 	} else {
@@ -705,6 +705,7 @@ if( new_performance_mix2 == 1){
 		success = array(0,10)
 		
 # 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
+		load(fileName)
 		for(cross_validation in 1:10 ){
 			load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
 			data = prepare_data_for_tree(finalData[[cross_validation]])
@@ -724,11 +725,12 @@ if( new_performance_mix2 == 1){
 			par(mar=c(1, 4, 4, 1) + 0.1)
 			boxplot(success,ylab="Success Rate", outline = FALSE) 
 			dev.off()
-			
+			print(success)
 			rm(data)
 			rm(model)
 		}
 	}
+	print(success)
 	
 	setEPS()
 	postscript("../../../Report/graphics/tree_performance_mix2.eps",height = 4, width = 8)
