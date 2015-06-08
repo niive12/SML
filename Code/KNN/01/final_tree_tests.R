@@ -709,6 +709,7 @@ if( new_performance_mix2 == 1){
 		load("crossVal_DPI100_0.9_FILTERgaussian_10.RData")
 		
 # 		finalData = prepareAllMixedCrossVal(split = 0.9, crossValRuns = 10, filter = "gaussian", size = best_kernel_size, sigma = best_sigma, make_new = 1, peopleToLoad = people)
+		load(fileName)
 		for(cross_validation in 1:10 ){
 			data = normalizeData(finalData[[cross_validation]], normMethod = "z-score")
 			data = pca_simplification(data,noPC=best_PC)
@@ -728,8 +729,12 @@ if( new_performance_mix2 == 1){
 			par(mar=c(1, 4, 4, 1) + 0.1)
 			boxplot(success,ylab="Success Rate", outline = FALSE) 
 			dev.off()
+			print(success)
+			rm(data)
+			rm(model)
 		}
 	}
+	print(success)
 	
 	setEPS()
 	postscript("../../../Report/graphics/tree_performance_mix2.eps",height = 4, width = 8)
