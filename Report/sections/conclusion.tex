@@ -6,15 +6,15 @@ It was found that the optimal preprocessing for K-NN was to combine a smoothing 
 The same methods of preprocessing the data was evaluated for decision trees. 
 Here it was found that boosting the decision tree could not make up for removing dimensions with PCA.
 Smoothing the data before building the tree was found to be the best method.
-Boosting the tree improved performance and showed no signs of overfitting.
+Boosting the tree improved performance but showed signs of overfitting on the hard problem.
 
 The methods were compared. 
 Building a decision tree takes more preparation than a direct comparison but results in a faster classification.
-The direct comparison showed to give more successful classifications.
+The decision tree showed to give more successful classifications.
 When building a method for classification of unknown data the decision tree is the best option.
-Because the algorithm scales with large datasets it makes it possible to quickly assess which classification is most likely.
+The algorithm scales with large datasets it makes it possible to quickly assess which classification is most likely.
 Looking at each decision can give the reader an idea of why one classification were chosen over another.
-In digit recognition this is useful as there is no need for a rationalization for why a '1' was chosen over a '7'. 
+In digit recognition this is not used as there is no need for a rationalization for why a '1' was chosen over a '7'. 
 Decision trees does handle noisy data and by pruning the tree for unlikely classifications a certain control over the random data can be enforced.
 
 It was concluded that decision trees were the best method for classifying the data. 

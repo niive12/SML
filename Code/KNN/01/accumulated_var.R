@@ -13,7 +13,7 @@ accumulated = data.frame(one_person = x)
 
 
 fileName <- "accumulated_variance_data.RData" #to save time, runtime without this is 0m48.832s
-if ( file.exists(fileName) && 0 ) { #toggle wether we want new data or not
+if ( file.exists(fileName) && 1 ) { #toggle wether we want new data or not
 	print(paste(c("test data exists in ", fileName),collapse=""))
 	load(fileName)
 } else {
@@ -57,11 +57,11 @@ setEPS()
 postscript("../../../Report/graphics/pca_variance.eps",height = 3, width = 6)
 
 for(d in 4:6){
-	if(d == 1) {
-		par(mar = c(3.8,3.8,0.5,3.8))
-		plot(x,variance[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(variance))),col=colors[d])
+	if(d == 4) {
+		par(mar = c(3.8,3.8,0.5,0.1))
+		plot(x,variance[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(variance))),col=colors[(d-3)])
 	} else {
-		lines(x,variance[[d]],type="b",lty=d, col=colors[d])
+		lines(x,variance[[d]],type="b",lty=d, col=colors[(d-3)])
 	}
 }	
 legend("topright",NULL,c("one_person","all vs one","all mixed"),cex=0.8,col=colors,lty=1:3)
@@ -72,11 +72,11 @@ par(mar = c(0,0,0,0))
 postscript("../../../Report/graphics/pca_acc_variance.eps",height = 3, width = 6)
 
 for(d in 4:6){
-	if(d == 1) {
-		par(mar = c(3.8,3.8,0.5,3.8))
-		plot(x,accumulated[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(accumulated))),col=colors[d])
+	if(d == 4) {
+		par(mar = c(3.8,3.8,0.5,0.1))
+		plot(x,accumulated[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(accumulated))),col=colors[(d-3)])
 	} else {
-		lines(x,accumulated[[d]],type="b",lty=d, col=colors[d])
+		lines(x,accumulated[[d]],type="b",lty=d, col=colors[(d-3)])
 	}
 }	
 legend("bottomright",NULL,c("one_person","all vs one","all mixed"),cex=0.8,col=colors,lty=1:3)
@@ -87,7 +87,7 @@ postscript("../../../Report/graphics/pca_variance_zs.eps",height = 3, width = 6)
 
 for(d in 1:3){
 	if(d == 1) {
-		par(mar = c(3.8,3.8,0.5,3.8))
+		par(mar = c(3.8,3.8,0.5,0.1))
 		plot(x,variance[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(variance))),col=colors[d])
 	} else {
 		lines(x,variance[[d]],type="b",lty=d, col=colors[d])
@@ -102,7 +102,7 @@ postscript("../../../Report/graphics/pca_acc_variance_zs.eps",height = 3, width 
 
 for(d in 1:3){
 	if(d == 1) {
-		par(mar = c(3.8,3.8,0.5,3.8))
+		par(mar = c(3.8,3.8,0.5,0.1))
 		plot(x,accumulated[[d]],type="b",xlab="PC",ylab="Variance",ylim=(c(0,max(accumulated))),col=colors[d])
 	} else {
 		lines(x,accumulated[[d]],type="b",lty=d, col=colors[d])
