@@ -19,10 +19,10 @@ Each leaf shows the probability of a classification.
 The leftmost leaf (node 20) has n=2. This means that there are 2 cases where the decision splitting leads down to this node.
 Both nodes are of class 10 so there is 100\% confidence that the number is of class 10.
 On the right there is 65 cases in which the result is of class 1. 
-This is a better indicator as it does not appear to be an random error in the data set.
-The rightmost node has 4 results of the training data and cannot give a clear picture.
-One is of class 4, one of 8 and two of class 10. 
-When training this data half of the numbers will be misclassified.
+This is a better indicator as it does not appear to be an outlier in the data set.
+The rightmost leaf has 4 results of the training data and cannot give a clear picture.
+One is of class 4, one of class 8 and two of class 10. 
+This will lead to numbers being misclassified.
 
 A way to improve the decision tree is to remove nodes which is deemed to not be of significance.
 This is called pruning, borrowing the vocabulary of gardening.
@@ -37,3 +37,4 @@ Another pruning option is to increase the minimum number of cases in a leaf.
 This will remove the noise created by a few selection of digits which creates a new split.
 The default minimum number of cases is 2.
 Having this number too high will cause the confidence to go down as more digits are lumped together. 
+A good tree should lead to at least one leaf per class.

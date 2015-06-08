@@ -7,12 +7,12 @@ library("graphics")
 source("confusion_matrix.R")
 
 new_raw              = 0
-new_smooth           = 0 #add labels
+new_smooth           = 1 #add labels
 new_pca              = 0 #without smoothing
 new_total            = 0
 new_t_mix            = 0
 new_t_all            = 0
-new_pca_vs_boost     = 1
+new_pca_vs_boost     = 0
 new_performance_mix  = 0
 new_performance_all  = 0
 new_performance_mix2 = 0
@@ -65,7 +65,7 @@ if( new_smooth == 1){
 		tree_smooth = matrix(0,length(sigma),length(k_size))
 		for(smooth_sigma in 1:length(sigma) ){
 			for(kernel_size in 1:length(k_size) ){
-				data = prepareOne(group=3, member=2, trainPart=360,testPart=40, DPI = 100 , filter = "gaussian", make_new=1, sigma =sigma[smooth_sigma], size =size[kernel_size])
+				data = prepareOne(group=3, member=2, trainPart=360,testPart=40, DPI = 100 , filter = "gaussian", make_new=1, sigma =sigma[smooth_sigma], size =k_size[kernel_size])
 				data = pca_simplification(data,noPC=400)
 
 				model = C50::C5.0(data$trainSet, as.factor(data$trainVali)
@@ -79,20 +79,23 @@ if( new_smooth == 1){
 		}
 	}
 	# find max
-	point = which.max(t(tree_smooth))
-	x_p = point %% length(k_size)
-	y_p = ceiling(point/length(k_size))
-# 	print(c(point,x_p,y_p,dim(tree_smooth),sigma[y_p],k_size[x_p]))
+	new_tree_smooth = matrix(0,20,7)
+	new_tree_smooth[1:9,3:7] = tree_smooth[1:9,3:7]
+	point = which.max(new_tree_smooth)
+	x_p = point %% length(sigma)
+	y_p = ceiling(point/length(sigma))
+	
+	print(c(point,x_p,y_p,dim(tree_smooth),sigma[x_p],k_size[y_p]))
 # print(t(tree_smooth))	
 
 	setEPS()
 	postscript("../../../Report/graphics/tree_smooth.eps",height = 6, width = 8)
 	filled.contour(y = sigma, x = k_size, t(tree_smooth), col=colorpanel(20, "black", "white"), 
 					levels=seq(min(tree_smooth), max(tree_smooth), length.out= 21), 
-					xlab="Kernel Size",ylab="Deviance",
-					locator={points(y = sigma[y_p], x = k_size[x_p], col = "red")}
+					xlab="Kernel Size",ylab="Variance",
+					locator={points(y = sigma[x_p], x = k_size[y_p], col = "red")}
 	)
-	text(size[x_p],sigma[y_p],tree_smooth[point])
+	text(k_size[y_p],sigma[x_p],round(tree_smooth[point],2))
 	q = dev.off()
 }
 best_kernel_size = 7
