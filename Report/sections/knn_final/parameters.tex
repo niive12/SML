@@ -122,11 +122,34 @@ The preprocessing schemes are named in the same order as applied.}
 
 
 As expected, all the test with PCA perform worse than those without as the dataset is heavily reduced.
-Because of the reduced computational time when using PCA, it is chosen to use one of the methods including PCA.
-Furthermore, then the success rate drop by using PCA is not of such a significant level that PCA is not beneficial.
 
-Considering the three figures \ref{fig:knn_zscore_1}, \ref{fig:knn_zscore_2} and \ref{fig:knn_zscore_3}, then it was chosen to use preprocessing scheme with smoothing and z-score both before and after PCA.
-This was chosen as it gives the highest success of all the schemes including PCA.
+To decide further which of the methods to use, then the timing of two best methods will be considered next.
+%Because of the reduced computational time when using PCA, it is chosen to use one of the methods including PCA.
+%Furthermore, then the success rate drop by using PCA is not of such a significant level that PCA is not beneficial.
+%
+%Considering the three figures \ref{fig:knn_zscore_1}, \ref{fig:knn_zscore_2} and \ref{fig:knn_zscore_3}, then it was chosen to use preprocessing scheme with smoothing and z-score both before and after PCA.
+%This was chosen as it gives the highest success of all the schemes including PCA.
+
+
+\subsection{Timing}
+
+To test the performance of the two best methods, measured in success, these were timed to find the time they take to compute.
+Figure \ref{fig:knn_timing_comp} shows the result of such.
+
+The dataset used is one in which the dataset of G3M2 is used as the test set and the remaining 19 peoples dataset is contained in the training set.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width =  \textwidth]{graphics/compare_timing_knn_smoothVSpca}
+\caption{Time distribution of the preprocessing and classification time of the KNN algorithm in the two run modes.}
+\label{fig:knn_timing_comp}
+\end{figure}
+
+The timing was computed for both the preprocessing of the testing set and the thereafter following classification using the data generated.
+As seen on figure \ref{fig:knn_timing_comp} then the data preprocessed with PCA is \textbf{XYZ} times faster than the data which was only smoothed and normalized.
+It was therefore decided to use the reduced dataset to reduce the time taken to compute the classifications.
+
 
 \subsubsection{Performance}
 

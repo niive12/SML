@@ -12,7 +12,7 @@ for(i in 1:noPeople){
 	x_lab[i] <- paste(c(people[[i]][1],":",people[[i]][2]),collapse="")
 }
 
-color = rainbow(2)
+color = c("blue", "red")
 setEPS()
 postscript("../../../Report/graphics/success_comp_hard.eps",height = 6, width = 8)
 par(mar=c(3.8, 4.5, 1, 4.5))
@@ -21,4 +21,5 @@ lines(1:noPeople,success_hard_knn,type="b", col = color[2])
 abline(h=mean(success_hard_tree), col = color[1], lty = "dashed")
 abline(h=mean(success_hard_knn), col = color[2], lty = "dashed")
 axis(1, at=1:noPeople, labels=x_lab, las = 2)
+legend("bottomright", pch = c(16,16), cex = 0.8, col = color, legend= c("Tree","KNN"))
 q = dev.off()
