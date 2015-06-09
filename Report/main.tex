@@ -67,6 +67,7 @@ pdfborder = {0 0 0}
 % page counting, header/footer
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\setlength{\headheight}{14pt}
 
 
 \begin{document}
@@ -114,14 +115,16 @@ pdfborder = {0 0 0}
 \tableofcontents
 \pagebreak
 \listoffigures
-\listoftables
+% \listoftables
 %\listoftodos
 
+% \cleardoublepage
 \newpage
 
 
 \input{sections/intro}
-\newpage
+% \cleardoublepage
+\newpage~\newpage
 
 \section{Preprocessing}
 \input{sections/preprocessing/intro}
