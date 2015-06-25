@@ -6,7 +6,8 @@
 
 double function(double x){
 	// cos(x^2)*e^(-x)/sprt(x)
-	double result = (cos(pow(x,2))*exp(-x))/sqrt(x);
+    //double result = (cos(pow(x,2))*exp(-x))/sqrt(x);
+    double result = exp(x);
 	return result;
 }
 
@@ -34,7 +35,7 @@ void print_midpoint (T &funcc, const Doub aa, const Doub bb, int k=20, double pr
 			cout << setw(4) << iterations << "\t";
 			cout << setw(width) << s_h3 << "\t";
 			cout << setw(width) << alpha_k << "\t";
-			cout << setw(width) << log(alpha_k)/log(3) << "\t";
+            cout << setw(width) << log(alpha_k)/log(3) << "\t";
 			cout << setw(width) << error << "\t";
 			cout << setw(width) << error_est << "\t";
 			cout << endl;
@@ -51,6 +52,6 @@ void print_midpoint (T &funcc, const Doub aa, const Doub bb, int k=20, double pr
 
 int main() {
 	sleep(3);
-	print_midpoint(function, 0, 1, 30, 10e-10);
+    print_midpoint(function, 0, 4, 30, 10e-10);
 	return 0;
 }
