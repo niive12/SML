@@ -6,6 +6,14 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{epstopdf}
+
+% \setbeameroption{show notes on second screen=right} % Both
+\newcommand{\nikolaj}[1]{\note{\color{blue}{#1}}}
+\newcommand{\lukas}[1]{\note{\color{red}{#1}}}
+
+
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{graphics/background.png}}
+
 \begin{document}
 
 \begin{frame}
@@ -17,16 +25,16 @@
 \centering
 \input{sections/knn_visualizaion}
 
-\input{sections/tree_visualizaion}
+\input{sections/trees}
+% 
+% \input{sections/entropy}
+% 
+% \input{sections/entropy_decision}
+% 
+% \input{sections/timing}
 
-\input{sections/entropy}
-
-\input{sections/entropy_decision}
-
-\input{sections/timing}
-
-\frame{\frametitle{KNN}\includegraphics[width=\textwidth]{graphics/graph_normalization_smoothed}}
-\frame{\frametitle{Tree}\includegraphics[width=\textwidth]{graphics/tree_success_all}}
+% \frame{\frametitle{KNN}\includegraphics[width=\textwidth]{graphics/graph_normalization_smoothed}}
+% \frame{\frametitle{Tree}\includegraphics[width=\textwidth]{graphics/tree_success_all}}
 
 
 \end{document}
