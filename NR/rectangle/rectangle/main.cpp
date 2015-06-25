@@ -51,6 +51,6 @@ void print_midpoint (T &funcc, const Doub aa, const Doub bb, int k=20, double pr
 
 int main() {
 	sleep(3);
-	print_midpoint(function, 0, 1, 30, 10e-10);
+    print_midpoint(function, 0, 4, 30, 10e-10);
 	return 0;
 }
