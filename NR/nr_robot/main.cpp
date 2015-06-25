@@ -4,7 +4,7 @@
 #include "../NR_LIB/code/nr3.h"
 #include "../NR_LIB/code/svd.h"
 #include <fstream>
-#include "trivial_functions.h" //length and print functions
+//#include "trivial_functions.h" //length and print functions
 
 using namespace std;
 

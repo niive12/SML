@@ -6,8 +6,7 @@
 
 double function(double x){
 	// cos(x^2)*e^(-x)/sprt(x)
-    //double result = (cos(pow(x,2))*exp(-x))/sqrt(x);
-    double result = exp(x);
+	double result = (cos(pow(x,2))*exp(-x));//sqrt(x);
 	return result;
 }
 
@@ -30,14 +29,14 @@ void print_midpoint (T &funcc, const Doub aa, const Doub bb, int k=20, double pr
 		s_h3 = assingment.next();
 		alpha_k = (s_h1-s_h2)/(s_h2-s_h3);
 		error_est = (s_h2-s_h1)/(alpha_k-1);
-		error = (s_h2-s_h1)/(4-1);
+		error = (s_h3-s_h2)/(4-1);
 		if (iterations > 2 ) {
 			cout << setw(4) << iterations << "\t";
-			cout << setw(width) << s_h3 << "\t";
-			cout << setw(width) << alpha_k << "\t";
-            cout << setw(width) << log(alpha_k)/log(3) << "\t";
-			cout << setw(width) << error << "\t";
-			cout << setw(width) << error_est << "\t";
+			cout << setw(width) << s_h3 << "\t";     //areal
+			cout << setw(width) << alpha_k << "\t";  //alpha^k
+			cout << setw(width) << log(alpha_k)/log(3) << "\t"; //estimated order
+			cout << setw(width) << error << "\t";               //error
+			cout << setw(width) << error_est << "\t";           //error estimate
 			cout << endl;
 			if (error < precision) {
 				cout << "stopped at : " << iterations << " iterations" << endl;
